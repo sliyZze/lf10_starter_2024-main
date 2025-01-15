@@ -5,7 +5,7 @@
       <h2>Mitarbeiter</h2>
       <div class="d-flex justify-content-center align-items-center flex-column">
         <div>
-          <label class="m-2" >Seiten: </label>
+          <label class="m-2">Seiten: </label>
           <input
             type="text"
             class="w-25"
@@ -16,6 +16,15 @@
         <small class="text-danger" *ngIf="!isValid">Bitte geben Sie gültigen Zahl ein!</small>
       </div>
     </div>
+
+    <!--<h2>Einzelnes To Do</h2>
+    @if(this.employeeX | async; as employ){
+      <div>
+        <div>city: {{employ.city }}</div>
+        <div>firstname: {{employ.firstName}}</div>
+        <div>phone: {{employ.phone}}</div>
+      </div>
+    }-->
 
     <div class="table-responsive">
       <table class="table table-hover">
@@ -34,55 +43,24 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">2</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>Angularstraße 12</td>
-          <td>Berlin</td>
-          <td>10115</td>
-          <td>030-1234567</td>
-          <td>Ingenieur</td>
-          <td>
-            <button (click)="onEditEmployee()"><i class="bi bi-pen-fill"></i></button>
-          </td>
-          <td>
-            <button><i class="bi bi-trash-fill"></i></button>
-          </td>
-        </tr>
+          @for(employee of employees; track employee.id){
             <tr>
-              <th scope="row">3</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>Hauptstraße 5</td>
-              <td>Hamburg</td>
-              <td>20095</td>
-              <td>040-9876543</td>
-              <td>Softwareentwickler</td>
+              <th>{{employee.id}}</th>
+              <td>{{employee.firstName}}</td>
+              <td>{{employee.lastName}}</td>
+              <td>{{employee.street}}</td>
+              <td>{{employee.city}}</td>
+              <td>{{employee.postcode}}</td>
+              <td>{{employee.phone}}</td>
+              <td>qualis noch machen</td>
               <td>
-                <button (click)="onEditEmployee()"><i class="bi bi-pen-fill"></i></button>
-              </td>
-              <td>
-                <button><i class="bi bi-trash-fill"></i></button>
-              </td>
-
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Sophie</td>
-              <td>Meier</td>
-              <td>Ringstraße 8</td>
-              <td>München</td>
-              <td>80331</td>
-              <td>089-7654321</td>
-              <td>Architektin</td>
-              <td>
-                <button (click)="onEditEmployee()"><i class="bi bi-pen-fill"></i></button>
+                <button (click)="onEditEmployee(employee.id)"><i class="bi bi-pen-fill"></i></button>
               </td>
               <td>
                 <button><i class="bi bi-trash-fill"></i></button>
               </td>
             </tr>
+          }
         </tbody>
       </table>
     </div>

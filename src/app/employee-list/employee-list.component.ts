@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Observable, of} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Employee} from "../Employee";
+import {Employee} from "../model/Employee";
 import {MainViewComponent} from "../components/main-view-component/main-view-component";
 
 @Component({
