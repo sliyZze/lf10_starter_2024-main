@@ -5,7 +5,6 @@ import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {ModalComponent} from "../../modal/alert/alert.component";
 
 @Component({
   selector: 'app-employee-table',
@@ -13,8 +12,7 @@ import {ModalComponent} from "../../modal/alert/alert.component";
     MainHeaderComponent,
     NgIf,
     FormsModule,
-    EditEmployeeComponent,
-    ModalComponent
+    EditEmployeeComponent
   ],
   standalone: true,
   templateUrl: './employee-table.component.html',

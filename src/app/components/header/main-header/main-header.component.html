@@ -7,11 +7,3 @@
     <button class="sign-up-button" (click)="onLogoutClick()"><span>Abmelden</span></button>
   </div>
 </div>
-
-<ng-container *ngIf="showAlert">
-  <app-alert
-    [body]="'Möchten Sie sich wirklich abmelden?'"
-    (confirm)="onConfirmLogout()"
-    (close)="onCloseModal()"
-  ></app-alert>
-</ng-container>

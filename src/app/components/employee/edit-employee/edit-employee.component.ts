@@ -1,35 +1,26 @@
-import {Component, ViewChild} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {NavigationService} from '../../services/NavigationService';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
-import {EditEmployeeService} from '../../services/EmployeeEditService';
-import {NgForOf, NgIf} from "@angular/common";
-import {AlertService} from "../../services/AlertService";
-import {ModalComponent} from "../../modal/alert/alert.component";
+import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
+import { EditEmployeeService } from '../../services/EmployeeEditService';
+import { NgForOf, NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-edit-employee',
   standalone: true,
-  imports: [
-    FormsModule,
-    EmployeeDataModalComponent,
-    NgForOf,
-    ModalComponent,
-    NgIf
-  ],
+  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf],
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
 export class EditEmployeeComponent {
 
-  @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent ;
+  @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Mitarbeiter bearbeiten";
-  private modalRef: NgbModalRef | undefined;
+  qualificationToRemove: number | null = null;
+  @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
+  protected modalRef!: NgbModalRef;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private alertService: AlertService) {
-
-  }
+  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal) {}
 
   onSaveChanges() {
     this.modal.closeModal();
@@ -52,21 +43,29 @@ export class EditEmployeeComponent {
   };
 
   qualifications = [
-    { title: 'Java'},
-    { title: 'C#'},
-    { title: 'Docker'},
-    { title: 'JavaScript'},
-    { title: 'TypeScript'},
-    { title: 'Angular'},
+    { title: 'Java' },
+    { title: 'C#' },
+    { title: 'Docker' },
+    { title: 'JavaScript' },
+    { title: 'TypeScript' },
+    { title: 'Angular' },
   ];
 
-  removeQualification(index: number) {
-    const userConfirmation: boolean = confirm("Möchten Sie die Qualifikation löschen?");
+  setQualificationToRemove(index: number) {
+    this.qualificationToRemove = index;
+    this.openDeleteModal();
+  }
 
-    if (userConfirmation) {
-      this.qualifications.splice(index, 1);
+  openDeleteModal() {
+    this.modalRef = this.modalService.open(this.deleteQualificationModal, { ariaLabelledBy: 'deleteModalLabel' });
+  }
+
+  confirmDelete() {
+    if (this.qualificationToRemove !== null) {
+      this.qualifications.splice(this.qualificationToRemove, 1);
+      this.qualificationToRemove = null;
     }
-
+    this.modalRef.close();
   }
 
 }
