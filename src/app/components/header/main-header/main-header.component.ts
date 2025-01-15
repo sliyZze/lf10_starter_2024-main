@@ -1,35 +1,41 @@
-import { Component } from '@angular/core';
-import {NavigationService} from '../../employee/services/navigation.service';
-import {ModalComponent} from '../../modal/alert/alert.component';
-import {NgIf} from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { AlertService } from "../../services/AlertService";
+import {NgIf} from "@angular/common";
+import {ModalComponent} from "../../modal/alert/alert.component";
+import {NavigationService} from "../../services/NavigationService";
 
 @Component({
   selector: 'app-main-header',
   imports: [
-    ModalComponent,
     NgIf,
+    ModalComponent,
   ],
   standalone: true,
   templateUrl: './main-header.component.html',
-  styleUrl: './main-header.component.css'
+  styleUrls: ['./main-header.component.css']
 })
-export class MainHeaderComponent {
-  isModalVisible = false;
-  isHeaderVisible = true;
+export class MainHeaderComponent implements OnInit {
+  showAlert: boolean = false;
 
-  constructor(private navigationService: NavigationService) {
+  constructor(private alertService: AlertService, private navigationService: NavigationService) {}
+
+  ngOnInit(): void {
+    this.alertService.getValue().subscribe((value: boolean) => {
+      this.showAlert = value;
+    });
   }
 
   onLogoutClick() {
-    this.isModalVisible = true;
+    this.alertService.setValue(true);
   }
 
   onConfirmLogout() {
-    this.isModalVisible = false;
-    this.navigationService.redirectToLogin();
-  }
+    this.alertService.setValue(false);
+    this.navigationService.redirectToLogin()
 
+
+  }
   onCloseModal() {
-    this.isModalVisible = false;
+    this.alertService.setValue(false);
   }
 }

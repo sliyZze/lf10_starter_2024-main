@@ -1,7 +1,7 @@
 import {Component, Input, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {EditEmployeeService} from "../../employee/services/EmployeeEditService";
+import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {Subscription} from "rxjs";
 
 @Component({

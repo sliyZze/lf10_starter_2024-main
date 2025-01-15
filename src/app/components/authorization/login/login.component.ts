@@ -1,5 +1,6 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {NavigationService} from '../../employee/services/navigation.service';
+import {NavigationService} from '../../services/NavigationService';
+import {AlertService} from "../../services/AlertService";
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,12 @@ import {NavigationService} from '../../employee/services/navigation.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
-  constructor(private navigationService: NavigationService) {}
+  constructor(private navigationService: NavigationService, private alertService: AlertService) {}
 
   onLogin(){
     this.navigationService.redirectToEmployeeTable();
+    this.alertService.setValue(false)
+    console.log(this.alertService.getValue())
   }
   onPasswordReset(){
     this.navigationService.redirectResetPassword();
