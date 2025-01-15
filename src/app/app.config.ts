@@ -5,22 +5,24 @@ import { routes } from './app.routes';
 import {KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService} from "keycloak-angular";
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from "@angular/common/http";
 
-export const initializeKeycloak = (keycloak: KeycloakService) => async () =>
-  keycloak.init({
-    config: {
-      url: 'https://keycloak.szut.dev/auth',
-      realm: 'szut',
-      clientId: 'employee-management-service-frontend',
-    },
-    loadUserProfileAtStartUp: true,
-    initOptions: {
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri:
-        window.location.origin + '/silent-check-sso.html',
-      checkLoginIframe: false,
-      redirectUri: 'http://localhost:4200',
-    },
-  });
+
+export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boolean> {
+  return () =>
+    keycloak.init({
+      config: {
+        url: 'https://keycloak.szut.dev/auth',
+        realm: 'szut',
+        clientId: 'employee-management-service-frontend',
+      },
+      initOptions: {
+        onLoad: 'login-required', // Alternative: 'check-sso' für Single Sign-On
+        checkLoginIframe: true,
+      },
+      enableBearerInterceptor: true,
+      bearerExcludedUrls: ['/assets', '/public'],
+    });
+}
+
 
 
 function initializeApp(keycloak: KeycloakService): () => Promise<boolean> {
