@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-  selector: 'app-alert',
-  imports: [],
-  standalone: true,
-  templateUrl: './alert.component.html',
-  styleUrl: './alert.component.css'
+    selector: 'app-alert',
+    imports: [],
+    templateUrl: './alert.component.html',
+    styleUrl: './alert.component.css'
 })
 export class ModalComponent {
   @Input() body: string = '';

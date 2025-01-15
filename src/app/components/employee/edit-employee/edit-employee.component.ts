@@ -6,14 +6,13 @@ import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employ
 import {EditEmployeeService} from '../services/EmployeeEditService';
 
 @Component({
-  selector: 'app-edit-employee',
-  standalone: true,
-  imports: [
-    FormsModule,
-    EmployeeDataModalComponent
-  ],
-  templateUrl: './edit-employee.component.html',
-  styleUrls: ['./edit-employee.component.css']
+    selector: 'app-edit-employee',
+    imports: [
+        FormsModule,
+        EmployeeDataModalComponent
+    ],
+    templateUrl: './edit-employee.component.html',
+    styleUrls: ['./edit-employee.component.css']
 })
 export class EditEmployeeComponent {
 

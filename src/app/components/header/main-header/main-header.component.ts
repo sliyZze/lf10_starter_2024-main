@@ -4,14 +4,13 @@ import {ModalComponent} from '../../modal/alert/alert.component';
 import {NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-main-header',
-  imports: [
-    ModalComponent,
-    NgIf,
-  ],
-  standalone: true,
-  templateUrl: './main-header.component.html',
-  styleUrl: './main-header.component.css'
+    selector: 'app-main-header',
+    imports: [
+        ModalComponent,
+        NgIf,
+    ],
+    templateUrl: './main-header.component.html',
+    styleUrl: './main-header.component.css'
 })
 export class MainHeaderComponent {
   isModalVisible = false;
