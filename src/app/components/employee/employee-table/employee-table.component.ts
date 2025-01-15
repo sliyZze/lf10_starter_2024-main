@@ -53,6 +53,16 @@ export class EmployeeTableComponent {
     console.log(employeeId)
   }
 
+  onDeleteEmployee(id: number | undefined){
+    this.dataService.deleteEmployee(id).subscribe({
+      next: () => {
+        console.log(`Mitarbeiter mit ID ${id} wurde gelöscht.`);
+        this.ngOnInit(); // Optional: Aktualisiere die Tabelle.
+      },
+      error: (err) => console.error('Fehler beim Löschen:', err),
+    });
+  }
+
   validatePageInput() {
     return this.isValid = !isNaN(Number(this.page)) && this.page.trim() !== '' || this.page.length == 0;
   }
