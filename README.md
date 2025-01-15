@@ -1,3 +1,17 @@
+# Gruppe 3 Eren, Shawkat, Tobias
+
+* Bevor die Anwendung läuft, müssen diese Sachen Instaliiert/Updated werden.
+```bash
+ng update @angular/core @angular/cli
+```
+```bash
+npm install bootstrap 
+```
+```bash
+npm i bootstrap-icons 
+```
+
+
 # Starter für das LF10 Projekt
 
 
