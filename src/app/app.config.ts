@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, ApplicationConfig} from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -30,12 +30,10 @@ function initializeApp(keycloak: KeycloakService): () => Promise<boolean> {
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
     KeycloakAngularModule,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      multi: true,
-      deps: [KeycloakService]
-    },
+    provideAppInitializer(() => {
+        const initializerFn = (initializeApp)(inject(KeycloakService));
+        return initializerFn();
+      }),
     KeycloakService,
     provideHttpClient(withInterceptorsFromDi()),
     {
