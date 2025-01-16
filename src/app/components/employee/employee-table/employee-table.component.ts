@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MainHeaderComponent} from '../../header/main-header/main-header.component';
-import {NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
@@ -12,7 +12,8 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
     MainHeaderComponent,
     NgIf,
     FormsModule,
-    EditEmployeeComponent
+    EditEmployeeComponent,
+    NgForOf
   ],
   standalone: true,
   templateUrl: './employee-table.component.html',
