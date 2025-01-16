@@ -19,7 +19,7 @@ import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 })
 export class CreateEmployeeComponent {
     @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
-    title: string = "Mitarbeiter bearbeiten";
+    title: string = "Mitarbeiter Erstellen";
     protected modalRef!: NgbModalRef;
 
     constructor(protected createEmployeeService: CreateEmployeeService) {
