@@ -16,10 +16,12 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
       },
       initOptions: {
         onLoad: 'login-required', // Alternative: 'check-sso' für Single Sign-On
-        checkLoginIframe: true,
+        checkLoginIframe: false,
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
       },
       enableBearerInterceptor: true,
-      bearerExcludedUrls: ['/assets', '/public'],
+      //bearerExcludedUrls: ['/assets', '/public'],
     });
 }
 
@@ -30,7 +32,8 @@ function initializeApp(keycloak: KeycloakService): () => Promise<boolean> {
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes),
+  providers: [
+    provideRouter(routes),
     KeycloakAngularModule,
     provideAppInitializer(() => {
         const initializerFn = (initializeApp)(inject(KeycloakService));
