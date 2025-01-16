@@ -32,7 +32,7 @@ export class EmployeeTableComponent {
   }
 
   ngOnInit(): void{
-    this.employeeX = this.dataService.getEmployee(1);
+    // this.employeeX = this.dataService.getEmployee(1);
     this.sub = this.dataService.getEmployees().subscribe((data: Employee[]) =>{
       this.employees = data;
     });
@@ -50,6 +50,7 @@ export class EmployeeTableComponent {
 
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
+    this.editEmployeeService.setEmployeeId(employeeId)
     console.log(employeeId)
   }
 

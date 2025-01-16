@@ -4,6 +4,7 @@ import {NavigationService} from '../services/navigation.service';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {EditEmployeeService} from '../services/EmployeeEditService';
+import {DataService} from "../../../service/data.service";
 
 @Component({
     selector: 'app-edit-employee',
@@ -21,7 +22,7 @@ export class EditEmployeeComponent {
   title: string = "Mitarbeiter bearbeiten";
   private modalRef: NgbModalRef | undefined;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal) {
+  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
 
   }
 

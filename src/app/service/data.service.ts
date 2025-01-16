@@ -35,4 +35,8 @@ export class DataService {
     return this.http.post<void>(this.EmployeeServiceURL, employee, this.HttpHeader);
   }
 
+  updateEmployee(employee: Employee): Observable<void>{
+    return this.http.patch<void>(this.EmployeeServiceURL, employee, this.HttpHeader);
+  }
+
 }
