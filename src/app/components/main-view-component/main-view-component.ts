@@ -7,7 +7,7 @@ import { EmployeeTableComponent } from "../employee/employee-table/employee-tabl
 @Component({
     selector: 'app-main-view-component',
     imports: [
-        RouterOutlet, EmployeeTableComponent
+         EmployeeTableComponent
     ],
     templateUrl: './main-view-component.html',
     styleUrl: './main-view-component.css'
