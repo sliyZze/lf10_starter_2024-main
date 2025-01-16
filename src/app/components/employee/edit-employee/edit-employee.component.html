@@ -1,45 +1,61 @@
-
 <app-employee-data-modal [title]="title">
-    <form>
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label for="lastname" class="form-label">Vorname</label>
-                <input id="lastname" type="text" class="form-control" placeholder="Vorname" [(ngModel)]="employee.lastname" name="lastname" />
-            </div>
+  <form>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="lastname" class="form-label">Vorname</label>
+        <input id="lastname" type="text" class="form-control" placeholder="Vorname" [(ngModel)]="employee.lastname" name="lastname" />
+      </div>
 
-            <div class="col-md-6">
-                <label for="surname" class="form-label">Nachname</label>
-                <input id="surname" type="text" class="form-control" placeholder="Nachname" [(ngModel)]="employee.surname" name="surname" />
-            </div>
+      <div class="col-md-6">
+        <label for="surname" class="form-label">Nachname</label>
+        <input id="surname" type="text" class="form-control" placeholder="Nachname" [(ngModel)]="employee.surname" name="surname" />
+      </div>
 
-            <div class="col-md-6">
-                <label for="phonenumber" class="form-label">Telephonenummer</label>
-                <input id="phonenumber" type="text" class="form-control" placeholder="Telephonenummer" [(ngModel)]="employee.phonenumber" name="phonenumber" />
-            </div>
+      <div class="col-md-6">
+        <label for="phonenumber" class="form-label">Telefonnummer</label>
+        <input id="phonenumber" type="text" class="form-control" placeholder="Telefonnummer" [(ngModel)]="employee.phonenumber" name="phonenumber" />
+      </div>
 
-            <div class="col-md-6">
-                <label for="street" class="form-label">Straße</label>
-                <input id="street" type="text" class="form-control" placeholder="Straße" [(ngModel)]="employee.street" name="street" />
-            </div>
+      <div class="col-md-6">
+        <label for="street" class="form-label">Straße</label>
+        <input id="street" type="text" class="form-control" placeholder="Straße" [(ngModel)]="employee.street" name="street" />
+      </div>
 
-            <div class="col-md-6">
-                <label for="postcode" class="form-label">PLZ</label>
-                <input id="postcode" type="text" class="form-control" placeholder="PLZ" [(ngModel)]="employee.postcode" name="postcode" />
-            </div>
+      <div class="col-md-6">
+        <label for="postcode" class="form-label">PLZ</label>
+        <input id="postcode" type="text" class="form-control" placeholder="PLZ" [(ngModel)]="employee.postcode" name="postcode" />
+      </div>
 
-            <div class="col-md-6">
-                <label for="city" class="form-label">Stadt</label>
-                <input id="city" type="text" class="form-control" placeholder="Stadt" [(ngModel)]="employee.city" name="city" />
-            </div>
+      <div class="col-md-6">
+        <label for="city" class="form-label">Stadt</label>
+        <input id="city" type="text" class="form-control" placeholder="Stadt" [(ngModel)]="employee.city" name="city" />
+      </div>
 
-            <div class="col-12">
-                <label for="qualifications" class="form-label">Qualifikationen</label>
-                <textarea id="qualifications" class="form-control" rows="4" placeholder="Qualifikationen" [(ngModel)]="employee.qualifications" name="qualifications"></textarea>
-            </div>
+      <div style="overflow-y: scroll; height: 120px;">
+        <div *ngFor="let qualification of qualifications; let i = index" class="d-flex justify-content-between align-items-center border p-3 mb-2" style="height: 50px">
+          <h5 class="mb-0" style="font-size: 18px">{{ qualification.title }}</h5>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQualificationModal" (click)="setQualificationToRemove(i)">
+            <i class="bi bi-trash-fill"></i>
+          </button>
         </div>
-    </form>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="onSaveChanges()">Speichern</button>
-        <button type="button" class="btn btn-secondary" (click)=closeModal()>Abbrechen</button>
+      </div>
     </div>
+  </form>
+
+  <ng-template #deleteQualificationModal>
+    <div class="modal-body text-center">
+      <p>Qualifikation wirklich löschen?</p>
+      <button type="button" class="btn btn-danger me-3" (click)="confirmDelete()">Löschen</button>
+      <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss()">Abbrechen</button>
+    </div>
+  </ng-template>
+
+  <div class="modal-footer w-100">
+    <div>
+      <button type="button" class="btn btn-primary" style="text-align: start" >Qualifikation hinzufügen</button>
+    </div>
+    <button type="button" class="btn btn-success" (click)="onSaveChanges()">Speichern</button>
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Abbrechen</button>
+  </div>
 </app-employee-data-modal>
+

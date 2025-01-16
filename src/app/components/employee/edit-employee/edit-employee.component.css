@@ -1,0 +1,20 @@
+.modal-content {
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.btn-danger {
+  background-color: red;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #555;
+  border: none;
+}
+
+.modal {
+  z-index: 1055;
+}
+
+

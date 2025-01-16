@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import {EmployeeListComponent} from "./employee-list/employee-list.component";
+import {MainViewComponent} from "./components/main-view-component/main-view-component";
 
 @Component({
-    selector: 'app-root',
-    imports: [CommonModule, EmployeeListComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, EmployeeListComponent, MainViewComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'lf10StarterNew';
