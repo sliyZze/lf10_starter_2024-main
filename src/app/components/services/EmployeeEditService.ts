@@ -18,6 +18,7 @@ export class EditEmployeeService {
     }
 
     setEmployeeId(employeeId: number | undefined) {
+      if (employeeId === undefined) return;
       this.employeeId = employeeId;
     }
 
