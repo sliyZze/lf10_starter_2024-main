@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {NavigationService} from '../../employee/services/navigation.service';
+import {NavigationService} from '../../services/NavigationService';
 
 @Component({
     selector: 'app-reset-password',

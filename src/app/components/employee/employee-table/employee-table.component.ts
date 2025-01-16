@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {MainHeaderComponent} from '../../header/main-header/main-header.component';
 import {AsyncPipe, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {EditEmployeeService} from "../services/EmployeeEditService";
+import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {DataService} from "../../../service/data.service";
