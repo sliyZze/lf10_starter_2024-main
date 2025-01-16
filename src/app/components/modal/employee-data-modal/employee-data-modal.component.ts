@@ -13,7 +13,7 @@ import {Subscription} from "rxjs";
 })
 export class EmployeeDataModalComponent {
   private modalRef?: NgbModalRef;
-  private subscription!: Subscription;
+    private subscription!: Subscription;
   @ViewChild('EmployeeDataModal') EmployeeDataModal!: TemplateRef<any>;
   @Input() title: string = "";
 
