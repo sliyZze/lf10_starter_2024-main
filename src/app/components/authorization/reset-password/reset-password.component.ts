@@ -4,10 +4,10 @@ import {NavigationService} from '../../services/NavigationService';
 @Component({
   selector: 'app-reset-password',
   imports: [],
-  standalone: true,
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.css',
-  encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  encapsulation: ViewEncapsulation.None
 })
 export class ResetPasswordComponent {
   constructor(private navigationService: NavigationService) {

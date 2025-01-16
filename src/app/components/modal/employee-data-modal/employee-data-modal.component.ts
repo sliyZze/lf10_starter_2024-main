@@ -7,8 +7,8 @@ import {Subscription} from "rxjs";
 @Component({
   selector: 'app-employee-data-modal',
   imports: [FormsModule],
-  standalone: true,
   templateUrl: './employee-data-modal.component.html',
+  standalone: true,
   styleUrl: './employee-data-modal.component.css'
 })
 export class EmployeeDataModalComponent {

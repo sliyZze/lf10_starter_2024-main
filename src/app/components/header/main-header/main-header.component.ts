@@ -1,19 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {NavigationService} from "../../services/NavigationService";
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-main-header',
   imports: [
+    NgIf,
   ],
-  standalone: true,
   templateUrl: './main-header.component.html',
-  styleUrls: ['./main-header.component.css']
+  standalone: true,
+  styleUrl: './main-header.component.css'
 })
 export class MainHeaderComponent {
+  isModalVisible = false;
+  isHeaderVisible = true;
 
-  constructor(private navigationService: NavigationService) {}
+  constructor(private navigationService: NavigationService) {
+  }
 
   onLogoutClick() {
-    this.navigationService.redirectToLogin()
+    this.isModalVisible = true;
+  }
+
+  onConfirmLogout() {
+    this.isModalVisible = false;
+    this.navigationService.redirectToLogin();
+  }
+
+  onCloseModal() {
+    this.isModalVisible = false;
   }
 }
