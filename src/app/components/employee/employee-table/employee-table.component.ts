@@ -4,7 +4,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
-import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-employee-table',
@@ -24,11 +24,7 @@ export class EmployeeTableComponent {
   isValid: boolean = true;
   private modalRaf: NgbModalRef | undefined;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal) {
-  }
-
-  openModal(content: any) {
-    this.modalRaf = this.modalService.open(content, { centered: true });
+  constructor(private editEmployeeService: EditEmployeeService) {
   }
 
 
