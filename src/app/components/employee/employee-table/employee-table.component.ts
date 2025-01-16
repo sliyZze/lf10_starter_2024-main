@@ -4,7 +4,8 @@ import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
-import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {CreateEmployeeService} from "../../services/CreateEmployeeService";
+import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
 
 @Component({
   selector: 'app-employee-table',
@@ -13,7 +14,8 @@ import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
     NgIf,
     FormsModule,
     EditEmployeeComponent,
-    NgForOf
+    NgForOf,
+    CreateEmployeeComponent
   ],
   standalone: true,
   templateUrl: './employee-table.component.html',
@@ -22,9 +24,8 @@ import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 export class EmployeeTableComponent {
   page: string = '';
   isValid: boolean = true;
-  private modalRaf: NgbModalRef | undefined;
 
-  constructor(private editEmployeeService: EditEmployeeService) {
+  constructor(private editEmployeeService: EditEmployeeService, private createEmployeeService: CreateEmployeeService) {
   }
 
 
@@ -37,7 +38,7 @@ export class EmployeeTableComponent {
   }
 
   onAddClick (){
-
+    this.createEmployeeService.setValue(true)
   }
 
   employees = [
@@ -49,7 +50,7 @@ export class EmployeeTableComponent {
       city: 'Berlin',
       postcode: '10115',
       phone: '030-1234567',
-      qualifications: ['Ingenieur', 'Qualifikation2', 'Qualifikation3']
+      qualifications: ['Ingenieur', 'Qualifikation2', 'Qualifikation3', 'Ingenieur', 'Qualifikation2', 'Qualifikation3', 'Ingenieur', 'Qualifikation2', 'Qualifikation3', 'Ingenieur', 'Qualifikation2', 'Qualifikation3' ,'Ingenieur', 'Qualifikation2', 'Qualifikation3' ]
     },
     {
       id: 2,
