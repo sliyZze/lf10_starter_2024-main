@@ -1,18 +1,19 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {NavigationService} from '../services/navigation.service';
+import {NavigationService} from "../../services/NavigationService";
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
-import {EditEmployeeService} from '../services/EmployeeEditService';
+import {EditEmployeeService} from "../../services/EmployeeEditService";
 
 @Component({
-    selector: 'app-edit-employee',
-    imports: [
-        FormsModule,
-        EmployeeDataModalComponent
-    ],
-    templateUrl: './edit-employee.component.html',
-    styleUrls: ['./edit-employee.component.css']
+  selector: 'app-edit-employee',
+  imports: [
+    FormsModule,
+    EmployeeDataModalComponent
+  ],
+  templateUrl: './edit-employee.component.html',
+  standalone: true,
+  styleUrls: ['./edit-employee.component.css']
 })
 export class EditEmployeeComponent {
 

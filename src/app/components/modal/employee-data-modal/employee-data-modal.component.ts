@@ -5,10 +5,11 @@ import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {Subscription} from "rxjs";
 
 @Component({
-    selector: 'app-employee-data-modal',
-    imports: [FormsModule],
-    templateUrl: './employee-data-modal.component.html',
-    styleUrl: './employee-data-modal.component.css'
+  selector: 'app-employee-data-modal',
+  imports: [FormsModule],
+  templateUrl: './employee-data-modal.component.html',
+  standalone: true,
+  styleUrl: './employee-data-modal.component.css'
 })
 export class EmployeeDataModalComponent {
   private modalRef?: NgbModalRef;

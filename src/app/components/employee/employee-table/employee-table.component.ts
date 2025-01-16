@@ -10,15 +10,16 @@ import {Employee} from "../../../model/Employee";
 import {Observable, Subscription} from "rxjs";
 
 @Component({
-    selector: 'app-employee-table',
+  selector: 'app-employee-table',
   imports: [
     MainHeaderComponent,
     NgIf,
     FormsModule,
     EditEmployeeComponent
   ],
-    templateUrl: './employee-table.component.html',
-    styleUrl: './employee-table.component.css'
+  templateUrl: './employee-table.component.html',
+  standalone: true,
+  styleUrl: './employee-table.component.css'
 })
 export class EmployeeTableComponent {
   page: string = '';
