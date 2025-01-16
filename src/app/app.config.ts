@@ -1,4 +1,4 @@
-import { ApplicationConfig, inject, provideAppInitializer } from '@angular/core';
+import {APP_INITIALIZER, ApplicationConfig, inject, provideAppInitializer} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -16,10 +16,12 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
       },
       initOptions: {
         onLoad: 'login-required', // Alternative: 'check-sso' für Single Sign-On
-        checkLoginIframe: true,
+        checkLoginIframe: false,
+        silentCheckSsoRedirectUri:
+          window.location.origin + '/assets/silent-check-sso.html'
       },
       enableBearerInterceptor: true,
-      bearerExcludedUrls: ['/assets', '/public'],
+      //bearerExcludedUrls: ['/assets', '/public'],
     });
 }
 
@@ -30,13 +32,20 @@ function initializeApp(keycloak: KeycloakService): () => Promise<boolean> {
 }
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes),
+  providers: [
+    provideRouter(routes),
     KeycloakAngularModule,
     provideAppInitializer(() => {
-        const initializerFn = (initializeApp)(inject(KeycloakService));
-        return initializerFn();
-      }),
+      const initializerFn = (initializeApp)(inject(KeycloakService));
+      return initializerFn();
+    }),
     KeycloakService,
+    //{
+    //  provide: APP_INITIALIZER,
+    //  useFactory: initializeKeycloak,
+    //  multi: true,
+    //  deps: [KeycloakService]
+    //},
     provideHttpClient(withInterceptorsFromDi()),
     {
       provide: HTTP_INTERCEPTORS,
