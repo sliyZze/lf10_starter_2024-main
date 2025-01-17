@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import {EmployeeListComponent} from "./employee-list/employee-list.component";
+import {MainViewComponent} from "./components/main-view-component/main-view-component";
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, EmployeeListComponent],
+  imports: [CommonModule, MainViewComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
