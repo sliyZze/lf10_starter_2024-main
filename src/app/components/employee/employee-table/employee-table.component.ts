@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {MainHeaderComponent} from '../../header/main-header/main-header.component';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {DataService} from "../../../service/data.service";
-import {Employee} from "../../../model/Employee";
 import {Observable, Subscription} from "rxjs";
+import {Employee} from "../../../model/Employee";
+import {DataService} from "../../../service/data.service";
 
 @Component({
   selector: 'app-employee-table',
@@ -18,8 +18,8 @@ import {Observable, Subscription} from "rxjs";
     EditEmployeeComponent,
     NgForOf
   ],
-  templateUrl: './employee-table.component.html',
   standalone: true,
+  templateUrl: './employee-table.component.html',
   styleUrl: './employee-table.component.css'
 })
 export class EmployeeTableComponent {
@@ -34,7 +34,6 @@ export class EmployeeTableComponent {
   }
 
   ngOnInit(): void{
-    this.employeeX = this.dataService.getEmployee(1);
     this.sub = this.dataService.getEmployees().subscribe((data: Employee[]) =>{
       this.employees = data;
     });
@@ -52,7 +51,7 @@ export class EmployeeTableComponent {
 
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
-    console.log(employeeId)
+    this.editEmployeeService.setEmployeeId(employeeId)
   }
 
   onDeleteEmployee(id: number | undefined){
@@ -69,7 +68,7 @@ export class EmployeeTableComponent {
     return this.isValid = !isNaN(Number(this.page)) && this.page.trim() !== '' || this.page.length == 0;
   }
 
-  onAddClick() {
+  onAddClick(){
 
   }
 }
