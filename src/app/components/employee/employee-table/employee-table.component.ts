@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MainHeaderComponent} from '../../header/main-header/main-header.component';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
@@ -15,7 +15,8 @@ import {Observable, Subscription} from "rxjs";
     MainHeaderComponent,
     NgIf,
     FormsModule,
-    EditEmployeeComponent
+    EditEmployeeComponent,
+    NgForOf
   ],
   templateUrl: './employee-table.component.html',
   standalone: true,
@@ -66,5 +67,9 @@ export class EmployeeTableComponent {
 
   validatePageInput() {
     return this.isValid = !isNaN(Number(this.page)) && this.page.trim() !== '' || this.page.length == 0;
+  }
+
+  onAddClick() {
+
   }
 }
