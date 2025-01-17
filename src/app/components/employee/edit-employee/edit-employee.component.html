@@ -1,40 +1,43 @@
 <app-employee-data-modal [title]="title">
-  <form >
+  <!-- Button, um die Daten zu laden -->
+  <button class="btn btn-primary" (click)="loadEmployee()">Daten laden</button>
+
+  <form *ngIf="employee$ | async as employee">
     <div class="row g-3" >
       <div class="col-md-6">
         <label for="lastname" class="form-label">Vorname</label>
-        <input id="lastname" type="text" class="form-control" placeholder="Vorname" value="{{employee?.firstName}}" name="{{employee?.firstName}}" />
+        <input id="lastname" type="text" class="form-control" placeholder="Vorname" [(ngModel)]="employee.firstName" name="firstName" />
       </div>
 
       <div class="col-md-6">
         <label for="surname" class="form-label">Nachname</label>
-        <input id="surname" type="text" class="form-control" placeholder="Nachname"  value="{{employee?.lastName}}" />
+        <input id="surname" type="text" class="form-control" placeholder="Nachname"  [(ngModel)]="employee.lastName" name="lastName" />
       </div>
 
       <div class="col-md-6">
         <label for="phonenumber" class="form-label">Telefonnummer</label>
-        <input id="phonenumber" type="text" class="form-control" placeholder="Telefonnummer"  value="{{employee?.phone}}" />
+        <input id="phonenumber" type="text" class="form-control" placeholder="Telefonnummer"  [(ngModel)]="employee.phone" name="phone"/>
       </div>
 
       <div class="col-md-6">
         <label for="street" class="form-label">Straße</label>
-        <input id="street" type="text" class="form-control" placeholder="Straße"  value="{{employee?.street}}" />
+        <input id="street" type="text" class="form-control" placeholder="Straße"  [(ngModel)]="employee.street" name="street"/>
       </div>
 
       <div class="col-md-6">
         <label for="postcode" class="form-label">PLZ</label>
-        <input id="postcode" type="text" class="form-control" placeholder="PLZ"  value="{{employee?.postcode}}" />
+        <input id="postcode" type="text" class="form-control" placeholder="PLZ"  [(ngModel)]="employee.postcode" name="postcode"/>
       </div>
 
       <div class="col-md-6">
         <label for="city" class="form-label">Stadt</label>
-        <input id="city" type="text" class="form-control" placeholder="Stadt" value="{{employee?.city}}" />
+        <input id="city" type="text" class="form-control" placeholder="Stadt" [(ngModel)]="employee.city" name="city" />
       </div>
 
       <div style="overflow-y: scroll; height: 120px;">
-        <div *ngFor="let qualification of qualifications; let i = index" class="d-flex justify-content-between align-items-center border p-3 mb-2" style="height: 50px">
-          <h5 class="mb-0" style="font-size: 18px">{{ qualification.title }}</h5>
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQualificationModal" (click)="setQualificationToRemove(i)">
+        <div *ngFor="let qualification of employee.skillSet" class="d-flex justify-content-between align-items-center border p-3 mb-2" style="height: 50px">
+          <h5 class="mb-0" style="font-size: 18px">{{ qualification.skill }}</h5>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQualificationModal" (click)="setQualificationToRemove(qualification.id, employee.id)">
             <i class="bi bi-trash-fill"></i>
           </button>
         </div>
