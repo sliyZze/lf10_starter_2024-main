@@ -42,7 +42,6 @@ export class EmployeeTableComponent {
       next: (data: Employee[]) => {
         this.employees = data;
         console.log(this.employee)
-        console.log(data)
       },
       error: (err) => {
         console.error('Fehler beim Abrufen der Mitarbeiterdaten:', err);
