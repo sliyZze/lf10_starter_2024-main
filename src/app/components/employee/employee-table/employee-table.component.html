@@ -38,7 +38,7 @@
           <p class="card-text">{{employee.phone}}</p>
           <p class="card-text">
         <span *ngFor="let qualification of employee.skillSet; let isLast=last">
-          {{qualification}}{{isLast ? '' : ', '}}
+          {{qualification.skill}}{{isLast ? '' : ', '}}
         </span>
           </p>
           <div class="d-flex justify-content-end">
