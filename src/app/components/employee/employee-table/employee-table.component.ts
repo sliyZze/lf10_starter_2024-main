@@ -8,8 +8,9 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
 import {DataService} from "../../../service/data.service";
-import {CreateEmployeeService} from "../../services/CreateEmployeeService";
+import {AddQualificationService} from "../../services/AddQualificationService";
 import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
+import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 
 @Component({
   selector: 'app-employee-table',
@@ -40,22 +41,13 @@ export class EmployeeTableComponent {
     this.sub = this.dataService.getEmployees().subscribe({
       next: (data: Employee[]) => {
         this.employees = data;
+        console.log(this.employee)
       },
       error: (err) => {
         console.error('Fehler beim Abrufen der Mitarbeiterdaten:', err);
       },
     });
   }
-
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  openModal(content: any) {
-    this.modalRaf = this.modalService.open(content, { centered: true });
-  }
-
 
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
@@ -76,7 +68,7 @@ export class EmployeeTableComponent {
     return this.isValid = !isNaN(Number(this.page)) && this.page.trim() !== '' || this.page.length == 0;
   }
 
-  onAddClick (){
+  onAddClick(){
     this.createEmployeeService.setValue(true)
   }
 }

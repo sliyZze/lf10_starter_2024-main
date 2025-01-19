@@ -1,8 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
-import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 import {AddQualificationService} from "../../services/AddQualificationService";
 import {QualificationComponent} from "../../qualification/qualification/qualification.component";
@@ -13,7 +11,6 @@ import {QualificationComponent} from "../../qualification/qualification/qualific
     imports: [
         EmployeeDataModalComponent,
         FormsModule,
-        NgForOf,
         ReactiveFormsModule,
         QualificationComponent
     ],

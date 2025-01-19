@@ -32,14 +32,15 @@
     <!-- Start Employee Cards -->
     <div class="row">
       <div *ngFor="let employee of employees" class="col-md-4 mb-4">
-        <div class="card p-3" style="background-color: #f8f3ff; border-radius: 20px;">
+        <div class="card p-3" style="background-color: #f8f3ff; border-radius: 20px; overflow: hidden; height: 320px">
           <h5 class="card-title">{{employee.firstName}} {{employee.lastName}}</h5>
           <p class="card-text">{{employee.street}}, {{employee.postcode}} {{employee.city}}</p>
           <p class="card-text">{{employee.phone}}</p>
           <p class="card-text">
-        <span *ngFor="let qualification of employee.skillSet; let isLast=last">
-          {{qualification.skill}}{{isLast ? '' : ', '}}
-        </span>
+          <p class="card-text" style="height: 100px; overflowY: scroll;">
+            <span *ngFor="let qualification of employee.skillSet; let isLast=last">
+              {{qualification.skill}}{{isLast ? '' : ', '}}
+            </span>
           </p>
           <div class="d-flex justify-content-end">
             <button class="btn btn-primary me-2" (click)="onEditEmployee(employee.id)">Edit</button>
@@ -48,8 +49,6 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
     <!-- End Employee Cards -->
 
 
@@ -60,7 +59,6 @@
   </button>
 </div>
 <!--End Add Employee Button-->
-
-<app-edit-employee></app-edit-employee>
 <app-create-employee></app-create-employee>
+<app-edit-employee></app-edit-employee>
 
