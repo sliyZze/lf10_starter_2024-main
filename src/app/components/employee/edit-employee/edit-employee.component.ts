@@ -3,12 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
 import { EditEmployeeService } from '../../services/EmployeeEditService';
-import { NgForOf, NgIf } from "@angular/common";
+import { NgForOf } from "@angular/common";
 
 @Component({
   selector: 'app-edit-employee',
   standalone: true,
-  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf],
+  imports: [FormsModule, EmployeeDataModalComponent, NgForOf],
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })

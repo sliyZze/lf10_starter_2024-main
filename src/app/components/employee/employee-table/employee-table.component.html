@@ -30,14 +30,14 @@
     </div>
 
     <!-- Start Employee Cards -->
-    <div class="row">
+    <div class="row" style="height: 150px !important;">
       <div *ngFor="let employee of employees" class="col-md-4 mb-4">
         <div class="card p-3" style="background-color: #f8f3ff; border-radius: 20px;">
           <h5 class="card-title">{{employee.firstName}} {{employee.lastName}}</h5>
           <p class="card-text">{{employee.street}}, {{employee.postcode}} {{employee.city}}</p>
           <p class="card-text">{{employee.phone}}</p>
           <p class="card-text">
-        <span *ngFor="let qualification of employee.skillSet; let isLast=last">
+        <span style="height: 50px; overflowY: scroll;" *ngFor="let qualification of employee.skillSet; let isLast=last">
           {{qualification}}{{isLast ? '' : ', '}}
         </span>
           </p>
