@@ -1,11 +1,18 @@
+.custom-input{
+  transition: 0.1s ease-out;
+}
+
 .custom-input:focus {
   box-shadow: none;
 }
-
 .add-employee-button{
-  position: absolute;
+  position: fixed;
   bottom: 50px;
   right: 50px;
+  transition: 0.3s ease-in-out;
+}
+.add-employee-button:hover{
+  transform: scale(1.2);
 }
 
 .add-employee-button button{
@@ -19,8 +26,15 @@
   width: 50px;
   height: 50px;
 }
-
 .add-employee-button button i {
   font-weight: bolder;
   font-size: 25px;
+}
+div div button i {
+  transition: 0.1s linear;
+  font-width: bolder;
+  font-size: 18px;
+}
+div div button:hover{
+  color: #777;
 }

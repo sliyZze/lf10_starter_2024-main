@@ -1,17 +1,14 @@
-import {Component, Output, TemplateRef, ViewChild} from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
 import { EditEmployeeService } from '../../services/EmployeeEditService';
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {DataService} from "../../../service/data.service";
-import {async, firstValueFrom, Observable, Subscription} from "rxjs";
-import {Employee} from "../../../model/Employee";
+import { NgForOf, NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-edit-employee',
   standalone: true,
-  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf, AsyncPipe],
+  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf],
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
@@ -22,44 +19,12 @@ export class EditEmployeeComponent {
   qualificationToRemove: number | null = null;
   @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
   protected modalRef!: NgbModalRef;
-  employee$!: Observable<Employee>;
 
-  private subscriptions: Subscription = new Subscription();
-  private qid: number | undefined;
-  private eid: number | undefined;
-
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
-  }
-
-  ngOnInit() {
-    const employeeId = this.editEmployeeService.getEmployeeId();
-    if (employeeId !== undefined) {
-      this.employee$ = this.dataService.getEmployee(employeeId);
-      this.employee$.subscribe((employee: Employee) => {console.log(employee.skillSet)});
-    }
-  }
-
-  // Wird durch Button-Click aufgerufen
-  loadEmployee() {
-    const employeeId = this.editEmployeeService.getEmployeeId();
-    if (employeeId !== undefined) {
-      this.employee$ = this.dataService.getEmployee(employeeId);
-      this.employee$.subscribe((employee: Employee) => {console.log(employee.skillSet)});
-    }
-  }
+  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal) {}
 
   onSaveChanges() {
-    this.employee$.subscribe((employee: Employee) => {
-      this.dataService.updateEmployee(employee).subscribe(response => {
-        console.log('Update erfolgreich:', response);
-      });
-    });
     this.modal.closeModal();
     this.editEmployeeService.setValue(false);
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 
   closeModal() {
@@ -67,9 +32,27 @@ export class EditEmployeeComponent {
     this.editEmployeeService.setValue(false);
   }
 
-  setQualificationToRemove(qid: number | undefined, eid: number | undefined) {
-    this.eid = eid;
-    this.qid = qid;
+  employee = {
+    lastname: 'Doe',
+    surname: 'John',
+    phonenumber: '123-456-7890',
+    street: '123 Main Street',
+    postcode: '12345',
+    city: 'Sample City',
+    qualifications: 'Bachelor of Science in Computer Science'
+  };
+
+  qualifications = [
+    { title: 'Java' },
+    { title: 'C#' },
+    { title: 'Docker' },
+    { title: 'JavaScript' },
+    { title: 'TypeScript' },
+    { title: 'Angular' },
+  ];
+
+  setQualificationToRemove(index: number) {
+    this.qualificationToRemove = index;
     this.openDeleteModal();
   }
 
@@ -78,14 +61,11 @@ export class EditEmployeeComponent {
   }
 
   confirmDelete() {
-    this.dataService.deleteQualificationFromEmployee(this.eid, this.qid).subscribe({
-      next: () => {
-        this.ngOnInit();
-        this.modalRef.close();
-      },
-      error: (err) => console.error('Fehler beim Löschen:', err),
-    });
+    if (this.qualificationToRemove !== null) {
+      this.qualifications.splice(this.qualificationToRemove, 1);
+      this.qualificationToRemove = null;
+    }
+    this.modalRef.close();
   }
 
-  protected readonly async = async;
 }
