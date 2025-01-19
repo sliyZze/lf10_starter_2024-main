@@ -8,6 +8,9 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
 import {DataService} from "../../../service/data.service";
+import {AddQualificationService} from "../../services/AddQualificationService";
+import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
+import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 
 @Component({
   selector: 'app-employee-table',
@@ -16,7 +19,8 @@ import {DataService} from "../../../service/data.service";
     NgIf,
     FormsModule,
     EditEmployeeComponent,
-    NgForOf
+    NgForOf,
+    CreateEmployeeComponent
   ],
   standalone: true,
   templateUrl: './employee-table.component.html',
@@ -30,7 +34,7 @@ export class EmployeeTableComponent {
   employees?: Employee[];
   private sub: Subscription = new Subscription();
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
+  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService, private createEmployeeService: CreateEmployeeService) {
   }
 
   ngOnInit(): void {
@@ -43,16 +47,6 @@ export class EmployeeTableComponent {
       },
     });
   }
-
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
-  }
-
-  openModal(content: any) {
-    this.modalRaf = this.modalService.open(content, { centered: true });
-  }
-
 
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
@@ -74,6 +68,6 @@ export class EmployeeTableComponent {
   }
 
   onAddClick(){
-
+    this.createEmployeeService.setValue(true)
   }
 }

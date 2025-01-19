@@ -32,7 +32,11 @@ export class EmployeeDataModalComponent {
   }
 
   openModal(content: TemplateRef<any>) {
-    this.modalRef = this.modalService.open(content, { centered: true });
+    this.modalRef = this.modalService.open(content, {
+      centered: true,
+      backdrop: "static",
+      keyboard: false
+    });
   }
 
   closeModal() {
