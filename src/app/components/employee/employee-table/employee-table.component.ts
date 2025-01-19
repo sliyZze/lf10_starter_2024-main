@@ -9,6 +9,7 @@ import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
 import {DataService} from "../../../service/data.service";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
+import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
 
 @Component({
   selector: 'app-employee-table',
@@ -17,7 +18,8 @@ import {CreateEmployeeService} from "../../services/CreateEmployeeService";
     NgIf,
     FormsModule,
     EditEmployeeComponent,
-    NgForOf
+    NgForOf,
+    CreateEmployeeComponent
   ],
   standalone: true,
   templateUrl: './employee-table.component.html',
