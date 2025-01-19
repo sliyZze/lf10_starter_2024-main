@@ -33,7 +33,7 @@
 
       <div style="overflow-y: scroll; height: 120px;">
         <div *ngFor="let qualification of qualifications; let i = index" class="d-flex justify-content-between align-items-center border p-3 mb-2" style="height: 50px">
-          <h5 class="mb-0" style="font-size: 18px">{{ qualification.title }}</h5>
+          <h5 class="mb-0" style="font-size: 18px">{{ qualification.qualification }}</h5>
           <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQualificationModal" (click)="setQualificationToRemove(i)">
             <i class="bi bi-trash-fill"></i>
           </button>

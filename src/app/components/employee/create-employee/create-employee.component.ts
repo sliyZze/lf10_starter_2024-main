@@ -4,6 +4,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
+import {AddQualificationService} from "../../services/AddQualificationService";
+import {QualificationComponent} from "../../qualification/qualification/qualification.component";
 
 @Component({
   selector: 'app-create-employee',
@@ -12,7 +14,8 @@ import {CreateEmployeeService} from "../../services/CreateEmployeeService";
         EmployeeDataModalComponent,
         FormsModule,
         NgForOf,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        QualificationComponent
     ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'
@@ -20,9 +23,8 @@ import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 export class CreateEmployeeComponent {
     @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
     title: string = "Mitarbeiter Erstellen";
-    protected modalRef!: NgbModalRef;
 
-    constructor(protected createEmployeeService: CreateEmployeeService) {
+    constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService) {
     }
 
     onSaveChanges() {
@@ -33,6 +35,10 @@ export class CreateEmployeeComponent {
     closeModal() {
         this.modal.closeModal();
         this.createEmployeeService.setValue(false);
+    }
+
+    onAddQualificatoinClick (){
+        this.addQualificationService.setValue(true)
     }
 
     employee = {

@@ -2,7 +2,10 @@
 
 <!--*** Start Search function*** -->
 <div class="w-100 d-flex justify-content-center mt-4">
-  <div style="max-width: 400px; background-color: #f8f3ff; border-radius: 20px;" class="d-flex justify-content-center">
+  <div style="max-width: 400px; background-color: #f8f3ff; border-radius: 10px;" class="d-flex justify-content-center p-2">
+    <button class="btn btn-link p-0" style="font-size: 24px;">
+      <i class="bi bi-list text-warning search-icon2"></i>
+    </button>
     <input
       type="text"
       class="form-control custom-input border-0"
@@ -42,8 +45,8 @@
             </span>
           </p>
           <div class="d-flex justify-content-end">
-            <button class="btn btn-primary me-2" (click)="onEditEmployee()">Edit</button>
-            <button class="btn btn-danger" >Delete</button>
+            <button class="btn btn-primary me-2" (click)="onEditEmployee()">Bearbeiten</button>
+            <button class="btn btn-danger" >Löschen</button>
           </div>
         </div>
       </div>

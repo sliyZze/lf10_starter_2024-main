@@ -43,12 +43,12 @@ export class EditEmployeeComponent {
   };
 
   qualifications = [
-    { title: 'Java' },
-    { title: 'C#' },
-    { title: 'Docker' },
-    { title: 'JavaScript' },
-    { title: 'TypeScript' },
-    { title: 'Angular' },
+    { qualification: 'Java' },
+    { qualification: 'C#' },
+    { qualification: 'Docker' },
+    { qualification: 'JavaScript' },
+    { qualification: 'TypeScript' },
+    { qualification: 'Angular' },
   ];
 
   setQualificationToRemove(index: number) {
