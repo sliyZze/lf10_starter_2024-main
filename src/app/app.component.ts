@@ -15,7 +15,7 @@ export class AppComponent {
   title = 'lf10StarterNew';
   constructor(private keycloakService: KeycloakService) {}
 
-  logout(): void {
-    this.keycloakService.logout('http://localhost:4200');
-  }
+  // logout(): void {
+  //   this.keycloakService.logout('http://localhost:4200');
+  // }
 }
