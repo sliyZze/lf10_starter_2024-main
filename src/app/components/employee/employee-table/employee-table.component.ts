@@ -8,6 +8,7 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
 import {DataService} from "../../../service/data.service";
+import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 
 @Component({
   selector: 'app-employee-table',
@@ -30,7 +31,7 @@ export class EmployeeTableComponent {
   employees?: Employee[];
   private sub: Subscription = new Subscription();
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
+  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService, private createEmployeeService: CreateEmployeeService) {
   }
 
   ngOnInit(): void {
@@ -73,7 +74,7 @@ export class EmployeeTableComponent {
     return this.isValid = !isNaN(Number(this.page)) && this.page.trim() !== '' || this.page.length == 0;
   }
 
-  onAddClick(){
-
+  onAddClick (){
+    this.createEmployeeService.setValue(true)
   }
 }
