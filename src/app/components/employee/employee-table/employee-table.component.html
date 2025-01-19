@@ -29,30 +29,29 @@
       </div>
     </div>
 
-    <!--Start Employee Cards-->
+    <!-- Start Employee Cards -->
     <div class="row">
       <div *ngFor="let employee of employees" class="col-md-4 mb-4">
         <div class="card p-3" style="background-color: #f8f3ff; border-radius: 20px;">
-          <h5 class="card-title">{{employee.surname}} {{employee.name}}</h5>
-          <p class="card-text">{{employee.address}}, {{employee.postcode}} {{employee.city}}</p>
+          <h5 class="card-title">{{employee.firstName}} {{employee.lastName}}</h5>
+          <p class="card-text">{{employee.street}}, {{employee.postcode}} {{employee.city}}</p>
           <p class="card-text">{{employee.phone}}</p>
           <p class="card-text">
-            <span *ngFor="let qualification of employee.qualifications; let isLast=last">
-              {{qualification}}{{isLast ? '' : ', '}}
-            </span>
+        <span *ngFor="let qualification of employee.skillSet; let isLast=last">
+          {{qualification}}{{isLast ? '' : ', '}}
+        </span>
           </p>
           <div class="d-flex justify-content-end">
-            <button class="btn btn-primary me-2" (click)="onEditEmployee()">Edit</button>
-            <button class="btn btn-danger" >Delete</button>
+            <button class="btn btn-primary me-2" (click)="onEditEmployee(employee.id)">Edit</button>
+            <button class="btn btn-danger" (click)="onDeleteEmployee(employee.id)">Delete</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<!--End Employee Cards-->
+    <!-- End Employee Cards -->
 
-<!--Start Add Employee Button-->
+
+    <!--Start Add Employee Button-->
 <div class="add-employee-button">
   <button class="add-button shadow" (click)="onAddClick()">
     <i class="bi bi-plus-circle"></i>

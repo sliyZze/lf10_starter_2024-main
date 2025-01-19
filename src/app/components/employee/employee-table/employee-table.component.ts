@@ -26,23 +26,28 @@ export class EmployeeTableComponent {
   page: string = '';
   isValid: boolean = true;
   private modalRaf: NgbModalRef | undefined;
-  employeeX!: Observable<Employee>;
+  employee!: Observable<Employee>;
   employees?: Employee[];
   private sub: Subscription = new Subscription();
 
   constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
   }
 
-  ngOnInit(): void{
-    this.sub = this.dataService.getEmployees().subscribe((data: Employee[]) =>{
-      this.employees = data;
+  ngOnInit(): void {
+    this.sub = this.dataService.getEmployees().subscribe({
+      next: (data: Employee[]) => {
+        this.employees = data;
+      },
+      error: (err) => {
+        console.error('Fehler beim Abrufen der Mitarbeiterdaten:', err);
+      },
     });
   }
+
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
 
   openModal(content: any) {
     this.modalRaf = this.modalService.open(content, { centered: true });

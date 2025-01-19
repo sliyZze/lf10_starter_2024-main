@@ -8,6 +8,7 @@ import {MainViewComponent} from "./components/main-view-component/main-view-comp
   selector: 'app-root',
   imports: [CommonModule, MainViewComponent],
   templateUrl: './app.component.html',
+  standalone: true,
   styleUrl: './app.component.css'
 })
 export class AppComponent {

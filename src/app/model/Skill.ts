@@ -1,6 +1,6 @@
 export class Skill {
   constructor(
-    public id?: number,
-    public skill?: string // Feldname an JSON angepasst
+    public skill?: string,
+    public id?: number
   ) {}
 }

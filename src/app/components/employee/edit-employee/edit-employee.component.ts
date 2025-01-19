@@ -20,7 +20,7 @@ export class EditEmployeeComponent {
   @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
   protected modalRef!: NgbModalRef;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal) {}
+  constructor(protected editEmployeeService: EditEmployeeService, private modalService: NgbModal) {}
 
   onSaveChanges() {
     this.modal.closeModal();
