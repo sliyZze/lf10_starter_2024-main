@@ -58,7 +58,6 @@ export class EmployeeTableComponent {
 
 
   onEditEmployee(employeeId: number | undefined){
-    console.log("dsada")
     this.editEmployeeService.setValue(true)
     this.editEmployeeService.setEmployeeId(employeeId)
 

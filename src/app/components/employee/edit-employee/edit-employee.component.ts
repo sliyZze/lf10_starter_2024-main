@@ -28,7 +28,7 @@ export class EditEmployeeComponent {
   private qid: number | undefined;
   private eid: number | undefined;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
+  constructor(protected editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
   }
 
   ngOnInit() {
