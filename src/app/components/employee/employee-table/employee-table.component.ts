@@ -1,13 +1,15 @@
 import {Component} from '@angular/core';
 import {MainHeaderComponent} from '../../header/main-header/main-header.component';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {DataService} from "../../../service/data.service";
-import {Employee} from "../../../model/Employee";
 import {Observable, Subscription} from "rxjs";
+import {Employee} from "../../../model/Employee";
+import {DataService} from "../../../service/data.service";
+import {CreateEmployeeService} from "../../services/CreateEmployeeService";
+import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
 
 @Component({
   selector: 'app-employee-table',
@@ -15,34 +17,40 @@ import {Observable, Subscription} from "rxjs";
     MainHeaderComponent,
     NgIf,
     FormsModule,
-    EditEmployeeComponent
+    EditEmployeeComponent,
+    NgForOf,
+    CreateEmployeeComponent
   ],
-  templateUrl: './employee-table.component.html',
   standalone: true,
+  templateUrl: './employee-table.component.html',
   styleUrl: './employee-table.component.css'
 })
 export class EmployeeTableComponent {
   page: string = '';
   isValid: boolean = true;
   private modalRaf: NgbModalRef | undefined;
-  employeeX!: Observable<Employee>;
+  employee!: Observable<Employee>;
   employees?: Employee[];
   private sub: Subscription = new Subscription();
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
+  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService, private createEmployeeService: CreateEmployeeService) {
   }
 
-  ngOnInit(): void{
-    this.employeeX = this.dataService.getEmployee(1);
-    this.sub = this.dataService.getEmployees().subscribe((data: Employee[]) =>{
-      this.employees = data;
+  ngOnInit(): void {
+    this.sub = this.dataService.getEmployees().subscribe({
+      next: (data: Employee[]) => {
+        this.employees = data;
+      },
+      error: (err) => {
+        console.error('Fehler beim Abrufen der Mitarbeiterdaten:', err);
+      },
     });
   }
+
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
-
 
   openModal(content: any) {
     this.modalRaf = this.modalService.open(content, { centered: true });
@@ -51,7 +59,7 @@ export class EmployeeTableComponent {
 
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
-    console.log(employeeId)
+    this.editEmployeeService.setEmployeeId(employeeId)
   }
 
   onDeleteEmployee(id: number | undefined){
@@ -66,5 +74,9 @@ export class EmployeeTableComponent {
 
   validatePageInput() {
     return this.isValid = !isNaN(Number(this.page)) && this.page.trim() !== '' || this.page.length == 0;
+  }
+
+  onAddClick (){
+    this.createEmployeeService.setValue(true)
   }
 }

@@ -8,7 +8,7 @@ export class NavigationService {
   constructor(private _router: Router) {}
 
   redirectToEmployeeTable(): void {
-    this._router.navigate(['/root']);
+    this._router.navigate(['/employees']);
   }
 
   redirectToLogin(): void {
