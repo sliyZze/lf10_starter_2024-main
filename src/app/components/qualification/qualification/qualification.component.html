@@ -1,15 +1,18 @@
 <app-employee-data-modal [title]="title" [service]="addQualificationService">
 
+  <!-- Button, um die Daten zu laden -->
+  <button class="btn btn-primary" (click)="loadQualifications()">Daten laden</button>
+
   <form>
-    <div class="form-check" *ngFor="let qualification of qualifications; let i = index">
+    <div class="form-check" *ngFor="let qualification of qualifications | async">
       <input
         class="form-check-input"
         type="checkbox"
-        id="qualification{{i}}"
-        name="qualification{{i}}"
-        (click)="getQualification(i)">
+        id="qualification{{qualification.id}}"
+        name="qualification{{qualification.skill}}"
+        (click)="getQualification(qualification.id)">
       <label class="form-check-label">
-        {{ qualification.qualification }}
+        {{ qualification.skill }}
       </label>
     </div>
   </form>

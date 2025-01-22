@@ -4,17 +4,17 @@
         <div class="row g-3">
             <div class="col-md-6">
                 <label for="lastname" class="form-label">Vorname</label>
-                <input id="lastname" type="text" class="form-control" placeholder="Vorname" [(ngModel)]="employee.lastname" name="lastname" />
+                <input id="lastname" type="text" class="form-control" placeholder="Vorname" [(ngModel)]="employee.firstName" name="lastname" />
             </div>
 
             <div class="col-md-6">
                 <label for="surname" class="form-label">Nachname</label>
-                <input id="surname" type="text" class="form-control" placeholder="Nachname" [(ngModel)]="employee.surname" name="surname" />
+                <input id="surname" type="text" class="form-control" placeholder="Nachname" [(ngModel)]="employee.lastName" name="surname" />
             </div>
 
             <div class="col-md-6">
                 <label for="phonenumber" class="form-label">Telefonnummer</label>
-                <input id="phonenumber" type="text" class="form-control" placeholder="Telefonnummer" [(ngModel)]="employee.phonenumber" name="phonenumber" />
+                <input id="phonenumber" type="text" class="form-control" placeholder="Telefonnummer" [(ngModel)]="employee.phone" name="phonenumber" />
             </div>
 
             <div class="col-md-6">
@@ -24,7 +24,7 @@
 
             <div class="col-md-6">
                 <label for="postcode" class="form-label">PLZ</label>
-                <input id="postcode" type="text" class="form-control" placeholder="PLZ" [(ngModel)]="employee.postcode" name="postcode" />
+                <input id="postcode" type="text" class="form-control" placeholder="PLZ" [(ngModel)]="employee.postcode" name="postcode" maxlength="5"/>
             </div>
 
             <div class="col-md-6">
