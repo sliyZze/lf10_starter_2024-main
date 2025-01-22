@@ -7,6 +7,7 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {DataService} from "../../../service/data.service";
 import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
+import {AddQualificationService} from "../../services/AddQualificationService";
 
 @Component({
   selector: 'app-edit-employee',
@@ -28,7 +29,7 @@ export class EditEmployeeComponent  {
   private qid: number | undefined;
   private eid: number | undefined;
 
-  constructor(protected editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
+  constructor(protected editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService,  private addQualificationService: AddQualificationService) {
   }
 
   ngOnInit() {
@@ -69,6 +70,10 @@ export class EditEmployeeComponent  {
   closeModal() {
     this.modal.closeModal();
     this.editEmployeeService.setValue(false);
+  }
+
+  onAddQualificatoinClick (){
+    this.addQualificationService.setValue(true)
   }
 
   setQualificationToRemove(qid: number | undefined, eid: number | undefined) {

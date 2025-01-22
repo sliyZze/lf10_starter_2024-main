@@ -1,14 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 import {AddQualificationService} from "../../services/AddQualificationService";
-import {QualificationComponent} from "../../qualification/qualification/qualification.component";
+import {QualificationComponent} from "../../qualification/qualificationModal/qualificationModal.component";
 import {DataService} from "../../../service/data.service";
-import {Employee} from "../../../model/Employee";
-import {async, Observable} from "rxjs";
+import {async} from "rxjs";
 import {AddEmployee} from "../../../model/AddEmployee";
 
 @Component({

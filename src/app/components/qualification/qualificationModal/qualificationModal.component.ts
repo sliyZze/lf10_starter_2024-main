@@ -10,7 +10,7 @@ import {async, Observable, Subscription} from "rxjs";
 import {Skill} from "../../../model/Skill";
 
 @Component({
-  selector: 'app-qualification',
+  selector: 'app-qualification-modal',
   standalone: true,
   imports: [
     EmployeeDataModalComponent,
@@ -20,8 +20,8 @@ import {Skill} from "../../../model/Skill";
     AsyncPipe,
     NgIf
   ],
-  templateUrl: './qualification.component.html',
-  styleUrl: './qualification.component.css'
+  templateUrl: './qualificationModal.component.html',
+  styleUrl: './qualificationModal.component.css'
 })
 export class QualificationComponent {
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
@@ -30,16 +30,6 @@ export class QualificationComponent {
   private sub: Subscription = new Subscription();
   qualifications?: Observable<Skill[]>;
 
-  /*ngOnInit(): void {
-    this.sub = this.dataService.getQualifications().subscribe({
-      next: (data: Skill[]) => {
-        this.qualifications = data;
-      },
-      error: (err) => {
-        console.error('Fehler beim Abrufen der Qualifications:', err);
-      },
-    });
-  }*/
 
   // Wird durch Button-Click aufgerufen
   loadQualifications(): void {
