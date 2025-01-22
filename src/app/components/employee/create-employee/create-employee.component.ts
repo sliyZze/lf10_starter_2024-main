@@ -9,6 +9,7 @@ import {QualificationComponent} from "../../qualification/qualification/qualific
 import {DataService} from "../../../service/data.service";
 import {Employee} from "../../../model/Employee";
 import {async, Observable} from "rxjs";
+import {AddEmployee} from "../../../model/AddEmployee";
 
 @Component({
   selector: 'app-create-employee',
@@ -16,11 +17,8 @@ import {async, Observable} from "rxjs";
     imports: [
         EmployeeDataModalComponent,
         FormsModule,
-        NgForOf,
         ReactiveFormsModule,
         QualificationComponent,
-        AsyncPipe,
-        NgIf
     ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'
@@ -44,18 +42,21 @@ export class CreateEmployeeComponent {
         });
         this.modal.closeModal();
         this.createEmployeeService.setValue(false);
+        this.employee = new AddEmployee();
     }
 
     closeModal() {
         this.modal.closeModal();
         this.createEmployeeService.setValue(false);
+        this.employee = new AddEmployee();
     }
 
     onAddQualificatoinClick (){
         this.addQualificationService.setValue(true)
+        this.addQualificationService.setEmployee(this.employee)
     }
 
-    employee: Employee = {
+    employee: AddEmployee = {
         lastName: "",
         firstName: "",
         street: "",
