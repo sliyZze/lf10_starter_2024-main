@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import {EmployeeTableComponent} from "./components/employee/employee-table/employee-table.component";
 import {MainViewComponent} from "./components/main-view-component/main-view-component";
 

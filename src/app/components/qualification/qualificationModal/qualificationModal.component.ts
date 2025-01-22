@@ -1,11 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, NgForOf} from "@angular/common";
 import {AddQualificationService} from "../../services/AddQualificationService";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DataService} from "../../../service/data.service";
-import {Employee} from "../../../model/Employee";
 import {async, Observable, Subscription} from "rxjs";
 import {Skill} from "../../../model/Skill";
 
@@ -17,8 +15,7 @@ import {Skill} from "../../../model/Skill";
     FormsModule,
     NgForOf,
     ReactiveFormsModule,
-    AsyncPipe,
-    NgIf
+    AsyncPipe
   ],
   templateUrl: './qualificationModal.component.html',
   styleUrl: './qualificationModal.component.css'
@@ -27,7 +24,6 @@ export class QualificationComponent {
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Qualifikationen";
   constructor(protected addQualificationService: AddQualificationService, private dataService: DataService) {}
-  private sub: Subscription = new Subscription();
   qualifications?: Observable<Skill[]>;
 
 
