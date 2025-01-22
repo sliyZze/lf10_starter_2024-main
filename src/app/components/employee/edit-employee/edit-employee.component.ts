@@ -1,4 +1,14 @@
-import {Component, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
@@ -16,7 +26,7 @@ import {AddQualificationService} from "../../services/AddQualificationService";
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
-export class EditEmployeeComponent  {
+export class EditEmployeeComponent  implements OnChanges{
 
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Mitarbeiter bearbeiten";
@@ -24,6 +34,7 @@ export class EditEmployeeComponent  {
   @ViewChild('deleteQualificationModal', {static: true}) deleteQualificationModal!: TemplateRef<any>;
   protected modalRef!: NgbModalRef;
   employee$!: Observable<Employee>;
+  @Input() employeeId?: number;
 
   private subscriptions: Subscription = new Subscription();
   private qid: number | undefined;
@@ -32,23 +43,17 @@ export class EditEmployeeComponent  {
   constructor(protected editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService,  private addQualificationService: AddQualificationService) {
   }
 
-  ngOnInit() {
-    const employeeId = this.editEmployeeService.getEmployeeId();
-    if (employeeId !== undefined) {
-      this.employee$ = this.dataService.getEmployee(employeeId);
-      this.employee$.subscribe((employee: Employee) => {
-        console.log(employee.skillSet)
-      });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['employeeId'] && changes['employeeId'].currentValue) {
+      this.loadEmployee();
     }
   }
 
-  // Wird durch Button-Click aufgerufen
-  loadEmployee() {
-    const employeeId = this.editEmployeeService.getEmployeeId();
-    if (employeeId !== undefined) {
-      this.employee$ = this.dataService.getEmployee(employeeId);
+  private loadEmployee(): void {
+    if (this.employeeId !== undefined) {
+      this.employee$ = this.dataService.getEmployee(this.employeeId);
       this.employee$.subscribe((employee: Employee) => {
-        console.log(employee.skillSet)
+        console.log(employee.skillSet);
       });
     }
   }
@@ -89,7 +94,6 @@ export class EditEmployeeComponent  {
   confirmDelete() {
     this.dataService.deleteQualificationFromEmployee(this.eid, this.qid).subscribe({
       next: () => {
-        this.ngOnInit();
         this.modalRef.close();
       },
       error: (err) => console.error('Fehler beim Löschen:', err),

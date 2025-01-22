@@ -6,7 +6,7 @@ import {MainViewComponent} from "./components/main-view-component/main-view-comp
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, MainViewComponent, EmployeeTableComponent],
+  imports: [CommonModule, MainViewComponent],
   templateUrl: './app.component.html',
   standalone: true,
   styleUrl: './app.component.css'
