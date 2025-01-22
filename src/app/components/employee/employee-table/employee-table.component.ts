@@ -52,6 +52,7 @@ export class EmployeeTableComponent {
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
     this.editEmployeeService.setEmployeeId(employeeId)
+
   }
 
   onDeleteEmployee(id: number | undefined){

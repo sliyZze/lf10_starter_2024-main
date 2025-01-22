@@ -1,11 +1,11 @@
-import {Component, Output, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
 import { EditEmployeeService } from '../../services/EmployeeEditService';
 import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {DataService} from "../../../service/data.service";
-import {async, firstValueFrom, Observable, Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
 
 @Component({
@@ -15,12 +15,12 @@ import {Employee} from "../../../model/Employee";
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
-export class EditEmployeeComponent {
+export class EditEmployeeComponent  {
 
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Mitarbeiter bearbeiten";
   qualificationToRemove: number | null = null;
-  @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
+  @ViewChild('deleteQualificationModal', {static: true}) deleteQualificationModal!: TemplateRef<any>;
   protected modalRef!: NgbModalRef;
   employee$!: Observable<Employee>;
 
@@ -28,14 +28,16 @@ export class EditEmployeeComponent {
   private qid: number | undefined;
   private eid: number | undefined;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
+  constructor(protected editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService) {
   }
 
   ngOnInit() {
     const employeeId = this.editEmployeeService.getEmployeeId();
     if (employeeId !== undefined) {
       this.employee$ = this.dataService.getEmployee(employeeId);
-      this.employee$.subscribe((employee: Employee) => {console.log(employee.skillSet)});
+      this.employee$.subscribe((employee: Employee) => {
+        console.log(employee.skillSet)
+      });
     }
   }
 
@@ -44,7 +46,9 @@ export class EditEmployeeComponent {
     const employeeId = this.editEmployeeService.getEmployeeId();
     if (employeeId !== undefined) {
       this.employee$ = this.dataService.getEmployee(employeeId);
-      this.employee$.subscribe((employee: Employee) => {console.log(employee.skillSet)});
+      this.employee$.subscribe((employee: Employee) => {
+        console.log(employee.skillSet)
+      });
     }
   }
 
@@ -74,7 +78,7 @@ export class EditEmployeeComponent {
   }
 
   openDeleteModal() {
-    this.modalRef = this.modalService.open(this.deleteQualificationModal, { ariaLabelledBy: 'deleteModalLabel' });
+    this.modalRef = this.modalService.open(this.deleteQualificationModal, {ariaLabelledBy: 'deleteModalLabel'});
   }
 
   confirmDelete() {
@@ -86,6 +90,4 @@ export class EditEmployeeComponent {
       error: (err) => console.error('Fehler beim Löschen:', err),
     });
   }
-
-  protected readonly async = async;
 }

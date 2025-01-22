@@ -38,3 +38,10 @@ div div button i {
 div div button:hover{
   color: #777;
 }
+.custom-select {
+  border: none;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 5px;
+}

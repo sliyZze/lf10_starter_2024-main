@@ -4,6 +4,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 import {AddQualificationService} from "../../services/AddQualificationService";
 import {QualificationComponent} from "../../qualification/qualification/qualification.component";
+import {Employee} from "../../../model/Employee";
+import {Observable} from "rxjs";
+import {DataService} from "../../../service/data.service";
 
 @Component({
   selector: 'app-create-employee',
@@ -18,34 +21,39 @@ import {QualificationComponent} from "../../qualification/qualification/qualific
   styleUrl: './create-employee.component.css'
 })
 export class CreateEmployeeComponent {
-    @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
-    title: string = "Mitarbeiter Erstellen";
+  @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
+  title: string = "Mitarbeiter Erstellen";
+  employee$!: Observable<Employee>;
 
-    constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService) {
-    }
+  constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
+  }
 
-    onSaveChanges() {
-        this.modal.closeModal();
-        this.createEmployeeService.setValue(false);
-    }
+  onSaveChanges() {
+    // this.dataService.addEmployee(this.employee).subscribe(response => {
+    //   console.log('Employee successfully added', response);
+    //   this.modal.closeModal();
+    //   this.createEmployeeService.setValue(false);
+    // }, error => {
+    //   console.error('Error adding employee', error);
+    // });
+  }
 
-    closeModal() {
-        this.modal.closeModal();
-        this.createEmployeeService.setValue(false);
-    }
+  closeModal() {
+    this.modal.closeModal();
+    this.createEmployeeService.setValue(false);
+  }
 
     onAddQualificatoinClick (){
-        this.addQualificationService.setValue(true)
-    }
+    this.addQualificationService.setValue(true)
+  }
 
-    employee = {
-        lastname: 'bla',
-        surname: 'hisdf',
-        phonenumber: '123-567-7195',
-        street: '614 Hauser Street',
-        postcode: '23534',
-        city: 'Bla bla ',
-        qualifications: 'Computer Science'
-    };
-
+  employee = {
+    lastname: 'jfkl',
+    firstName: 'hisdf',
+    street: 'Hamburger',
+    postcode: '614 Hauser Street',
+    city: '23534',
+    phone: '01748377489 ',
+    skillSet: 'Computer Science'
+  };
 }
