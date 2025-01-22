@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationService} from "../../services/NavigationService";
 import {QualificationTargetService} from "../../services/QualificationTargetService";
 import {FormsModule} from "@angular/forms";
+import {KeycloakService} from "keycloak-angular";
 
 @Component({
   selector: 'app-main-header',
@@ -15,10 +16,14 @@ import {FormsModule} from "@angular/forms";
 export class MainHeaderComponent implements OnInit{
   selectedOption: string | undefined;
 
-  constructor(private navigationService: NavigationService, private qualificationTargetService: QualificationTargetService) {}
+  constructor(private navigationService: NavigationService, private qualificationTargetService: QualificationTargetService, private keycloakService: KeycloakService) {}
 
-  onLogoutClick() {
-    this.navigationService.redirectToLogin()
+  //onLogoutClick() {
+  //  this.navigationService.redirectToLogin()
+  //}
+
+  logout(): void {
+     this.keycloakService.logout('http://localhost:4200');
   }
 
   ngOnInit() {
