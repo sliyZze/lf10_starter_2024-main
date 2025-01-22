@@ -42,13 +42,13 @@ export class CreateEmployeeComponent {
         });
         this.modal.closeModal();
         this.createEmployeeService.setValue(false);
-        this.employee = new AddEmployee();
+        // this.employee = new AddEmployee();
     }
 
     closeModal() {
         this.modal.closeModal();
         this.createEmployeeService.setValue(false);
-        this.employee = new AddEmployee();
+        // this.employee = new AddEmployee();
     }
 
     onAddQualificatoinClick (){
