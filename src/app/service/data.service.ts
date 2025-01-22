@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, Observable, throwError} from 'rxjs';
 import {Employee} from "../model/Employee";
+import {Skill} from "../model/Skill";
+import {AddEmployee} from "../model/AddEmployee";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,9 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
   private EmployeeServiceURL = 'http://localhost:8089/employees';
-  bearer = 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzUFQ0dldiNno5MnlQWk1EWnBqT1U0RjFVN0lwNi1ELUlqQWVGczJPbGU0In0.eyJleHAiOjE3MzczMjQxMzUsImlhdCI6MTczNzMyMDUzNSwianRpIjoiNjYwZGJkZmEtMDcwMi00ZWY4LWIxOGEtMjJjMjllM2FmMTVmIiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5zenV0LmRldi9hdXRoL3JlYWxtcy9zenV0IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjU1NDZjZDIxLTk4NTQtNDMyZi1hNDY3LTRkZTNlZWRmNTg4OSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImVtcGxveWVlLW1hbmFnZW1lbnQtc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI4ODk4MzhjMS1lN2Y0LTQ5MjEtYTBkMC02NGM5MzBmYzM2NjIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsicHJvZHVjdF9vd25lciIsIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1zenV0IiwidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIifQ.TfeNz41FzTES7kKYHHh1RvL3W_LOtbIrVc2FUfUX_70wY640p5wNCeTXN4DdZQQ8gJt_lYeCz1SzBw2R2CC0NXKop6hWianW5PBhRmoqjm1MXTuQyQ_ZXgKFSMb6ohigzVMOn9bC0-G6Dblg_a17qAYfWLhml7khbCIyxtcOBewF-XEcpKfDy2L6NyxX0VUycXFC_kowf9LXe4XjLeq6qbq-hBjpsXtjAk0Mc2V8jvhyu-Q8SmiMAWdKSHcPdU39JWbNPt-LFQAAQk6Ht53C3TwhQjt1Bp1AsXdZllXGGjEF2GF_Ieo6oC-6BlmgvtbHvLbL7eU--d7E3aBZBaukOQ';
+  private qualificationsServiceURL = 'http://localhost:8089/qualifications';
+  //todo keylock login nicht hier coded
+  bearer = 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIzUFQ0dldiNno5MnlQWk1EWnBqT1U0RjFVN0lwNi1ELUlqQWVGczJPbGU0In0.eyJleHAiOjE3MzczMjA0MTgsImlhdCI6MTczNzMxNjgxOCwianRpIjoiN2M5ODVhOGYtMzkyZi00MzU5LTkxMDgtNDQxOTBkNmYwMTE4IiwiaXNzIjoiaHR0cHM6Ly9rZXljbG9hay5zenV0LmRldi9hdXRoL3JlYWxtcy9zenV0IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjU1NDZjZDIxLTk4NTQtNDMyZi1hNDY3LTRkZTNlZWRmNTg4OSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImVtcGxveWVlLW1hbmFnZW1lbnQtc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiIyNDg0Y2RkYS0zNmU1LTRkYmMtOThlZC0wMTNhNTljMzhhNTIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbImh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsicHJvZHVjdF9vd25lciIsIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1zenV0IiwidW1hX2F1dGhvcml6YXRpb24iLCJ1c2VyIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6InVzZXIifQ.ePQCcrzqXYwIwykmSdQq07tRqI8Q-mCHtZpiRgD8az9OY66BDMH6zgfkmCxD54wFUJPAR5_LCcZb_a5O4qp0q7IfmEyc4nDHIZlHi7TzeaX4fk2D1QHbkpvXtfLj28oxEw9U_4SYLwQ8hhzwoKoXFxmJX6OOg5btot9TGy-V2LHrbeu0YIrzHNhxyDermbQI3lkwdChvFAbbjwlurbd0zAynLxiTXntayrSzgxWfV7hkJdVvP9E4f1nYECS--jU7CCAZHMyr9jEo6TjMbrHoEfKGgFGeGf5WOzdPevAR5Q32rl0QM7PBD9kXidFtnCf09VX6I6QnpombcX9oLgc9rQ';
   private HttpHeader = {
     headers: new HttpHeaders()
       .set('Content-Type', 'application/json')
@@ -44,7 +48,7 @@ export class DataService {
     );
   }
 
-  addEmployee(employee: Employee): Observable<void>{
+    addEmployee(employee: AddEmployee): Observable<void>{
     return this.http.post<void>(this.EmployeeServiceURL, employee, this.HttpHeader).pipe(
       catchError((error) => {
         console.log("Fehler beim Hinzufügen des Mitarbeiters")
@@ -54,7 +58,7 @@ export class DataService {
   }
 
   updateEmployee(employee: Employee): Observable<void> {
-    return this.http.put<void>(`${this.EmployeeServiceURL}/${employee.id}`, employee, this.HttpHeader).pipe(
+    return this.http.patch<void>(`${this.EmployeeServiceURL}/${employee.id}`, employee, this.HttpHeader).pipe(
       catchError((error) => {
         console.log("Fehler beim Aktualisieren des Mitarbeiters")
         return throwError(() => error);
@@ -67,6 +71,15 @@ export class DataService {
     return this.http.delete<void>(`${this.EmployeeServiceURL}/${eid}/qualifications/${qid}`, this.HttpHeader).pipe(
       catchError((error) => {
         console.log("Fehler beim Löschen der Mitarbeiterqualifikation")
+        return throwError(() => error);
+      })
+    );
+  }
+
+  getQualifications(): Observable<Skill[]> {
+    return this.http.get<Skill[]>(this.qualificationsServiceURL, this.HttpHeader).pipe(
+      catchError((error) => {
+        console.error('Fehler beim Abrufen der Qualificationen:', error);
         return throwError(() => error);
       })
     );

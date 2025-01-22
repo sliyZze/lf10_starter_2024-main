@@ -1,25 +1,52 @@
 import {Component, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {AddQualificationService} from "../../services/AddQualificationService";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DataService} from "../../../service/data.service";
+import {Employee} from "../../../model/Employee";
+import {async, Observable, Subscription} from "rxjs";
+import {Skill} from "../../../model/Skill";
 
 @Component({
-  selector: 'app-qualificationModal',
+  selector: 'app-qualification',
   standalone: true,
-    imports: [
-        EmployeeDataModalComponent,
-        FormsModule,
-        NgForOf,
-        ReactiveFormsModule
-    ],
-  templateUrl: './qualificationModal.component.html',
-  styleUrl: './qualificationModal.component.css'
+  imports: [
+    EmployeeDataModalComponent,
+    FormsModule,
+    NgForOf,
+    ReactiveFormsModule,
+    AsyncPipe,
+    NgIf
+  ],
+  templateUrl: './qualification.component.html',
+  styleUrl: './qualification.component.css'
 })
-export class QualificationModalComponent {
+export class QualificationComponent {
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Qualifikationen";
-  constructor(protected addQualificationService: AddQualificationService) {}
+  constructor(protected addQualificationService: AddQualificationService, private dataService: DataService) {}
+  private sub: Subscription = new Subscription();
+  qualifications?: Observable<Skill[]>;
+
+  /*ngOnInit(): void {
+    this.sub = this.dataService.getQualifications().subscribe({
+      next: (data: Skill[]) => {
+        this.qualifications = data;
+      },
+      error: (err) => {
+        console.error('Fehler beim Abrufen der Qualifications:', err);
+      },
+    });
+  }*/
+
+  // Wird durch Button-Click aufgerufen
+  loadQualifications(): void {
+      this.qualifications = this.dataService.getQualifications();
+      this.qualifications.subscribe((quali: Skill[]) => {console.log(quali)});
+
+  }
 
   onSaveChanges() {
     this.modal.closeModal();
@@ -31,18 +58,16 @@ export class QualificationModalComponent {
     this.addQualificationService.setValue(false);
   }
 
-  getQualification(id: number) {
-    console.log(this.qualifications[id]);
+  getQualification(id: number | undefined) {
+    console.log(id);
+    if (id !== undefined) {
+      // @ts-ignore
+      this.addQualificationService.getEmployee().skillSet.push(id);
+    } else {
+      console.error("Ungültige ID: ID ist undefined.");
+    }
   }
 
 
-  qualifications = [
-    { qualification: 'Java', selected: false },
-    { qualification: 'C#', selected: false },
-    { qualification: 'Docker', selected: false },
-    { qualification: 'JavaScript', selected: false },
-    { qualification: 'TypeScript', selected: false },
-    { qualification: 'Angular', selected: false },
-  ];
-
+  protected readonly async = async;
 }
