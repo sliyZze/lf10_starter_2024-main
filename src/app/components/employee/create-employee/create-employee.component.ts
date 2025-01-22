@@ -3,7 +3,7 @@ import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employ
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 import {AddQualificationService} from "../../services/AddQualificationService";
-import {QualificationComponent} from "../../qualification/qualification/qualification.component";
+import {QualificationModalComponent} from "../../qualification/qualificationModal/qualificationModal.component";
 import {Employee} from "../../../model/Employee";
 import {Observable} from "rxjs";
 import {DataService} from "../../../service/data.service";
@@ -15,7 +15,7 @@ import {DataService} from "../../../service/data.service";
         EmployeeDataModalComponent,
         FormsModule,
         ReactiveFormsModule,
-        QualificationComponent
+        QualificationModalComponent
     ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'

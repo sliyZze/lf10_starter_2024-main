@@ -4,9 +4,9 @@
     <span class="header-title ms-2" style="pointer-events: none">TeamTrack</span>
   </div>
   <div class="me-3">
-    <select class="custom-select btn btn-secondary btn-sm mx-4">
-      <option>Mitarbeitertabelle</option>
-      <option>Qualifikationen</option>
+    <select [(ngModel)]="selectedOption" (change)="employeeAdministration($event)" class="custom-select btn btn-secondary btn-sm mx-4">
+      <option value="Mitarbeitertabelle">Mitarbeitertabelle</option>
+      <option value="Qualifikationen">Qualifikationen</option>
     </select>
     <button class="sign-up-button btn btn-secondary btn-sm" (click)="onLogoutClick()">
       <span>Abmelden</span>

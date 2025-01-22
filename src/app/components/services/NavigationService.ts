@@ -18,4 +18,9 @@ export class NavigationService {
   redirectResetPassword(): void {
     this._router.navigate(['/resetPassword']);
   }
+
+  redirectQualificationPage(): void {
+    this._router.navigate(['/qualification']);
+  }
+
 }

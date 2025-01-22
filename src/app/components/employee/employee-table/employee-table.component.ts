@@ -8,7 +8,6 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
 import {DataService} from "../../../service/data.service";
-import {AddQualificationService} from "../../services/AddQualificationService";
 import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 
@@ -29,7 +28,6 @@ import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 export class EmployeeTableComponent {
   page: string = '';
   isValid: boolean = true;
-  private modalRaf: NgbModalRef | undefined;
   employee!: Observable<Employee>;
   employees?: Employee[];
   private sub: Subscription = new Subscription();

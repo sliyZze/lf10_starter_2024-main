@@ -3,10 +3,9 @@ import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employ
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgForOf} from "@angular/common";
 import {AddQualificationService} from "../../services/AddQualificationService";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-  selector: 'app-qualification',
+  selector: 'app-qualificationModal',
   standalone: true,
     imports: [
         EmployeeDataModalComponent,
@@ -14,10 +13,10 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
         NgForOf,
         ReactiveFormsModule
     ],
-  templateUrl: './qualification.component.html',
-  styleUrl: './qualification.component.css'
+  templateUrl: './qualificationModal.component.html',
+  styleUrl: './qualificationModal.component.css'
 })
-export class QualificationComponent {
+export class QualificationModalComponent {
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Qualifikationen";
   constructor(protected addQualificationService: AddQualificationService) {}
