@@ -60,6 +60,7 @@ export class EmployeeTableComponent {
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
     this.editEmployeeService.setEmployeeId(employeeId)
+    this.ngOnInit()
   }
 
   onDeleteEmployee(id: number | undefined){

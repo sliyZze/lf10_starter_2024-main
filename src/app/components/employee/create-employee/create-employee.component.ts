@@ -1,11 +1,14 @@
 import {Component, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 import {AddQualificationService} from "../../services/AddQualificationService";
 import {QualificationComponent} from "../../qualification/qualification/qualification.component";
+import {DataService} from "../../../service/data.service";
+import {Employee} from "../../../model/Employee";
+import {async, Observable} from "rxjs";
 
 @Component({
   selector: 'app-create-employee',
@@ -15,7 +18,9 @@ import {QualificationComponent} from "../../qualification/qualification/qualific
         FormsModule,
         NgForOf,
         ReactiveFormsModule,
-        QualificationComponent
+        QualificationComponent,
+        AsyncPipe,
+        NgIf
     ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'
@@ -23,11 +28,20 @@ import {QualificationComponent} from "../../qualification/qualification/qualific
 export class CreateEmployeeComponent {
     @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
     title: string = "Mitarbeiter Erstellen";
+    // employee!: Employee;
 
-    constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService) {
+    constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
     }
 
     onSaveChanges() {
+        this.dataService.addEmployee(this.employee).subscribe({
+            next: () => {
+                console.log("Mitarbeiter erfolgreich hinzugefügt");
+            },
+            error: (err) => {
+                console.error("Fehler:", err);
+            }
+        });
         this.modal.closeModal();
         this.createEmployeeService.setValue(false);
     }
@@ -41,14 +55,15 @@ export class CreateEmployeeComponent {
         this.addQualificationService.setValue(true)
     }
 
-    employee = {
-        lastname: 'bla',
-        surname: 'hisdf',
-        phonenumber: '123-567-7195',
-        street: '614 Hauser Street',
-        postcode: '23534',
-        city: 'Bla bla ',
-        qualifications: 'Computer Science'
+    employee: Employee = {
+        lastName: "",
+        firstName: "",
+        street: "",
+        postcode: "",
+        city: "",
+        phone: "",
+        skillSet: []
     };
 
+    protected readonly async = async;
 }
