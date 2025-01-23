@@ -32,6 +32,9 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   employees?: Employee[];
   private sub: Subscription = new Subscription();
   currentEmployeeId?: number;
+  @ViewChild('deleteEmployee', {static: true}) deleteQualificationModal!: TemplateRef<any>;
+  protected modalRef!: NgbModalRef;
+  private getEmployeeIdForDelete: number | undefined = undefined;
 
   constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService, private createEmployeeService: CreateEmployeeService) {
   }
@@ -59,13 +62,8 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   }
 
   onDeleteEmployee(id: number | undefined){
-    this.dataService.deleteEmployee(id).subscribe({
-      next: () => {
-        console.log(`Mitarbeiter mit ID ${id} wurde gelöscht.`);
-        this.ngOnInit(); // Optional: Aktualisiere die Tabelle.
-      },
-      error: (err) => console.error('Fehler beim Löschen:', err),
-    });
+    this.getEmployeeIdForDelete = id;
+    this.openDeleteModal()
   }
 
   validatePageInput() {
@@ -74,6 +72,26 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
 
   onAddClick(){
     this.createEmployeeService.setValue(true)
+  }
+
+  openDeleteModal() {
+    this.modalRef = this.modalService.open(this.deleteQualificationModal, {ariaLabelledBy: 'deleteModalLabel'});
+  }
+
+  confirmDelete() {
+    if (this.getEmployeeIdForDelete !== undefined) {
+      console.log(this.getEmployeeIdForDelete + " getEmployeeIdForDelete");
+      this.dataService.deleteEmployee(this.getEmployeeIdForDelete).subscribe({
+        next: () => {
+          console.log(`Mitarbeiter mit ID ${this.getEmployeeIdForDelete} wurde gelöscht.`);
+          this.ngOnInit(); // Optional: Aktualisiere die Tabelle.
+        },
+        error: (err) => console.error('Fehler beim Löschen:', err),
+      });
+      this.getEmployeeIdForDelete = undefined;
+      this.modalRef.close()
+    }
+
   }
 
 

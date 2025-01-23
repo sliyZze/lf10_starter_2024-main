@@ -60,5 +60,13 @@
 </div>
 <!--End Add Employee Button-->
 
+<ng-template #deleteEmployee>
+  <div class="modal-body text-center">
+    <p>Mitarbeiter wirklich löschen?</p>
+    <button type="button" class="btn btn-danger me-3" (click)="confirmDelete()">Löschen</button>
+    <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss()">Abbrechen</button>
+  </div>
+</ng-template>
+
 <app-create-employee></app-create-employee>
 <app-edit-employee [employeeId]="currentEmployeeId"></app-edit-employee>
