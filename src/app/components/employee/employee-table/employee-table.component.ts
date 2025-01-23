@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MainHeaderComponent} from '../../header/main-header/main-header.component';
 import {NgForOf, NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
@@ -25,7 +25,7 @@ import {CreateEmployeeService} from "../../services/CreateEmployeeService";
   templateUrl: './employee-table.component.html',
   styleUrl: './employee-table.component.css'
 })
-export class EmployeeTableComponent {
+export class EmployeeTableComponent implements OnInit, OnDestroy{
   page: string = '';
   isValid: boolean = true;
   employee!: Observable<Employee>;
@@ -46,6 +46,10 @@ export class EmployeeTableComponent {
         console.error('Fehler beim Abrufen der Mitarbeiterdaten:', err);
       },
     });
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   onEditEmployee(employeeId: number | undefined){
@@ -71,4 +75,6 @@ export class EmployeeTableComponent {
   onAddClick(){
     this.createEmployeeService.setValue(true)
   }
+
+
 }
