@@ -32,6 +32,7 @@ export class EmployeeTableComponent {
   employees?: Employee[];
   private sub: Subscription = new Subscription();
   currentEmployeeId?: number;
+
   constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService, private createEmployeeService: CreateEmployeeService) {
   }
 

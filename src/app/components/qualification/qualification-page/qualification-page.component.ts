@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {NavigationService} from "../../services/NavigationService";
 import {MainHeaderComponent} from "../../header/main-header/main-header.component";
+import {QualificationTargetService} from "../../services/QualificationTargetService";
 
 @Component({
   selector: 'app-qualification-page',
@@ -16,7 +17,7 @@ import {MainHeaderComponent} from "../../header/main-header/main-header.componen
 export class QualificationPageComponent {
   qualifications: string[] = ['Qualifikation 1', 'Qualifikation 2'];
 
-  constructor(private navigationService: NavigationService) {
+  constructor(private navigationService: NavigationService, private targetService: QualificationTargetService) {
   }
 
   addQualification() {
@@ -41,5 +42,6 @@ export class QualificationPageComponent {
 
   onBackClick(){
     this.navigationService.redirectToEmployeeTable()
+    this.targetService.setValue("Mitarbeitertabelle")
   }
 }

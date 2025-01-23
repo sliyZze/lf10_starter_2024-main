@@ -26,7 +26,7 @@ import {AddQualificationService} from "../../services/AddQualificationService";
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
-export class EditEmployeeComponent  implements OnChanges{
+export class EditEmployeeComponent  implements OnChanges, OnDestroy{
 
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Mitarbeiter bearbeiten";
