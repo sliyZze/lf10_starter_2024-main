@@ -7,16 +7,18 @@ import {QualificationComponent} from "../../qualification/qualificationModal/qua
 import {DataService} from "../../../service/data.service";
 import {async} from "rxjs";
 import {AddEmployee} from "../../../model/AddEmployee";
+import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
 
 @Component({
   selector: 'app-create-employee',
   standalone: true,
-    imports: [
-        EmployeeDataModalComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        QualificationComponent,
-    ],
+  imports: [
+    EmployeeDataModalComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    QualificationComponent,
+    CreateQualificationComponent,
+  ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'
 })
@@ -48,9 +50,10 @@ export class CreateEmployeeComponent {
         // this.employee = new AddEmployee();
     }
 
-    onAddQualificatoinClick (){
-        this.addQualificationService.setValue(true)
-        this.addQualificationService.setEmployee(this.employee)
+    onCreateQualificationClick (){
+      this.addQualificationService.setValue(true)
+      this.addQualificationService.setEmployee(this.employee)
+
     }
 
     employee: AddEmployee = {

@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AsyncPipe, NgForOf} from "@angular/common";
@@ -6,6 +6,7 @@ import {AddQualificationService} from "../../services/AddQualificationService";
 import {DataService} from "../../../service/data.service";
 import {async, Observable, Subscription} from "rxjs";
 import {Skill} from "../../../model/Skill";
+import {CreateQualificationService} from "../../services/CreateQualificationService";
 
 @Component({
   selector: 'app-qualification-modal',
@@ -20,12 +21,17 @@ import {Skill} from "../../../model/Skill";
   templateUrl: './qualificationModal.component.html',
   styleUrl: './qualificationModal.component.css'
 })
-export class QualificationComponent {
+export class QualificationComponent implements OnInit{
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Qualifikationen";
-  constructor(protected addQualificationService: AddQualificationService, private dataService: DataService) {}
   qualifications?: Observable<Skill[]>;
+  @Input() createdQualification: string = ""
 
+  constructor(protected addQualificationService: AddQualificationService, private dataService: DataService, private createQualificationService: CreateQualificationService) {}
+
+  ngOnInit() {
+    this.loadQualifications()
+  }
 
   // Wird durch Button-Click aufgerufen
   loadQualifications(): void {
@@ -54,6 +60,8 @@ export class QualificationComponent {
     }
   }
 
+  createQualification (){
+    this.createQualificationService.setValue(true)
+  }
 
-  protected readonly async = async;
 }

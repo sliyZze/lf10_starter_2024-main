@@ -77,7 +77,7 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
     this.editEmployeeService.setValue(false);
   }
 
-  onAddQualificatoinClick (){
+  onAddQualificationClick (){
     this.addQualificationService.setValue(true)
   }
 

@@ -1,0 +1,22 @@
+<app-employee-data-modal [title]=title [service]="createQualificationService">
+  <form>
+    <div class="row g-3">
+      <div class="col-md-12">
+        <label for="qualification" class="form-label">Qualifikation</label>
+        <input
+          id="qualification"
+          class="form-control"
+          name="qualification"
+          [(ngModel)]="qualification"
+          required
+        />
+      </div>
+    </div>
+  </form>
+
+  <div class="modal-footer w-100">
+    <button type="button" class="btn btn-success" (click)="onSaveChanges()">Speichern</button>
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Abbrechen</button>
+  </div>
+</app-employee-data-modal>
+<app-qualification-modal [createdQualification]="qualification"></app-qualification-modal>

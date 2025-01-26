@@ -10,6 +10,7 @@ import {Employee} from "../../../model/Employee";
 import {DataService} from "../../../service/data.service";
 import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
+import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
 
 @Component({
   selector: 'app-employee-table',
@@ -43,7 +44,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.sub = this.dataService.getEmployees().subscribe({
       next: (data: Employee[]) => {
         this.employees = data;
-        console.log(this.employee)
+        console.log(data)
       },
       error: (err) => {
         console.error('Fehler beim Abrufen der Mitarbeiterdaten:', err);

@@ -1,4 +1,4 @@
-import {Component, Input, TemplateRef, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import {Subscription} from "rxjs";
@@ -10,9 +10,9 @@ import {Subscription} from "rxjs";
   standalone: true,
   styleUrl: './employee-data-modal.component.css'
 })
-export class EmployeeDataModalComponent {
+export class EmployeeDataModalComponent implements OnInit, OnDestroy{
   private modalRef?: NgbModalRef;
-    private subscription!: Subscription;
+  private subscription!: Subscription;
   @ViewChild('EmployeeDataModal') EmployeeDataModal!: TemplateRef<any>;
   @Input() title: string = "";
   @Input() service: any;

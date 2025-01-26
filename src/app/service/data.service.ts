@@ -4,6 +4,7 @@ import {catchError, Observable, throwError} from 'rxjs';
 import {Employee} from "../model/Employee";
 import {Skill} from "../model/Skill";
 import {AddEmployee} from "../model/AddEmployee";
+import {AddQualification} from "../model/AddQualification";
 
 @Injectable({
   providedIn: 'root'
@@ -83,6 +84,15 @@ export class DataService {
         return throwError(() => error);
       })
     );
+  }
+
+  addQualification(addQualification: AddQualification): Observable<void> {
+      return this.http.post<void>(this.qualificationsServiceURL, addQualification, this.HttpHeader).pipe(
+          catchError((error) => {
+              console.error('Fehler beim Hinzufügen der Qualification:', error);
+              return throwError(() => error);
+          })
+      );
   }
 
 }

@@ -1,9 +1,6 @@
 <app-employee-data-modal [title]="title" [service]="addQualificationService">
 
-  <!-- Button, um die Daten zu laden -->
-  <button class="btn btn-primary" (click)="loadQualifications()">Daten laden</button>
-
-  <form>
+  <form style="height: 120px; overflow-y: scroll">
     <div class="form-check" *ngFor="let qualification of qualifications | async">
       <input
         class="form-check-input"
@@ -19,7 +16,7 @@
 
   <div class="modal-footer w-100">
     <div>
-      <button type="button" class="btn btn-primary" style="text-align: start" >Qualifikation bearbeiten</button>
+      <button type="button" class="btn btn-primary" style="text-align: start" (click)="createQualification()" >Qualifikation erstellen</button>
     </div>
     <button type="button" class="btn btn-success" (click)="onSaveChanges()">Speichern</button>
     <button type="button" class="btn btn-secondary" (click)="closeModal()">Abbrechen</button>
