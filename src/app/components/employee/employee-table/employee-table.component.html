@@ -33,18 +33,23 @@
     <div class="row">
       <div *ngFor="let employee of employees" class="col-md-4 mb-4">
         <div class="card p-3" style="background-color: #f8f3ff; border-radius: 20px; overflow: hidden; height: 320px">
-          <h5 class="card-title">{{employee.firstName}} {{employee.lastName}}</h5>
-          <p class="card-text">{{employee.street}}, {{employee.postcode}} {{employee.city}}</p>
-          <p class="card-text">{{employee.phone}}</p>
-          <p class="card-text">
+          <h5 class="card-title lh-1">{{employee.firstName}} {{employee.lastName}}</h5>
+          <p class="card-text lh-1">{{employee.street}}</p>
+          <p class="card-text lh-1">{{employee.postcode}}, {{employee.city}}</p>
+          <p class="card-text lh-1">{{employee.phone}}</p>
+          <p class="card-text lh-1">
           <p class="card-text" style="height: 100px; overflowY: scroll;">
             <span *ngFor="let qualification of employee.skillSet; let isLast=last">
               {{qualification.skill}}{{isLast ? '' : ', '}}
             </span>
           </p>
           <div class="d-flex justify-content-end">
-            <button class="btn btn-primary me-2" (click)="onEditEmployee(employee.id)">Edit</button>
-            <button class="btn btn-danger " (click)="onDeleteEmployee(employee.id)">Delete</button>
+            <button class="btn btn-primary me-2" (click)="onEditEmployee(employee.id)">
+              <i class="bi bi-pen-fill"></i>
+            </button>
+            <button class="btn btn-danger" (click)="onDeleteEmployee(employee.id)">
+              <i class="bi bi-trash-fill"></i>
+            </button>
           </div>
         </div>
       </div>

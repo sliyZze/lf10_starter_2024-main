@@ -2,7 +2,6 @@ import {Component, ViewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {CreateQualificationService} from "../../services/CreateQualificationService";
-import {AsyncPipe} from "@angular/common";
 import {async} from "rxjs";
 import {QualificationComponent} from "../qualificationModal/qualificationModal.component";
 import {DataService} from "../../../service/data.service";
@@ -13,7 +12,6 @@ import {AddQualification} from "../../../model/AddQualification";
   imports: [
     FormsModule,
     EmployeeDataModalComponent,
-    AsyncPipe,
     QualificationComponent
   ],
   templateUrl: './create-qualification.component.html',

@@ -16,13 +16,4 @@ export class EditEmployeeService {
     getValue() {
         return this.modalState.asObservable();
     }
-
-    setEmployeeId(employeeId: number | undefined) {
-      if (employeeId === undefined) return;
-      this.employeeId = employeeId;
-    }
-
-    getEmployeeId() {
-      return this.employeeId;
-    }
 }
