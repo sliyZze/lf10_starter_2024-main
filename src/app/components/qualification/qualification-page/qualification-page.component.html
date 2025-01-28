@@ -1,6 +1,7 @@
 <app-main-header></app-main-header>
 
-<div class="w-100 d-flex justify-content-center mt-4">
+
+<div class="w-100 d-flex justify-content-center mt-5">
   <div style="max-width: 400px; background-color: #f8f3ff; border-radius: 20px;" class="d-flex justify-content-center">
     <input
       type="text"
@@ -14,8 +15,18 @@
   </div>
 </div>
 
+<div class="qualification-pagination mt-5">
+    <mat-paginator
+            [length]="totalItems"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5, 10, 20]"
+            (page)="onPageChange($event)"
+            showFirstLastButtons="true"
+    ></mat-paginator>
+</div>
+
 <div class="container mt-4">
-  <div *ngFor="let qualification of qualifications$ | async; " class="d-flex justify-content-between align-items-center border p-2 mb-2">
+  <div *ngFor="let qualification of pagedQualifications; " class="d-flex justify-content-between align-items-center border p-2 mb-2">
     <span>{{ qualification.skill }}</span>
     <div>
       <button (click)="editQualification(qualification.id)" class="btn btn-outline-secondary btn-sm mx-2">
@@ -34,6 +45,39 @@
     <button (click)="addQualification()" class="btn btn-success btn-sm">
       <i class="fas fa-plus"></i> Neue Hinzufügen
     </button>
-
   </div>
 </div>
+
+<ng-template #deleteQualificationModal>
+    <div class="modal-body text-center">
+        <p>Qualifikation wirklich löschen?</p>
+        <button type="button" class="btn btn-danger me-3" (click)="confirmDelete()">Löschen</button>
+        <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss()">Abbrechen</button>
+    </div>
+</ng-template>
+
+<app-employee-data-modal [title]=title [service]="editQualificationService">
+    <form>
+        <div class="row g-3">
+            <div class="col-md-12">
+                <label for="qualification" class="form-label">Qualifikation</label>
+                <input
+                        id="qualification"
+                        class="form-control"
+                        name="qualification"
+                        [(ngModel)]="qualification"
+                        required
+                />
+            </div>
+        </div>
+    </form>
+
+    <div class="modal-footer w-100">
+        <button type="button" class="btn btn-success" (click)="onSaveChanges()">Speichern</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Abbrechen</button>
+    </div>
+</app-employee-data-modal>
+
+
+
+

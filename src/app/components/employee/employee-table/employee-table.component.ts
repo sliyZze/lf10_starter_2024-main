@@ -33,7 +33,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   employees?: Employee[];
   private sub: Subscription = new Subscription();
   currentEmployeeId?: number;
-  @ViewChild('deleteEmployee', {static: true}) deleteQualificationModal!: TemplateRef<any>;
+  @ViewChild('deleteEmployee', {static: true}) deleteEmployeeModal!: TemplateRef<any>;
   protected modalRef!: NgbModalRef;
   private getEmployeeIdForDelete: number | undefined = undefined;
 
@@ -76,7 +76,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   }
 
   openDeleteModal() {
-    this.modalRef = this.modalService.open(this.deleteQualificationModal, {ariaLabelledBy: 'deleteModalLabel'});
+    this.modalRef = this.modalService.open(this.deleteEmployeeModal, {ariaLabelledBy: 'deleteModalLabel'});
   }
 
   confirmDelete() {
@@ -92,7 +92,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
       this.getEmployeeIdForDelete = undefined;
       this.modalRef.close()
     }
-
   }
 
 

@@ -2,7 +2,6 @@ import {Component, ViewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {CreateQualificationService} from "../../services/CreateQualificationService";
-import {async} from "rxjs";
 import {QualificationComponent} from "../qualificationModal/qualificationModal.component";
 import {DataService} from "../../../service/data.service";
 import {AddQualification} from "../../../model/AddQualification";
@@ -19,7 +18,6 @@ import {AddQualification} from "../../../model/AddQualification";
   styleUrl: './create-qualification.component.css'
 })
 export class CreateQualificationComponent {
-  protected qualifications: string[] = []
   protected title: string = "Qualification erstellen";
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   @ViewChild(QualificationComponent) qualificationComponent!: QualificationComponent;
@@ -36,10 +34,11 @@ export class CreateQualificationComponent {
         next: () => {
           this.qualificationComponent.loadQualifications();
           this.createQualificationService.setValue(false)
+          this.qualification = "";
           this.modal.closeModal();
         },
         error: (err) => {
-          console.error('Fehler beim Hinzufügen:', err);
+          console.error('Fehler beim Aktualisieren:', err);
         },
       });
     } else {
@@ -52,5 +51,4 @@ export class CreateQualificationComponent {
     this.modal.closeModal();
   }
 
-  protected readonly async = async;
 }
