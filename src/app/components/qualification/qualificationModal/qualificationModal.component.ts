@@ -26,6 +26,7 @@ export class QualificationComponent implements OnInit{
   title: string = "Qualifikationen";
   qualifications?: Observable<Skill[]>;
   @Input() createdQualification: string = ""
+  private qualificationIdsList: number[] | null = null;
 
   constructor(protected addQualificationService: AddQualificationService, private dataService: DataService, private createQualificationService: CreateQualificationService) {}
 
@@ -36,13 +37,12 @@ export class QualificationComponent implements OnInit{
   // Wird durch Button-Click aufgerufen
   loadQualifications(): void {
       this.qualifications = this.dataService.getQualifications();
-      this.qualifications.subscribe((quali: Skill[]) => {console.log(quali)});
-
   }
 
   onSaveChanges() {
     this.modal.closeModal();
     this.addQualificationService.setValue(false);
+    console.log(this.qualificationIdsList);
   }
 
   closeModal() {
@@ -51,10 +51,9 @@ export class QualificationComponent implements OnInit{
   }
 
   getQualification(id: number | undefined) {
-    console.log(id);
     if (id !== undefined) {
-      // @ts-ignore
-      this.addQualificationService.getEmployee().skillSet.push(id);
+      this.qualificationIdsList?.push(id)
+      console.log(id)
     } else {
       console.error("Ungültige ID: ID ist undefined.");
     }

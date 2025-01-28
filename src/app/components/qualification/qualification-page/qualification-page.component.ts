@@ -1,47 +1,69 @@
-import { Component } from '@angular/core';
-import {NgForOf} from "@angular/common";
-import {NavigationService} from "../../services/NavigationService";
-import {MainHeaderComponent} from "../../header/main-header/main-header.component";
-import {QualificationTargetService} from "../../services/QualificationTargetService";
+import { Component, OnInit } from '@angular/core';
+import { AsyncPipe, NgForOf } from "@angular/common";
+import { NavigationService } from "../../services/NavigationService";
+import { MainHeaderComponent } from "../../header/main-header/main-header.component";
+import { QualificationTargetService } from "../../services/QualificationTargetService";
+import { DataService } from "../../../service/data.service";
+import { Skill } from "../../../model/Skill";
+import { BehaviorSubject, switchMap } from "rxjs";
 
 @Component({
   selector: 'app-qualification-page',
-  imports: [
-    NgForOf,
-    MainHeaderComponent
-  ],
+  imports: [NgForOf, MainHeaderComponent, AsyncPipe],
   templateUrl: './qualification-page.component.html',
   standalone: true,
   styleUrl: './qualification-page.component.css'
 })
-export class QualificationPageComponent {
-  qualifications: string[] = ['Qualifikation 1', 'Qualifikation 2'];
+export class QualificationPageComponent implements OnInit {
+  private qualificationsSubject = new BehaviorSubject<Skill[]>([]);
+  qualifications$ = this.qualificationsSubject.asObservable();
 
-  constructor(private navigationService: NavigationService, private targetService: QualificationTargetService) {
+  constructor(
+      private navigationService: NavigationService,
+      private targetService: QualificationTargetService,
+      private dataService: DataService
+  ) {}
+
+  ngOnInit() {
+    this.loadQualifications();
+  }
+
+  private loadQualifications() {
+    this.dataService.getQualifications().subscribe({
+      next: (qualifications) => this.qualificationsSubject.next(qualifications),
+      error: (err) => console.error('Fehler beim Laden der Qualifikationen:', err)
+    });
+  }
+
+  deleteQualification(id: number | undefined) {
+    if (!id) {
+      console.log("Ungültige ID: ID ist undefined.");
+      return;
+    }
+
+    this.dataService.deleteQualification(id).pipe(
+        switchMap(() => this.dataService.getQualifications())
+    ).subscribe({
+      next: (updatedQualifications) => {
+        this.qualificationsSubject.next(updatedQualifications);
+        console.log(`Qualifikation mit ID ${id} erfolgreich gelöscht.`);
+      },
+      error: (err) => {
+        console.error(`Fehler beim Löschen der Qualifikation mit ID ${id}:`, err);
+      }
+    });
+  }
+
+  onBackClick() {
+    this.navigationService.redirectToEmployeeTable();
+    this.targetService.setValue("Mitarbeitertabelle");
+  }
+
+  editQualification(id: number | undefined) {
+
   }
 
   addQualification() {
-    const newQualification = prompt('Neue Qualifikation eingeben:');
-    if (newQualification) {
-      this.qualifications.push(newQualification);
-    }
-  }
 
-  editQualification(index: number) {
-    const editedQualification = prompt('Qualifikation bearbeiten:', this.qualifications[index]);
-    if (editedQualification) {
-      this.qualifications[index] = editedQualification;
-    }
-  }
-
-  deleteQualification(index: number) {
-    if (confirm('Möchten Sie diese Qualifikation wirklich löschen?')) {
-      this.qualifications.splice(index, 1);
-    }
-  }
-
-  onBackClick(){
-    this.navigationService.redirectToEmployeeTable()
-    this.targetService.setValue("Mitarbeitertabelle")
   }
 }

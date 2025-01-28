@@ -95,4 +95,17 @@ export class DataService {
       );
   }
 
+    deleteQualification(id: number | undefined): Observable<void> {
+        if (!id) {
+            return throwError(() => new Error('Ungültige ID.'));
+        }
+
+        return this.http.delete<void>(`${this.qualificationsServiceURL}/${id}`, this.HttpHeader).pipe(
+            catchError((error) => {
+                console.error('Fehler beim Hinzufügen der Qualification:', error);
+                return throwError(() => error);
+            })
+        );
+    }
+
 }
