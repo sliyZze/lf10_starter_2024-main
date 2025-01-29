@@ -102,7 +102,7 @@ export class DataService {
 
         return this.http.delete<void>(`${this.qualificationsServiceURL}/${id}`, this.HttpHeader).pipe(
             catchError((error) => {
-                console.error('Fehler beim Hinzufügen der Qualification:', error);
+                console.error('Fehler beim Löschen der Qualification:', error);
                 return throwError(() => error);
             })
         );

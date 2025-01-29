@@ -1,11 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { AsyncPipe, NgForOf } from "@angular/common";
+import { NgForOf } from "@angular/common";
 import { NavigationService } from "../../services/NavigationService";
 import { MainHeaderComponent } from "../../header/main-header/main-header.component";
 import { QualificationTargetService } from "../../services/QualificationTargetService";
 import { DataService } from "../../../service/data.service";
 import { Skill } from "../../../model/Skill";
-import { BehaviorSubject } from "rxjs";
+import {BehaviorSubject, switchMap} from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -18,7 +18,6 @@ import {CreatQualificationInQualiPageService} from "../../services/CreatQualific
   imports: [
     NgForOf,
     MainHeaderComponent,
-    AsyncPipe,
     EmployeeDataModalComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -86,14 +85,15 @@ export class QualificationPageComponent implements OnInit {
     }
     let id: number = this.getQualificationIdForDelete;
 
-    this.dataService.deleteQualification(id).subscribe({
-      next: () => {
-        this.loadQualifications();
-        this.modalRef.close();
+    this.dataService.deleteQualification(id).pipe(
+        switchMap(() => this.dataService.getQualifications())
+    ).subscribe({
+      next: (updatedQualification) => {
+        this.qualificationsSubject.next(updatedQualification);
+        this.totalItems = updatedQualification.length;
+        this.updatePagedQualifications();
       },
-      error: (err) => {
-        console.error(`Fehler beim Löschen der Qualifikation mit ID ${id}:`, err);
-      }
+      error: (err) => console.error(`Fehler beim Löschen der Qualifikation mit ID ${id}:`, err)
     });
   }
 
