@@ -18,6 +18,7 @@ import {DataService} from "../../../service/data.service";
 import {Observable, Subscription} from "rxjs";
 import {Employee} from "../../../model/Employee";
 import {AddQualificationService} from "../../services/AddQualificationService";
+import {AddEmployee} from "../../../model/AddEmployee";
 
 @Component({
   selector: 'app-edit-employee',
@@ -35,6 +36,7 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
   protected modalRef!: NgbModalRef;
   employee$!: Observable<Employee>;
   @Input() employeeId?: number;
+  employee: Employee | null = null; // Lokale Kopie
 
   private subscriptions: Subscription = new Subscription();
   private qid: number | undefined;
@@ -53,20 +55,52 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
     if (this.employeeId !== undefined) {
       this.employee$ = this.dataService.getEmployee(this.employeeId);
       this.employee$.subscribe((employee: Employee) => {
-        console.log(employee.skillSet);
+        this.employee = { ...employee };
       });
     }
   }
 
   onSaveChanges() {
     this.employee$.subscribe((employee: Employee) => {
-      this.dataService.updateEmployee(employee).subscribe(response => {
+
+      // @ts-ignore
+      this.employeeAdd.id = this.employee.id
+      // @ts-ignore
+      this.employeeAdd.firstName = this.employee.firstName;
+      // @ts-ignore
+      this.employeeAdd.lastName = this.employee.lastName;
+      // @ts-ignore
+      this.employeeAdd.city = this.employee.city;
+      // @ts-ignore
+      this.employeeAdd.phone = this.employee.phone;
+      // @ts-ignore
+      this.employeeAdd.postcode = this.employee.postcode;
+      // @ts-ignore
+      this.employeeAdd.street = this.employee.street;
+      // @ts-ignore
+      this.employeeAdd.skillSet = this.employee.skillSet.map(skill =>
+        typeof skill === "object" && skill.id !== undefined ? skill.id : skill
+      ).filter(id => typeof id === "number");
+
+      console.log(this.employee);
+
+      this.dataService.updateEmployee(this.employeeAdd).subscribe(response => {
         console.log('Update erfolgreich:', response);
       });
     });
     this.modal.closeModal();
     this.editEmployeeService.setValue(false);
   }
+
+  employeeAdd: AddEmployee = {
+    lastName: "",
+    firstName: "",
+    street: "",
+    postcode: "",
+    city: "",
+    phone: "",
+    skillSet: []
+  };
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
@@ -79,6 +113,7 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
 
   onAddQualificationClick (){
     this.addQualificationService.setValue(true)
+    this.addQualificationService.setEmployee(this.employeeAdd)
   }
 
   setQualificationToRemove(qid: number | undefined, eid: number | undefined) {
@@ -99,4 +134,5 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
       error: (err) => console.error('Fehler beim Löschen:', err),
     });
   }
+
 }
