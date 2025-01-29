@@ -11,6 +11,7 @@ import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/empl
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EditQualificationService } from "../../services/EditQualificationService";
 import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/paginator";
+import {CreatQualificationInQualiPageService} from "../../services/CreatQualificationInQualiPageService";
 
 @Component({
   selector: 'app-qualification-page',
@@ -29,16 +30,13 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/p
 })
 export class QualificationPageComponent implements OnInit {
   private qualificationsSubject = new BehaviorSubject<Skill[]>([]);
-  qualifications$ = this.qualificationsSubject.asObservable();
-
   @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
-
   protected modalRef!: NgbModalRef;
   private getQualificationIdForDelete: number | undefined = undefined;
-
   title: string = "Qualifikation bearbeiten";
+  createQualiTitle: string = "Qualifikation erstellen";
   protected qualification: string = "";
 
   pagedQualifications: Skill[] = [];
@@ -51,7 +49,8 @@ export class QualificationPageComponent implements OnInit {
       private targetService: QualificationTargetService,
       private dataService: DataService,
       private modalService: NgbModal,
-      protected editQualificationService: EditQualificationService
+      protected editQualificationService: EditQualificationService,
+      protected creatQualificationInQualiPageService: CreatQualificationInQualiPageService
   ) {}
 
   ngOnInit() {
@@ -124,7 +123,6 @@ export class QualificationPageComponent implements OnInit {
 
   closeModal() {
     this.editQualificationService.setValue(false);
-    this.modal.closeModal();
   }
 
   onSaveChanges() {
@@ -132,6 +130,14 @@ export class QualificationPageComponent implements OnInit {
   }
 
   addQualification() {
-    // Add new qualification logic
+    this.creatQualificationInQualiPageService.setValue(true)
+  }
+
+  onSaveCreateQualChanges() {
+    this.creatQualificationInQualiPageService.setValue(false)
+  }
+
+  closeCreateQualModal() {
+    this.creatQualificationInQualiPageService.setValue(false)
   }
 }

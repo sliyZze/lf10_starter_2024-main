@@ -19,7 +19,7 @@
     <mat-paginator
             [length]="totalItems"
             [pageSize]="pageSize"
-            [pageSizeOptions]="[5, 10, 20]"
+            [pageSizeOptions]="[5, 10, 15,20]"
             (page)="onPageChange($event)"
             showFirstLastButtons="true"
     ></mat-paginator>
@@ -40,10 +40,6 @@
   <div class="d-flex justify-content-end">
     <button (click)="onBackClick()" class="btn btn-secondary btn-sm mx-2">
       <i class="fas fa-plus"></i> zurück
-    </button>
-
-    <button (click)="addQualification()" class="btn btn-success btn-sm">
-      <i class="fas fa-plus"></i> Neue Hinzufügen
     </button>
   </div>
 </div>
@@ -78,6 +74,33 @@
     </div>
 </app-employee-data-modal>
 
+<!--Start Add Employee Button-->
+<div class="add-employee-button">
+    <button class="add-button shadow" (click)="addQualification()">
+        <i class="bi bi-plus-circle"></i>
+    </button>
+</div>
+<!--End Add Employee Button-->
 
+<app-employee-data-modal [title]=createQualiTitle [service]="creatQualificationInQualiPageService">
+    <form>
+        <div class="row g-3">
+            <div class="col-md-12">
+                <label for="qualification" class="form-label">Qualifikation</label>
+                <input
+                        id="createQualification"
+                        class="form-control"
+                        name="createQualification"
+                        [(ngModel)]="qualification"
+                        required
+                />
+            </div>
+        </div>
+    </form>
 
+    <div class="modal-footer w-100">
+        <button type="button" class="btn btn-success" (click)="onSaveCreateQualChanges()">Speichern</button>
+        <button type="button" class="btn btn-secondary" (click)="closeCreateQualModal()">Abbrechen</button>
+    </div>
+</app-employee-data-modal>
 

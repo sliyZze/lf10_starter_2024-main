@@ -90,7 +90,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
         error: (err) => console.error('Fehler beim Löschen:', err),
       });
       this.getEmployeeIdForDelete = undefined;
-      this.modalRef.close()
     }
   }
 

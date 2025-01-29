@@ -5,7 +5,6 @@ import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 import {AddQualificationService} from "../../services/AddQualificationService";
 import {QualificationComponent} from "../../qualification/qualificationModal/qualificationModal.component";
 import {DataService} from "../../../service/data.service";
-import {async} from "rxjs";
 import {AddEmployee} from "../../../model/AddEmployee";
 import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
 
@@ -23,9 +22,7 @@ import {CreateQualificationComponent} from "../../qualification/craete-qualifica
   styleUrl: './create-employee.component.css'
 })
 export class CreateEmployeeComponent {
-    @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
     title: string = "Mitarbeiter Erstellen";
-    // employee!: Employee;
 
     constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
     }
@@ -39,15 +36,11 @@ export class CreateEmployeeComponent {
                 console.error("Fehler:", err);
             }
         });
-        this.modal.closeModal();
         this.createEmployeeService.setValue(false);
-        // this.employee = new AddEmployee();
     }
 
     closeModal() {
-        this.modal.closeModal();
         this.createEmployeeService.setValue(false);
-        // this.employee = new AddEmployee();
     }
 
     onCreateQualificationClick (){
@@ -66,5 +59,4 @@ export class CreateEmployeeComponent {
         skillSet: []
     };
 
-    protected readonly async = async;
 }

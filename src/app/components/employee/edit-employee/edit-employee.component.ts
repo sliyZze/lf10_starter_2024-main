@@ -64,7 +64,6 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
         console.log('Update erfolgreich:', response);
       });
     });
-    this.modal.closeModal();
     this.editEmployeeService.setValue(false);
   }
 
@@ -73,7 +72,6 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
   }
 
   closeModal() {
-    this.modal.closeModal();
     this.editEmployeeService.setValue(false);
   }
 
@@ -93,9 +91,6 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
 
   confirmDelete() {
     this.dataService.deleteQualificationFromEmployee(this.eid, this.qid).subscribe({
-      next: () => {
-        this.modalRef.close();
-      },
       error: (err) => console.error('Fehler beim Löschen:', err),
     });
   }

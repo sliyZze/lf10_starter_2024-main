@@ -52,8 +52,9 @@ export class QualificationComponent implements OnInit{
 
   getQualification(id: number | undefined) {
     if (id !== undefined) {
-      this.qualificationIdsList?.push(id)
-      console.log(id)
+      // @ts-ignore
+      this.addQualificationService.getEmployee().skillSet.push(id);
+      console.log(this.addQualificationService.getEmployee().skillSet);
     } else {
       console.error("Ungültige ID: ID ist undefined.");
     }
