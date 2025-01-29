@@ -42,6 +42,7 @@ export class QualificationPageComponent implements OnInit {
   protected qualification: string = "";
 
   pagedQualifications: Skill[] = [];
+  filteredQualifications: Skill[] = [];
   totalItems: number = 0;
   pageSize: number = 5;
   currentPage: number = 0;
@@ -57,6 +58,20 @@ export class QualificationPageComponent implements OnInit {
   ngOnInit() {
     this.loadQualifications();
   }
+
+  onSearchQualification(searchtext: string) {
+    if (!this.qualificationsSubject.value) return;
+
+    const lowerCaseSearchText = searchtext.toLowerCase().trim();
+
+    this.filteredQualifications = this.qualificationsSubject.value.filter(qual =>
+      qual.skill?.toLowerCase().includes(lowerCaseSearchText)
+    );
+
+    this.totalItems = this.filteredQualifications.length;
+    this.updatePagedQualifications();
+  }
+
 
   private loadQualifications() {
     this.dataService.getQualifications().subscribe({

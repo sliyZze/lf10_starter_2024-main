@@ -9,6 +9,7 @@
       class="form-control custom-input border-0"
       placeholder="Suchwert eingeben"
       style="background-color: #f8f3ff; border-radius: 20px 20px;"
+      (keyup.enter)="onSerchEmployee(inputRef.value)"
     />
     <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;" (click)="onSerchEmployee(inputRef.value)">
       <i class="bi bi-search"></i>
