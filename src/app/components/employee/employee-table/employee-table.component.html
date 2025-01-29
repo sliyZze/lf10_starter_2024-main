@@ -4,12 +4,13 @@
 <div class="w-100 d-flex justify-content-center mt-4">
   <div style="max-width: 400px; background-color: #f8f3ff; border-radius: 20px;" class="d-flex justify-content-center">
     <input
+      #inputRef
       type="text"
       class="form-control custom-input border-0"
-      placeholder="Hinted search text"
+      placeholder="Suchwert eingeben"
       style="background-color: #f8f3ff; border-radius: 20px 20px;"
     />
-    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;">
+    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;" (click)="onSerchEmployee(inputRef.value)">
       <i class="bi bi-search"></i>
     </button>
   </div>
@@ -20,7 +21,7 @@
   <div style="margin-top: 50px">
     <!-- Start Employee Cards -->
     <div class="row">
-      <div *ngFor="let employee of employees" class="col-md-4 mb-4">
+      <div *ngFor="let employee of filteredEmployees || employees" class="col-md-4 mb-4">
         <div class="card p-3" style="background-color: #f8f3ff; border-radius: 20px; overflow: hidden; height: 320px">
           <h5 class="card-title lh-1">{{employee.firstName}} {{employee.lastName}}</h5>
           <p class="card-text lh-1">{{employee.street}}</p>

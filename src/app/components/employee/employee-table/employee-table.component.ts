@@ -31,6 +31,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   isValid: boolean = true;
   employee!: Observable<Employee>;
   employees?: Employee[];
+  filteredEmployees?: Employee[];
   private sub: Subscription = new Subscription();
   currentEmployeeId?: number;
   @ViewChild('deleteEmployee', {static: true}) deleteEmployeeModal!: TemplateRef<any>;
@@ -54,6 +55,21 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  onSerchEmployee(searchtext: string) {
+    if (!this.employees) return;
+
+    const lowerCaseSearchText = searchtext.toLowerCase().trim();
+
+    this.filteredEmployees = this.employees.filter(emp =>
+        emp.firstName?.toLowerCase().includes(lowerCaseSearchText) ||
+        emp.lastName?.toLowerCase().includes(lowerCaseSearchText) ||
+        emp.city?.toLowerCase().includes(lowerCaseSearchText) ||
+        emp.street?.toLowerCase().includes(lowerCaseSearchText) ||
+        emp.postcode?.toString().includes(lowerCaseSearchText) ||
+        emp.skillSet?.some(skill => skill.skill?.toLowerCase().includes(lowerCaseSearchText)) // Später aktivieren
+    );
   }
 
   onEditEmployee(employeeId: number | undefined){
