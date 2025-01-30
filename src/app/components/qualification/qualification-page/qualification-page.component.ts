@@ -63,13 +63,24 @@ export class QualificationPageComponent implements OnInit {
 
     const lowerCaseSearchText = searchtext.toLowerCase().trim();
 
-    this.filteredQualifications = this.qualificationsSubject.value.filter(qual =>
-      qual.skill?.toLowerCase().includes(lowerCaseSearchText)
-    );
+    this.filteredQualifications = this.qualificationsSubject.value
+      .filter(qual => qual.skill?.toLowerCase().includes(lowerCaseSearchText))
+      .sort((a, b) => {
+        const aLower = a.skill?.toLowerCase() || "";
+        const bLower = b.skill?.toLowerCase() || "";
+
+        const aStarts = aLower.startsWith(lowerCaseSearchText);
+        const bStarts = bLower.startsWith(lowerCaseSearchText);
+
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+        return aLower.localeCompare(bLower);
+      });
 
     this.totalItems = this.filteredQualifications.length;
     this.updatePagedQualifications();
   }
+
 
 
   private loadQualifications() {
