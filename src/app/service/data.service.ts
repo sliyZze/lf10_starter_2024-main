@@ -58,7 +58,7 @@ export class DataService {
     );
   }
 
-  updateEmployee(employee: Employee): Observable<void> {
+  updateEmployee(employee: AddEmployee): Observable<void> {
     return this.http.patch<void>(`${this.EmployeeServiceURL}/${employee.id}`, employee, this.HttpHeader).pipe(
       catchError((error) => {
         console.log("Fehler beim Aktualisieren des Mitarbeiters")

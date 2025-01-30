@@ -3,8 +3,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
-  Output,
   SimpleChanges,
   TemplateRef,
   ViewChild
@@ -13,38 +11,54 @@ import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
 import { EditEmployeeService } from '../../services/EmployeeEditService';
-import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
-import {DataService} from "../../../service/data.service";
-import {Observable, Subscription} from "rxjs";
-import {Employee} from "../../../model/Employee";
-import {AddQualificationService} from "../../services/AddQualificationService";
+import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
+import { DataService } from "../../../service/data.service";
+import { Observable, Subscription } from "rxjs";
+import { Employee } from "../../../model/Employee";
+import { AddQualificationService } from "../../services/AddQualificationService";
+import { AddEmployee } from "../../../model/AddEmployee";
 
 @Component({
   selector: 'app-edit-employee',
   standalone: true,
-  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf, AsyncPipe],
+  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf],
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
-export class EditEmployeeComponent  implements OnChanges, OnDestroy{
-
+export class EditEmployeeComponent implements OnChanges, OnDestroy {
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
-  title: string = "Mitarbeiter bearbeiten";
-  qualificationToRemove: number | null = null;
-  @ViewChild('deleteQualificationModal', {static: true}) deleteQualificationModal!: TemplateRef<any>;
-  protected modalRef!: NgbModalRef;
-  employee$!: Observable<Employee>;
+  @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
+
   @Input() employeeId?: number;
 
-  private subscriptions: Subscription = new Subscription();
-  private qid: number | undefined;
-  private eid: number | undefined;
+  title: string = "Mitarbeiter bearbeiten";
+  modalRef!: NgbModalRef;
+  employee$!: Observable<Employee>;
+  employee: Employee | null = null;
+  qualificationToRemove: number | null = null;
+  private subscriptions = new Subscription();
+  private eid?: number;
+  private qid?: number;
 
-  constructor(protected editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService,  private addQualificationService: AddQualificationService) {
-  }
+  employeeAdd: AddEmployee = {
+    lastName: "",
+    firstName: "",
+    street: "",
+    postcode: "",
+    city: "",
+    phone: "",
+    skillSet: []
+  };
+
+  constructor(
+    protected editEmployeeService: EditEmployeeService,
+    private modalService: NgbModal,
+    private dataService: DataService,
+    private addQualificationService: AddQualificationService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['employeeId'] && changes['employeeId'].currentValue) {
+    if (changes['employeeId']?.currentValue) {
       this.loadEmployee();
     }
   }
@@ -52,51 +66,79 @@ export class EditEmployeeComponent  implements OnChanges, OnDestroy{
   private loadEmployee(): void {
     if (this.employeeId !== undefined) {
       this.employee$ = this.dataService.getEmployee(this.employeeId);
-      this.employee$.subscribe((employee: Employee) => {
-        console.log(employee.skillSet);
-      });
+      this.subscriptions.add(
+        this.employee$.subscribe(employee => {
+          this.employee = { ...employee };
+        })
+      );
     }
   }
 
-  onSaveChanges() {
-    this.employee$.subscribe((employee: Employee) => {
-      this.dataService.updateEmployee(employee).subscribe(response => {
-        console.log('Update erfolgreich:', response);
-      });
+  onSaveChanges(): void {
+    if (!this.employee) return;
+
+    this.employeeAdd = {
+      ...this.employeeAdd,
+      id: this.employee.id,
+      firstName: this.employee.firstName,
+      lastName: this.employee.lastName,
+      city: this.employee.city,
+      phone: this.employee.phone,
+      postcode: this.employee.postcode,
+      street: this.employee.street,
+      skillSet: [
+        // @ts-ignore
+        ...this.employeeAdd.skillSet,
+        // @ts-ignore
+        ...this.employee.skillSet
+          .map(skill => (typeof skill === "object" && skill.id !== undefined ? skill.id : skill))
+          .filter((id): id is number => typeof id === "number")
+          // @ts-ignore
+          .filter(id => !this.employeeAdd.skillSet.includes(id))
+      ]
+    };
+
+    this.dataService.updateEmployee(this.employeeAdd).subscribe(() => {
+      console.log('Update erfolgreich');
     });
-    this.modal.closeModal();
-    this.editEmployeeService.setValue(false);
+
+    this.closeModal();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  closeModal() {
+  closeModal(): void {
     this.modal.closeModal();
     this.editEmployeeService.setValue(false);
   }
 
-  onAddQualificationClick (){
-    this.addQualificationService.setValue(true)
+  onAddQualificationClick(): void {
+    this.addQualificationService.setValue(true);
+    this.addQualificationService.setEmployee(this.employeeAdd);
   }
 
-  setQualificationToRemove(qid: number | undefined, eid: number | undefined) {
-    this.eid = eid;
+  setQualificationToRemove(qid?: number, eid?: number): void {
     this.qid = qid;
+    this.eid = eid;
     this.openDeleteModal();
   }
 
-  openDeleteModal() {
-    this.modalRef = this.modalService.open(this.deleteQualificationModal, {ariaLabelledBy: 'deleteModalLabel'});
+  openDeleteModal(): void {
+    this.modalRef = this.modalService.open(this.deleteQualificationModal, { ariaLabelledBy: 'deleteModalLabel' });
   }
 
-  confirmDelete() {
+  confirmDelete(): void {
+    if (this.eid === undefined || this.qid === undefined) return;
+
     this.dataService.deleteQualificationFromEmployee(this.eid, this.qid).subscribe({
       next: () => {
         this.modalRef.close();
-      },
-      error: (err) => console.error('Fehler beim Löschen:', err),
+        this.loadEmployee();
+        },
+      error: err => console.error('Fehler beim Löschen:', err)
     });
+
   }
 }
