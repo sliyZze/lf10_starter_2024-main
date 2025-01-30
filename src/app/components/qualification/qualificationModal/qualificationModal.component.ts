@@ -55,6 +55,8 @@ export class QualificationComponent implements OnInit{
       this.qualificationIdsList?.push(id)
       // @ts-ignore
       this.addQualificationService.getEmployee().skillSet.push(id);
+      console.log("push addemplyoee")
+      console.log(this.addQualificationService.getEmployee());
       console.log(id)
     } else {
       console.error("Ungültige ID: ID ist undefined.");
