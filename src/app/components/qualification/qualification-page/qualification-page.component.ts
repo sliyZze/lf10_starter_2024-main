@@ -77,8 +77,7 @@ export class QualificationPageComponent implements OnInit {
         return aLower.localeCompare(bLower);
       });
 
-    this.totalItems = this.filteredQualifications.length;
-    this.updatePagedQualifications();
+    if (searchtext.length <= 0) return;
   }
 
 
