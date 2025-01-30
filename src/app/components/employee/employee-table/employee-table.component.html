@@ -9,7 +9,7 @@
       class="form-control custom-input border-0"
       placeholder="Suchwert eingeben"
       style="background-color: #f8f3ff; border-radius: 20px 20px;"
-      (keyup)="onSerchEmployee(inputRef.value)"
+      (keyup)="onSearchEmployee(inputRef.value)"
     />
   </div>
   <div class="filter-div d-flex justify-content-center align-items-center">
@@ -25,7 +25,7 @@
   <div style="margin-top: 50px">
     <!-- Start Employee Cards -->
     <div class="row">
-      <div *ngFor="let employee of filteredEmployees || employees" class="col-md-4 mb-4">
+      <div *ngFor="let employee of employees" class="col-md-4 mb-4">
         <div class="card p-3" style="background-color: #f8f3ff; border-radius: 20px; overflow: hidden; height: 320px">
           <h5 class="card-title lh-1">{{employee.firstName}} {{employee.lastName}}</h5>
           <p class="card-text lh-1">{{employee.street}}</p>

@@ -40,10 +40,10 @@ export class QualificationPageComponent implements OnInit {
   protected qualification: string = "";
 
   pagedQualifications?: Skill[];
-  filteredQualifications?: Skill[];
   totalItems: number = 0;
   pageSize: number = 5;
   currentPage: number = 0;
+  searchtext: string = "";
 
   constructor(
       private navigationService: NavigationService,
@@ -59,26 +59,38 @@ export class QualificationPageComponent implements OnInit {
   }
 
   onSearchQualification(searchtext: string) {
-    if (!this.qualificationsSubject.value) return;
-
-    const lowerCaseSearchText = searchtext.toLowerCase().trim();
-
-    this.filteredQualifications = this.qualificationsSubject.value
-      .filter(qual => qual.skill?.toLowerCase().includes(lowerCaseSearchText))
-      .sort((a, b) => {
-        const aLower = a.skill?.toLowerCase() || "";
-        const bLower = b.skill?.toLowerCase() || "";
-
-        const aStarts = aLower.startsWith(lowerCaseSearchText);
-        const bStarts = bLower.startsWith(lowerCaseSearchText);
-
-        if (aStarts && !bStarts) return -1;
-        if (!aStarts && bStarts) return 1;
-        return aLower.localeCompare(bLower);
-      });
-
-    if (searchtext.length <= 0) return;
+    this.searchtext = searchtext;
+    this.updatePagedQualifications();
   }
+
+  private filterQualifications(qualifications: Skill[]): Skill[] {
+
+
+    const lowerCaseSearchText = this.searchtext.toLowerCase().trim();
+    let pagedQualifications: Skill[];
+
+    if (lowerCaseSearchText === '') {
+      this.totalItems = this.qualificationsSubject.value.length;
+      return qualifications;
+    } else {
+      return qualifications
+        .filter(qual => qual.skill?.toLowerCase().includes(lowerCaseSearchText))
+        .sort((a, b) => {
+          const aLower = a.skill?.toLowerCase() || "";
+          const bLower = b.skill?.toLowerCase() || "";
+
+          const aStarts = aLower.startsWith(lowerCaseSearchText);
+          const bStarts = bLower.startsWith(lowerCaseSearchText);
+
+          if (aStarts && !bStarts) return -1;
+          if (!aStarts && bStarts) return 1;
+          return aLower.localeCompare(bLower);
+        });
+    }
+    return [];
+  }
+
+
 
 
 
@@ -142,7 +154,7 @@ export class QualificationPageComponent implements OnInit {
 
     const startIndex = this.currentPage * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.pagedQualifications = this.qualificationsSubject.value.slice(startIndex, endIndex);
+    this.pagedQualifications = this.filterQualifications(this.qualificationsSubject.value).slice(startIndex, endIndex);
   }
 
 

@@ -31,7 +31,8 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   isValid: boolean = true;
   employee!: Observable<Employee>;
   employees?: Employee[];
-  filteredEmployees?: Employee[];
+  unfilteredEmployees?: Employee[];
+  searchtext: string = "";
   private sub: Subscription = new Subscription();
   currentEmployeeId?: number;
   @ViewChild('deleteEmployee', {static: true}) deleteEmployeeModal!: TemplateRef<any>;
@@ -50,7 +51,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
       error: (err) => console.error('Fehler beim Abrufen der Mitarbeiter:', err),
     });
 
-    this.dataService.loadEmployees(); // Initiale Ladung
+    this.dataService.loadEmployees();
   }
 
 
@@ -58,20 +59,79 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.sub.unsubscribe();
   }
 
-  onSerchEmployee(searchtext: string) {
-    if (!this.employees) return;
-
-    const lowerCaseSearchText = searchtext.toLowerCase().trim();
-
-    this.filteredEmployees = this.employees.filter(emp =>
-        emp.firstName?.toLowerCase().includes(lowerCaseSearchText) ||
-        emp.lastName?.toLowerCase().includes(lowerCaseSearchText) ||
-        emp.city?.toLowerCase().includes(lowerCaseSearchText) ||
-        emp.street?.toLowerCase().includes(lowerCaseSearchText) ||
-        emp.postcode?.toString().includes(lowerCaseSearchText) ||
-        emp.skillSet?.some(skill => skill.skill?.toLowerCase().includes(lowerCaseSearchText)) // Später aktivieren
-    );
+  onSearchEmployee(searchtext: string) {
+    this.searchtext = searchtext;
+    this.filterEmployees(this.employees);
   }
+
+
+
+  private filterEmployees(employees?: Employee[]) {
+    if (!employees) return ;
+    let lowerCaseSearchText = this.searchtext.toLowerCase().trim();
+
+    if (lowerCaseSearchText === '') {
+      this.ngOnInit();
+    } else {
+      this.employees = employees
+        .filter(emp =>
+          emp.firstName?.toLowerCase().includes(lowerCaseSearchText) ||
+          emp.lastName?.toLowerCase().includes(lowerCaseSearchText) ||
+          emp.city?.toLowerCase().includes(lowerCaseSearchText) ||
+          emp.street?.toLowerCase().includes(lowerCaseSearchText) ||
+          emp.skillSet?.some(skill => skill.skill?.toLowerCase().includes(lowerCaseSearchText)) ||
+          emp.postcode?.toString().includes(lowerCaseSearchText)
+        )
+        .sort((a, b) => {
+          const aFirst = a.firstName?.toLowerCase() || "";
+          const bFirst = b.firstName?.toLowerCase() || "";
+          const aLast = a.lastName?.toLowerCase() || "";
+          const bLast = b.lastName?.toLowerCase() || "";
+          const aCity = a.city?.toLowerCase() || "";
+          const bCity = b.city?.toLowerCase() || "";
+          const aHasSkill = a.skillSet?.some(skill => skill.skill?.toLowerCase().includes(lowerCaseSearchText)) ? 1 : 0;
+          const bHasSkill = b.skillSet?.some(skill => skill.skill?.toLowerCase().includes(lowerCaseSearchText)) ? 1 : 0;
+
+          const aFirstStarts = aFirst.startsWith(lowerCaseSearchText);
+          const bFirstStarts = bFirst.startsWith(lowerCaseSearchText);
+
+          if (aFirstStarts && !bFirstStarts) return -1;
+          if (!aFirstStarts && bFirstStarts) return 1;
+
+          const aLastStarts = aLast.startsWith(lowerCaseSearchText);
+          const bLastStarts = bLast.startsWith(lowerCaseSearchText);
+
+          if (aLastStarts && !bLastStarts) return -1;
+          if (!aLastStarts && bLastStarts) return 1;
+
+          const aFirstContains = aFirst.includes(lowerCaseSearchText);
+          const bFirstContains = bFirst.includes(lowerCaseSearchText);
+
+          if (aFirstContains && !bFirstContains) return -1;
+          if (!aFirstContains && bFirstContains) return 1;
+
+          const aLastContains = aLast.includes(lowerCaseSearchText);
+          const bLastContains = bLast.includes(lowerCaseSearchText);
+
+          if (aLastContains && !bLastContains) return -1;
+          if (!aLastContains && bLastContains) return 1;
+
+          const aCityContains = aCity.includes(lowerCaseSearchText);
+          const bCityContains = bCity.includes(lowerCaseSearchText);
+
+          if (aCityContains && !bCityContains) return -1;
+          if (!aCityContains && bCityContains) return 1;
+
+          if (aHasSkill > bHasSkill) return -1;
+          if (aHasSkill < bHasSkill) return 1;
+
+          return aLast.localeCompare(bLast) || aFirst.localeCompare(bFirst);
+        });
+    }
+  }
+
+
+
 
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
