@@ -21,7 +21,7 @@ import { AddEmployee } from "../../../model/AddEmployee";
 @Component({
   selector: 'app-edit-employee',
   standalone: true,
-  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf, AsyncPipe],
+  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf],
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
