@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, ApplicationConfig, inject, provideAppInitializer} from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -16,11 +16,10 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
         clientId: 'employee-management-service-frontend',
       },
       initOptions: {
-        onLoad: 'check-sso' , // Alternative: 'check-sso' für Single Sign-On 'login-required'
+        onLoad: 'check-sso' , // Alternativen: 'check-sso' /// 'login-required'
         checkLoginIframe: false
       },
       enableBearerInterceptor: true,
-      //bearerExcludedUrls: ['/assets', '/public'],
     });
 }
 

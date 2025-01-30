@@ -37,7 +37,11 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   protected modalRef!: NgbModalRef;
   private getEmployeeIdForDelete: number | undefined = undefined;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService, private createEmployeeService: CreateEmployeeService) {
+  constructor(
+    private editEmployeeService: EditEmployeeService,
+    private modalService: NgbModal,
+    private dataService: DataService,
+    private createEmployeeService: CreateEmployeeService) {
   }
 
   ngOnInit(): void {
@@ -56,7 +60,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.sub.unsubscribe();
   }
 
-  onSerchEmployee(searchtext: string) {
+  onSearchEmployee(searchtext: string) {
     if (!this.employees) return;
 
     const lowerCaseSearchText = searchtext.toLowerCase().trim();
@@ -67,7 +71,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
         emp.city?.toLowerCase().includes(lowerCaseSearchText) ||
         emp.street?.toLowerCase().includes(lowerCaseSearchText) ||
         emp.postcode?.toString().includes(lowerCaseSearchText) ||
-        emp.skillSet?.some(skill => skill.skill?.toLowerCase().includes(lowerCaseSearchText)) // Später aktivieren
+        emp.skillSet?.some(skill => skill.skill?.toLowerCase().includes(lowerCaseSearchText))
     );
   }
 

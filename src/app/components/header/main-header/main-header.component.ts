@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NavigationService} from "../../services/NavigationService";
 import {QualificationTargetService} from "../../services/QualificationTargetService";
 import {FormsModule} from "@angular/forms";

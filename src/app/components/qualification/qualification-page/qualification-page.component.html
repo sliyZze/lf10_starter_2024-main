@@ -4,12 +4,14 @@
 <div class="w-100 d-flex justify-content-center mt-5">
   <div style="max-width: 400px; background-color: #f8f3ff; border-radius: 20px;" class="d-flex justify-content-center">
     <input
+      #inputRef
       type="text"
       class="form-control custom-input border-0"
       placeholder="Hinted search text"
       style="background-color: #f8f3ff; border-radius: 20px 20px;"
+      (keyup)="onSearchQualification(inputRef.value)"
     />
-    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;">
+    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;" (click)="onSearchQualification(inputRef.value)">
       <i class="bi bi-search"></i>
     </button>
   </div>
@@ -26,7 +28,7 @@
 </div>
 
 <div class="container mt-4">
-  <div style="background: #eee" *ngFor="let qualification of pagedQualifications; " class="d-flex justify-content-between align-items-center border p-2 mb-2">
+  <div style="background: #eee" *ngFor="let qualification of (filteredQualifications || pagedQualifications); " class="d-flex justify-content-between align-items-center border p-2 mb-2">
     <span>{{ qualification.skill }}</span>
     <div>
       <button (click)="editQualification(qualification.id)" class="btn btn-outline-secondary btn-sm mx-2">

@@ -9,9 +9,9 @@
       class="form-control custom-input border-0"
       placeholder="Suchwert eingeben"
       style="background-color: #f8f3ff; border-radius: 20px 20px;"
-      (keyup.enter)="onSerchEmployee(inputRef.value)"
+      (keyup)="onSearchEmployee(inputRef.value)"
     />
-    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;" (click)="onSerchEmployee(inputRef.value)">
+    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;" (click)="onSearchEmployee(inputRef.value)">
       <i class="bi bi-search"></i>
     </button>
   </div>
@@ -29,7 +29,7 @@
           <p class="card-text lh-1">{{employee.postcode}}, {{employee.city}}</p>
           <p class="card-text lh-1">{{employee.phone}}</p>
           <p class="card-text lh-1">
-          <p class="card-text" style="height: 100px; overflowY: scroll;">
+          <p class="card-text" style="height: 100px; overflow: scroll;">
             <span *ngFor="let qualification of employee.skillSet; let isLast=last">
               {{qualification.skill}}{{isLast ? '' : ', '}}
             </span>

@@ -39,8 +39,8 @@ export class QualificationPageComponent implements OnInit {
   createQualiTitle: string = "Qualifikation erstellen";
   protected qualification: string = "";
 
-  pagedQualifications: Skill[] = [];
-  filteredQualifications: Skill[] = [];
+  pagedQualifications?: Skill[];
+  filteredQualifications?: Skill[];
   totalItems: number = 0;
   pageSize: number = 5;
   currentPage: number = 0;
