@@ -33,7 +33,7 @@
 }
 div div button i {
   transition: 0.1s linear;
-  font-width: bolder;
+  font-weight: bolder;
   font-size: 18px;
 }
 div div button:hover{
