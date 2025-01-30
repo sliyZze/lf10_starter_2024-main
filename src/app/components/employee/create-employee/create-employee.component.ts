@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
@@ -16,30 +16,31 @@ import {CreateQualificationComponent} from "../../qualification/craete-qualifica
     FormsModule,
     ReactiveFormsModule,
     QualificationComponent,
-    CreateQualificationComponent,
+    CreateQualificationComponent
   ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'
 })
-export class CreateEmployeeComponent {
+export class CreateEmployeeComponent{
     title: string = "Mitarbeiter Erstellen";
 
     constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
     }
 
-    onSaveChanges() {
-        this.dataService.addEmployee(this.employee).subscribe({
-            next: () => {
-                console.log("Mitarbeiter erfolgreich hinzugefügt");
-            },
-            error: (err) => {
-                console.error("Fehler:", err);
-            }
-        });
-        this.createEmployeeService.setValue(false);
-    }
+  onSaveChanges() {
+    this.dataService.addEmployee(this.employee).subscribe({
+      next: () => {
+        console.log('Mitarbeiter erfolgreich hinzugefügt');
+        this.dataService.loadEmployees(); // 🔥 Tabelle sofort updaten!
+      },
+      error: (err) => console.error('Fehler beim Hinzufügen des Mitarbeiters:', err),
+    });
+    this.createEmployeeService.setValue(false);
+  }
 
-    closeModal() {
+
+
+  closeModal() {
         this.createEmployeeService.setValue(false);
     }
 
@@ -58,5 +59,6 @@ export class CreateEmployeeComponent {
         phone: "",
         skillSet: []
     };
+
 
 }

@@ -42,16 +42,17 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(): void {
-    this.sub = this.dataService.getEmployees().subscribe({
+    this.sub = this.dataService.employees$.subscribe({
       next: (data: Employee[]) => {
         this.employees = data;
-        console.log(data)
+        console.log("Mitarbeiter geladen:", data);
       },
-      error: (err) => {
-        console.error('Fehler beim Abrufen der Mitarbeiterdaten:', err);
-      },
+      error: (err) => console.error('Fehler beim Abrufen der Mitarbeiter:', err),
     });
+
+    this.dataService.loadEmployees(); // Initiale Ladung
   }
+
 
   ngOnDestroy() {
     this.sub.unsubscribe();

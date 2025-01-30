@@ -11,7 +11,7 @@ import {AddQualification} from "../../../model/AddQualification";
   imports: [
     FormsModule,
     EmployeeDataModalComponent,
-    QualificationComponent
+    QualificationComponent,
   ],
   templateUrl: './create-qualification.component.html',
   standalone: true,
