@@ -16,10 +16,8 @@ export function initializeKeycloak(keycloak: KeycloakService): () => Promise<boo
         clientId: 'employee-management-service-frontend',
       },
       initOptions: {
-        onLoad: 'login-required', // Alternative: 'check-sso' für Single Sign-On
-        checkLoginIframe: false,
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html'
+        onLoad: 'check-sso' , // Alternative: 'check-sso' für Single Sign-On 'login-required'
+        checkLoginIframe: false
       },
       enableBearerInterceptor: true,
       //bearerExcludedUrls: ['/assets', '/public'],

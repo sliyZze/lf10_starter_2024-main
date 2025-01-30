@@ -18,12 +18,8 @@ export class MainHeaderComponent implements OnInit{
 
   constructor(private navigationService: NavigationService, private qualificationTargetService: QualificationTargetService, private keycloakService: KeycloakService) {}
 
-  //onLogoutClick() {
-  //  this.navigationService.redirectToLogin()
-  //}
-
   logout(): void {
-     this.keycloakService.logout('http://localhost:4200');
+     this.keycloakService.logout('http://localhost:4200/login');
   }
 
   ngOnInit() {

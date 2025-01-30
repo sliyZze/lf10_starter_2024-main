@@ -22,5 +22,4 @@ export class NavigationService {
   redirectQualificationPage(): void {
     this._router.navigate(['/qualification']);
   }
-
 }

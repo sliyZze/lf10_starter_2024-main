@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
 import { initializeKeycloak } from './app.config';
 
 @NgModule({
@@ -12,7 +11,6 @@ import { initializeKeycloak } from './app.config';
     BrowserModule,
     HttpClientModule,
     KeycloakAngularModule,
-    AppRoutingModule,
     AppComponent,
   ],
   providers: [
