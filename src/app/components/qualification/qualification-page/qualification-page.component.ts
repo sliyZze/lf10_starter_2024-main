@@ -32,6 +32,7 @@ export class QualificationPageComponent implements OnInit {
   @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
+  @ViewChild("qualificationDeleteError", {static: true}) qualificationDeleteError!: TemplateRef<any>;
   protected modalRef!: NgbModalRef;
   private getQualificationIdForDelete: number | undefined = undefined;
   title: string = "Qualifikation bearbeiten";
@@ -45,7 +46,7 @@ export class QualificationPageComponent implements OnInit {
 
   constructor(
       private navigationService: NavigationService,
-      private targetService: QualificationTargetService,
+      private qualificationTargetService: QualificationTargetService,
       private dataService: DataService,
       private modalService: NgbModal,
       protected editQualificationService: EditQualificationService,
@@ -92,9 +93,17 @@ export class QualificationPageComponent implements OnInit {
         this.qualificationsSubject.next(updatedQualification);
         this.totalItems = updatedQualification.length;
         this.updatePagedQualifications();
+        this.modalRef.close()
       },
-      error: (err) => console.error(`Fehler beim Löschen der Qualifikation mit ID ${id}:`, err)
+      error: (err) => {
+        this.modalRef.close()
+        this.openQualificationDeleteErrorModal()
+      }
     });
+  }
+
+  openQualificationDeleteErrorModal(){
+    this.modalRef = this.modalService.open(this.qualificationDeleteError, {ariaLabelledBy: "qualificationDeleteError"})
   }
 
   onPageChange(event: PageEvent) {
@@ -114,7 +123,7 @@ export class QualificationPageComponent implements OnInit {
 
   onBackClick() {
     this.navigationService.redirectToEmployeeTable();
-    this.targetService.setValue("Mitarbeitertabelle");
+    this.qualificationTargetService.setValue("Mitarbeitertabelle");
   }
 
   editQualification(id: number | undefined) {
@@ -139,5 +148,9 @@ export class QualificationPageComponent implements OnInit {
 
   closeCreateQualModal() {
     this.creatQualificationInQualiPageService.setValue(false)
+  }
+
+  closeQualificationDeleteErrorModal() {
+    this.modalRef.close()
   }
 }

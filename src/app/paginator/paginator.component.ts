@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 
 @Component({
@@ -8,7 +8,8 @@ import {MatPaginator, PageEvent} from "@angular/material/paginator";
   ],
   templateUrl: './paginator.component.html',
   standalone: true,
-  styleUrl: './paginator.component.css'
+  styleUrl: './paginator.component.css',
+  encapsulation: ViewEncapsulation.None
 })
 export class PaginatorComponent {
   @Input() totalitems: number = 0;
