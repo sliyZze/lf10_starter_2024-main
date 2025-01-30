@@ -29,7 +29,7 @@
           <p class="card-text lh-1">{{employee.postcode}}, {{employee.city}}</p>
           <p class="card-text lh-1">{{employee.phone}}</p>
           <p class="card-text lh-1">
-          <p class="card-text" style="height: 100px; overflow: scroll;">
+          <p class="card-text" style="height: 100px; overflow-y: scroll;">
             <span *ngFor="let qualification of employee.skillSet; let isLast=last">
               {{qualification.skill}}{{isLast ? '' : ', '}}
             </span>
