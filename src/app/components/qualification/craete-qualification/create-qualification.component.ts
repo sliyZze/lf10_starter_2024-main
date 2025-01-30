@@ -19,7 +19,6 @@ import {AddQualification} from "../../../model/AddQualification";
 })
 export class CreateQualificationComponent {
   protected title: string = "Qualification erstellen";
-  @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   @ViewChild(QualificationComponent) qualificationComponent!: QualificationComponent;
 
   constructor(protected createQualificationService: CreateQualificationService, private dataService: DataService) {
@@ -35,7 +34,6 @@ export class CreateQualificationComponent {
           this.qualificationComponent.loadQualifications();
           this.createQualificationService.setValue(false)
           this.qualification = "";
-          this.modal.closeModal();
         },
         error: (err) => {
           console.error('Fehler beim Aktualisieren:', err);
@@ -48,7 +46,6 @@ export class CreateQualificationComponent {
 
   closeModal() {
     this.createQualificationService.setValue(false)
-    this.modal.closeModal();
   }
 
 }

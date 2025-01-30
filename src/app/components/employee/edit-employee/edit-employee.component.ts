@@ -3,6 +3,8 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
+  Output,
   SimpleChanges,
   TemplateRef,
   ViewChild
@@ -101,16 +103,14 @@ export class EditEmployeeComponent implements OnChanges, OnDestroy {
     this.dataService.updateEmployee(this.employeeAdd).subscribe(() => {
       console.log('Update erfolgreich');
     });
-
-    this.closeModal();
+    this.editEmployeeService.setValue(false);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  closeModal(): void {
-    this.modal.closeModal();
+  closeModal() {
     this.editEmployeeService.setValue(false);
   }
 
@@ -134,8 +134,8 @@ export class EditEmployeeComponent implements OnChanges, OnDestroy {
 
     this.dataService.deleteQualificationFromEmployee(this.eid, this.qid).subscribe({
       next: () => {
-        this.modalRef.close();
         this.loadEmployee();
+        this.modalRef.close();
         },
       error: err => console.error('Fehler beim Löschen:', err)
     });

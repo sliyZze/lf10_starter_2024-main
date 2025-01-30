@@ -4,14 +4,12 @@
 <div class="w-100 d-flex justify-content-center mt-5">
   <div style="max-width: 400px; background-color: #f8f3ff; border-radius: 20px;" class="d-flex justify-content-center">
     <input
-      #inputRef
       type="text"
       class="form-control custom-input border-0"
       placeholder="Hinted search text"
       style="background-color: #f8f3ff; border-radius: 20px 20px;"
-      (keyup.enter)="onSearchQualification(inputRef.value)"
     />
-    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;" (click)="onSearchQualification(inputRef.value)">
+    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;">
       <i class="bi bi-search"></i>
     </button>
   </div>
@@ -21,14 +19,14 @@
     <mat-paginator
             [length]="totalItems"
             [pageSize]="pageSize"
-            [pageSizeOptions]="[5, 10, 20]"
+            [pageSizeOptions]="[5, 10, 15,20]"
             (page)="onPageChange($event)"
             showFirstLastButtons="true"
     ></mat-paginator>
 </div>
 
 <div class="container mt-4">
-  <div *ngFor="let qualification of filteredQualifications.length ? filteredQualifications : pagedQualifications; " class="d-flex justify-content-between align-items-center border p-2 mb-2">
+  <div *ngFor="let qualification of pagedQualifications; " class="d-flex justify-content-between align-items-center border p-2 mb-2">
     <span>{{ qualification.skill }}</span>
     <div>
       <button (click)="editQualification(qualification.id)" class="btn btn-outline-secondary btn-sm mx-2">
@@ -38,15 +36,6 @@
         <i class="bi bi-trash3-fill"></i>
       </button>
     </div>
-  </div>
-  <div class="d-flex justify-content-end">
-    <button (click)="onBackClick()" class="btn btn-secondary btn-sm mx-2">
-      <i class="fas fa-plus"></i> zurück
-    </button>
-
-    <button (click)="addQualification()" class="btn btn-success btn-sm">
-      <i class="fas fa-plus"></i> Neue Hinzufügen
-    </button>
   </div>
 </div>
 
@@ -80,6 +69,51 @@
     </div>
 </app-employee-data-modal>
 
+<!--Start Add Employee Button-->
+<div class="add-employee-button">
+    <button class="add-button shadow" (click)="addQualification()">
+        <i class="bi bi-plus-circle"></i>
+    </button>
+</div>
+<!--End Add Employee Button-->
+
+<app-employee-data-modal [title]=createQualiTitle [service]="creatQualificationInQualiPageService">
+    <form>
+        <div class="row g-3">
+            <div class="col-md-12">
+                <label for="qualification" class="form-label">Qualifikation</label>
+                <input
+                        id="createQualification"
+                        class="form-control"
+                        name="createQualification"
+                        [(ngModel)]="qualification"
+                        required
+                />
+            </div>
+        </div>
+    </form>
+
+    <div class="modal-footer w-100">
+        <button type="button" class="btn btn-success" (click)="onSaveCreateQualChanges()">Speichern</button>
+        <button type="button" class="btn btn-secondary" (click)="closeCreateQualModal()">Abbrechen</button>
+    </div>
+</app-employee-data-modal>
 
 
-
+<ng-template #qualificationDeleteError>
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Fehler</h5>
+                </div>
+                <div class="modal-body">
+                    Die Qualifikation kann nicht gelöscht werden, weil andere Mitarbeiter die Qualifikation verwenden.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeQualificationDeleteErrorModal()">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

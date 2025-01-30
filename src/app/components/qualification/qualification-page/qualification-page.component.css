@@ -13,5 +13,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.add-employee-button{
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  transition: 0.3s ease-in-out;
+}
+.add-employee-button:hover{
+  transform: scale(1.2);
+}
 
+.add-employee-button button{
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #8ef68e;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+}
+.add-employee-button button i {
+  font-weight: bolder;
+  font-size: 25px;
+  color: #333;
 }

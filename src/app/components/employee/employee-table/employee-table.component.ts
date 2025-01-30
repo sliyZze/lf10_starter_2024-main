@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import
+{Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MainHeaderComponent} from '../../header/main-header/main-header.component';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {EditEmployeeService} from "../../services/EmployeeEditService";
 import {EditEmployeeComponent} from "../edit-employee/edit-employee.component";
@@ -10,13 +11,11 @@ import {Employee} from "../../../model/Employee";
 import {DataService} from "../../../service/data.service";
 import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
-import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
 
 @Component({
   selector: 'app-employee-table',
   imports: [
     MainHeaderComponent,
-    NgIf,
     FormsModule,
     EditEmployeeComponent,
     NgForOf,
@@ -100,13 +99,12 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
       console.log(this.getEmployeeIdForDelete + " getEmployeeIdForDelete");
       this.dataService.deleteEmployee(this.getEmployeeIdForDelete).subscribe({
         next: () => {
-          console.log(`Mitarbeiter mit ID ${this.getEmployeeIdForDelete} wurde gelöscht.`);
-          this.ngOnInit(); // Optional: Aktualisiere die Tabelle.
+          this.modalRef.close()
+          this.ngOnInit();
         },
         error: (err) => console.error('Fehler beim Löschen:', err),
       });
       this.getEmployeeIdForDelete = undefined;
-      this.modalRef.close()
     }
   }
 

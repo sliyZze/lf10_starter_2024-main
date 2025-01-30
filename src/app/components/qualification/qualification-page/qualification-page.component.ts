@@ -1,23 +1,23 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { AsyncPipe, NgForOf } from "@angular/common";
+import { NgForOf } from "@angular/common";
 import { NavigationService } from "../../services/NavigationService";
 import { MainHeaderComponent } from "../../header/main-header/main-header.component";
 import { QualificationTargetService } from "../../services/QualificationTargetService";
 import { DataService } from "../../../service/data.service";
 import { Skill } from "../../../model/Skill";
-import { BehaviorSubject } from "rxjs";
+import {BehaviorSubject, switchMap} from "rxjs";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { EmployeeDataModalComponent } from "../../modal/employee-data-modal/employee-data-modal.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EditQualificationService } from "../../services/EditQualificationService";
 import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/paginator";
+import {CreatQualificationInQualiPageService} from "../../services/CreatQualificationInQualiPageService";
 
 @Component({
   selector: 'app-qualification-page',
   imports: [
     NgForOf,
     MainHeaderComponent,
-    AsyncPipe,
     EmployeeDataModalComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -29,16 +29,14 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/p
 })
 export class QualificationPageComponent implements OnInit {
   private qualificationsSubject = new BehaviorSubject<Skill[]>([]);
-  qualifications$ = this.qualificationsSubject.asObservable();
-
   @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
-
+  @ViewChild("qualificationDeleteError", {static: true}) qualificationDeleteError!: TemplateRef<any>;
   protected modalRef!: NgbModalRef;
   private getQualificationIdForDelete: number | undefined = undefined;
-
   title: string = "Qualifikation bearbeiten";
+  createQualiTitle: string = "Qualifikation erstellen";
   protected qualification: string = "";
 
   pagedQualifications: Skill[] = [];
@@ -49,10 +47,11 @@ export class QualificationPageComponent implements OnInit {
 
   constructor(
       private navigationService: NavigationService,
-      private targetService: QualificationTargetService,
+      private qualificationTargetService: QualificationTargetService,
       private dataService: DataService,
       private modalService: NgbModal,
-      protected editQualificationService: EditQualificationService
+      protected editQualificationService: EditQualificationService,
+      protected creatQualificationInQualiPageService: CreatQualificationInQualiPageService
   ) {}
 
   ngOnInit() {
@@ -102,15 +101,24 @@ export class QualificationPageComponent implements OnInit {
     }
     let id: number = this.getQualificationIdForDelete;
 
-    this.dataService.deleteQualification(id).subscribe({
-      next: () => {
-        this.loadQualifications();
-        this.modalRef.close();
+    this.dataService.deleteQualification(id).pipe(
+        switchMap(() => this.dataService.getQualifications())
+    ).subscribe({
+      next: (updatedQualification) => {
+        this.qualificationsSubject.next(updatedQualification);
+        this.totalItems = updatedQualification.length;
+        this.updatePagedQualifications();
+        this.modalRef.close()
       },
       error: (err) => {
-        console.error(`Fehler beim Löschen der Qualifikation mit ID ${id}:`, err);
+        this.modalRef.close()
+        this.openQualificationDeleteErrorModal()
       }
     });
+  }
+
+  openQualificationDeleteErrorModal(){
+    this.modalRef = this.modalService.open(this.qualificationDeleteError, {ariaLabelledBy: "qualificationDeleteError"})
   }
 
   onPageChange(event: PageEvent) {
@@ -130,7 +138,7 @@ export class QualificationPageComponent implements OnInit {
 
   onBackClick() {
     this.navigationService.redirectToEmployeeTable();
-    this.targetService.setValue("Mitarbeitertabelle");
+    this.qualificationTargetService.setValue("Mitarbeitertabelle");
   }
 
   editQualification(id: number | undefined) {
@@ -139,7 +147,6 @@ export class QualificationPageComponent implements OnInit {
 
   closeModal() {
     this.editQualificationService.setValue(false);
-    this.modal.closeModal();
   }
 
   onSaveChanges() {
@@ -147,6 +154,18 @@ export class QualificationPageComponent implements OnInit {
   }
 
   addQualification() {
-    // Add new qualification logic
+    this.creatQualificationInQualiPageService.setValue(true)
+  }
+
+  onSaveCreateQualChanges() {
+    this.creatQualificationInQualiPageService.setValue(false)
+  }
+
+  closeCreateQualModal() {
+    this.creatQualificationInQualiPageService.setValue(false)
+  }
+
+  closeQualificationDeleteErrorModal() {
+    this.modalRef.close()
   }
 }

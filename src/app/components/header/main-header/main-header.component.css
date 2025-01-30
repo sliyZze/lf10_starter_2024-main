@@ -16,12 +16,12 @@
 }
 .header-title {
   font-size: 24px;
-  font-weight: bold;
-  color: white;
+  font-weight: 900;
+  color: gray;
 }
 .sign-up-button{
   color: white;
-  background-color: #333;
+  background-color: slategray;
   font-weight: bold;
   border: none;
   outline: none;
@@ -30,12 +30,18 @@
   transition: 0.2s ease-in-out;
 }
 .sign-up-button:hover{
-  background-color: #555;
+  background: lightslategray ;
 }
 header {
   height: 60px;
 }
-
+.custom-select{
+  background-color: slategray;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  padding: 8px;
+}
 input::placeholder {
   color: #9c8cc7;
 }
