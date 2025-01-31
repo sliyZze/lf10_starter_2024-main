@@ -30,8 +30,7 @@ export class CreateEmployeeComponent{
   onSaveChanges() {
     this.dataService.addEmployee(this.employee).subscribe({
       next: () => {
-        console.log('Mitarbeiter erfolgreich hinzugefügt');
-        this.dataService.loadEmployees(); // 🔥 Tabelle sofort updaten!
+        this.dataService.loadEmployees();
       },
       error: (err) => console.error('Fehler beim Hinzufügen des Mitarbeiters:', err),
     });

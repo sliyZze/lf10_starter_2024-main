@@ -100,9 +100,7 @@ export class EditEmployeeComponent implements OnChanges, OnDestroy {
       ]
     };
 
-    this.dataService.updateEmployee(this.employeeAdd).subscribe(() => {
-      console.log('Update erfolgreich');
-    });
+    this.dataService.updateEmployee(this.employeeAdd).subscribe();
     this.editEmployeeService.setValue(false);
   }
 
