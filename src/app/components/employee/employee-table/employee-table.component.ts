@@ -31,7 +31,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   isValid: boolean = true;
   employee!: Observable<Employee>;
   employees?: Employee[];
-  unfilteredEmployees?: Employee[];
   searchtext: string = "";
   private sub: Subscription = new Subscription();
   currentEmployeeId?: number;
@@ -54,7 +53,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.dataService.loadEmployees();
   }
 
-
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
@@ -63,8 +61,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.searchtext = searchtext;
     this.filterEmployees(this.employees);
   }
-
-
 
   private filterEmployees(employees?: Employee[]) {
     if (!employees) return ;

@@ -67,4 +67,7 @@ export class QualificationComponent implements OnInit{
     this.createQualificationService.setValue(true)
   }
 
+  onSearchEmployee(value: string) {
+    
+  }
 }

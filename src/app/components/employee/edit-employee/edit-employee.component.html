@@ -6,32 +6,32 @@
     <div class="row g-3" >
       <div class="col-md-6">
         <label for="lastname" class="form-label">Vorname</label>
-        <input id="lastname" type="text" class="form-control" placeholder="Vorname" [(ngModel)]="employee.firstName" name="firstName" />
+        <input id="lastname" type="text" class="form-control" placeholder="Vorname" [(ngModel)]="employee.firstName" name="firstName" required/>
       </div>
 
       <div class="col-md-6">
         <label for="surname" class="form-label">Nachname</label>
-        <input id="surname" type="text" class="form-control" placeholder="Nachname"  [(ngModel)]="employee.lastName" name="lastName" />
+        <input id="surname" type="text" class="form-control" placeholder="Nachname"  [(ngModel)]="employee.lastName" name="lastName" required/>
       </div>
 
       <div class="col-md-6">
         <label for="phonenumber" class="form-label">Telefonnummer</label>
-        <input id="phonenumber" type="text" class="form-control" placeholder="Telefonnummer"  [(ngModel)]="employee.phone" name="phone"/>
+        <input id="phonenumber" type="text" class="form-control" placeholder="Telefonnummer"  [(ngModel)]="employee.phone" name="phone" required />
       </div>
 
       <div class="col-md-6">
         <label for="street" class="form-label">Straße</label>
-        <input id="street" type="text" class="form-control" placeholder="Straße"  [(ngModel)]="employee.street" name="street"/>
+        <input id="street" type="text" class="form-control" placeholder="Straße"  [(ngModel)]="employee.street" name="street" required />
       </div>
 
       <div class="col-md-6">
         <label for="postcode" class="form-label">PLZ</label>
-        <input id="postcode" type="text" class="form-control" placeholder="PLZ"  [(ngModel)]="employee.postcode" name="postcode"/>
+        <input id="postcode" type="text" class="form-control" placeholder="PLZ"  [(ngModel)]="employee.postcode" name="postcode" required/>
       </div>
 
       <div class="col-md-6">
         <label for="city" class="form-label">Stadt</label>
-        <input id="city" type="text" class="form-control" placeholder="Stadt" [(ngModel)]="employee.city" name="city" />
+        <input id="city" type="text" class="form-control" placeholder="Stadt" [(ngModel)]="employee.city" name="city" required/>
       </div>
 
       <div style="overflow-y: scroll; height: 120px;">

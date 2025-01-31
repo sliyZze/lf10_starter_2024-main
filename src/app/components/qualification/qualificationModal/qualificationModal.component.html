@@ -1,4 +1,16 @@
+
 <app-employee-data-modal [title]="title" [service]="addQualificationService">
+
+    <div style="border-radius: 20px;" class="d-flex justify-content-center w-100">
+        <input
+            #inputRef
+            type="text"
+            class="form-control custom-input border-0 mb-3"
+            placeholder="Nach Qualifikationen suchen"
+            style="background-color: #f8f3ff; border-radius: 20px 20px; text-align: center; width: 80% !important;"
+            (keyup)="onSearchEmployee(inputRef.value)"
+        />
+    </div>
 
   <form style="height: 230px; overflow-y: scroll">
     <div class="form-check mx-2" *ngFor="let qualification of qualifications | async">
