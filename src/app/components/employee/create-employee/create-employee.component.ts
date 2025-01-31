@@ -37,8 +37,6 @@ export class CreateEmployeeComponent{
     this.createEmployeeService.setValue(false);
   }
 
-
-
   closeModal() {
         this.createEmployeeService.setValue(false);
     }

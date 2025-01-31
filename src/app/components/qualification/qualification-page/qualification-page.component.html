@@ -7,13 +7,10 @@
       #inputRef
       type="text"
       class="form-control custom-input border-0"
-      placeholder="Hinted search text"
-      style="background-color: #f8f3ff; border-radius: 20px 20px;"
+      placeholder="Nach qualifikationen suchen"
+      style="background-color: #f8f3ff; border-radius: 20px 20px; width: 450px"
       (keyup)="onSearchQualification(inputRef.value)"
     />
-    <button class="btn btn-outline-none" type="button" style="border: none; background-color: transparent;" (click)="onSearchQualification(inputRef.value)">
-      <i class="bi bi-search"></i>
-    </button>
   </div>
 </div>
 
@@ -78,6 +75,14 @@
     </button>
 </div>
 <!--End Add Employee Button-->
+
+<!--Start back to employee table-->
+<div class="back-to-employee-button">
+    <button class="back-to-button shadow" (click)="onBackClick()">
+        <i class="bi bi-box-arrow-left"></i>
+    </button>
+</div>
+<!--end back to employee table-->
 
 <app-employee-data-modal [title]=createQualiTitle [service]="creatQualificationInQualiPageService">
     <form>

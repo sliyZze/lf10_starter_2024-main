@@ -23,4 +23,6 @@ import { initializeKeycloak } from './app.config';
   ],
   bootstrap: [],
 })
-export class AppModule {}
+export class AppModule {
+
+}

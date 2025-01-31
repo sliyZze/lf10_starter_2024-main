@@ -20,7 +20,7 @@
   right: 50px;
   transition: 0.3s ease-in-out;
 }
-.add-employee-button:hover{
+.add-employee-button:hover, .back-to-employee-button:hover{
   transform: scale(1.2);
 }
 
@@ -39,4 +39,26 @@
   font-weight: bolder;
   font-size: 25px;
   color: #333;
+}
+.back-to-employee-button{
+  position: fixed;
+  bottom: 120px;
+  right: 50px;
+  transition: 0.3s ease-in-out;
+}
+.back-to-employee-button button{
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333333;
+  border-radius: 50px;
+  width: 50px;
+  height: 50px;
+}
+.bi-box-arrow-left {
+  font-weight: bolder;
+  font-size: 25px  ;
+  color: white;
 }
