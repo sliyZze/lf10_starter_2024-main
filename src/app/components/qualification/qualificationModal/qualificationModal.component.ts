@@ -7,6 +7,7 @@ import {DataService} from "../../../service/data.service";
 import {async, Observable, Subscription} from "rxjs";
 import {Skill} from "../../../model/Skill";
 import {CreateQualificationService} from "../../services/CreateQualificationService";
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-qualification-modal',
@@ -25,10 +26,17 @@ export class QualificationComponent implements OnInit{
   @ViewChild(EmployeeDataModalComponent) modal!: EmployeeDataModalComponent;
   title: string = "Qualifikationen";
   qualifications?: Observable<Skill[]>;
+  private filteredQualificationsSubject: BehaviorSubject<Skill[]> = new BehaviorSubject<Skill[]>([]);
+  filteredQualifications: Observable<Skill[]> = this.filteredQualificationsSubject.asObservable(); // Um filteredQualifications als Observable zu haben
   @Input() createdQualification: string = ""
   private qualificationIdsList: number[] | null = null;
+  searchtext: string = "";
 
-  constructor(protected addQualificationService: AddQualificationService, private dataService: DataService, private createQualificationService: CreateQualificationService) {}
+  constructor(
+    protected addQualificationService: AddQualificationService,
+    private dataService: DataService,
+    private createQualificationService: CreateQualificationService
+  ) {}
 
   ngOnInit() {
     this.loadQualifications()
@@ -36,7 +44,10 @@ export class QualificationComponent implements OnInit{
 
   // Wird durch Button-Click aufgerufen
   loadQualifications(): void {
-      this.qualifications = this.dataService.getQualifications();
+    this.qualifications = this.dataService.getQualifications();
+    this.qualifications?.subscribe(qualifications => {
+      this.filteredQualificationsSubject.next([...qualifications]);
+    });
   }
 
   onSaveChanges() {
@@ -67,7 +78,19 @@ export class QualificationComponent implements OnInit{
     this.createQualificationService.setValue(true)
   }
 
-  onSearchEmployee(value: string) {
-    
+  onSearchQualification(searchtext: string) {
+    this.searchtext = searchtext;
+    this.filterQualifications()
+  }
+
+  private filterQualifications(): void {
+    if (this.qualifications) {
+      this.qualifications.subscribe(qualifications => {
+        const filtered = qualifications.filter(qualification =>
+          qualification.skill && qualification.skill.toLowerCase().includes(this.searchtext.toLowerCase())
+        );
+        this.filteredQualificationsSubject.next(filtered);
+      });
+    }
   }
 }
