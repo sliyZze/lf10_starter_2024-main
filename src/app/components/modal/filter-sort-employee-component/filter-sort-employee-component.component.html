@@ -5,23 +5,35 @@
         <label class="form-label">Qualifikationen</label>
         <div style="overflow-y: scroll; max-height: 120px">
           <div *ngFor="let qualification of qualifications">
-            <input type="checkbox" [value]="qualification"  name="qualification">
+            <input
+              type="checkbox"
+              [value]="qualification"
+              [checked]="isChecked(qualification)"
+              (change)="onQualificationChange(qualification, !isChecked(qualification))">
             {{ qualification }}
           </div>
         </div>
       </div>
 
-      <div class="col-md-6" >
+      <div class="col-md-6">
         <label class="form-label">Städte</label>
-        <div style="overflow-y: scroll; max-height: 120px" >
+        <div style="overflow-y: scroll; max-height: 120px">
           <div *ngFor="let city of cities">
-            <input type="checkbox" [value]="city" name="city">
+            <input
+              type="checkbox"
+              [value]="city"
+              [checked]="isChecked(city)"
+              (change)="onCityChange(city, !isChecked(city))">
             {{ city }}
           </div>
         </div>
       </div>
     </div>
   </form>
+
+
+
+
 
   <div class="modal-footer d-flex justify-content-between w-100">
     <button type="button" class="btn btn-success px-4 py-2" (click)="applyFilters()">
@@ -39,14 +51,14 @@
       <div class="col-md-6">
         <label class="form-label fw-bold">Mitarbeiter sortieren nach:</label>
         <div class="form-check d-flex align-items-center">
-          <input class="form-check-input me-2" type="radio" id="sortNameAsc" name="sortOrder" value="nameAsc">
+          <input class="form-check-input me-2" type="radio" id="sortNameAsc" name="sortOrder" value="nameAsc" (change)="onSortChange('name', 'asc')">
           <label class="form-check-label d-flex align-items-center" for="sortNameAsc">
             <i class="bi bi-sort-alpha-down fs-5 text-primary me-2"></i>
             Aufsteigend (A-Z)
           </label>
         </div>
         <div class="form-check d-flex align-items-center mt-2">
-          <input class="form-check-input me-2" type="radio" id="sortNameDesc" name="sortOrder" value="nameDesc">
+          <input class="form-check-input me-2" type="radio" id="sortNameDesc" name="sortOrder" value="nameDesc" (change)="onSortChange('name', 'desc')">
           <label class="form-check-label d-flex align-items-center" for="sortNameDesc">
             <i class="bi bi-sort-alpha-up fs-5 text-danger me-2"></i>
             Absteigend (Z-A)
@@ -57,14 +69,14 @@
       <div class="col-md-6">
         <label class="form-label fw-bold">Qualifikation sortieren nach:</label>
         <div class="form-check d-flex align-items-center">
-          <input class="form-check-input me-2" type="radio" id="sortQualAsc" name="sortQual" value="qualAsc">
+          <input class="form-check-input me-2" type="radio" id="sortQualAsc" name="sortQual" value="qualAsc" (change)="onSortChange('qual', 'asc')">
           <label class="form-check-label d-flex align-items-center" for="sortQualAsc">
             <i class="bi bi-sort-numeric-down fs-5 text-primary me-2"></i>
             Wenige zuerst
           </label>
         </div>
         <div class="form-check d-flex align-items-center mt-2">
-          <input class="form-check-input me-2" type="radio" id="sortQualDesc" name="sortQual" value="qualDesc">
+          <input class="form-check-input me-2" type="radio" id="sortQualDesc" name="sortQual" value="qualDesc" (change)="onSortChange('qual', 'desc')">
           <label class="form-check-label d-flex align-items-center" for="sortQualDesc">
             <i class="bi bi-sort-numeric-up fs-5 text-danger me-2"></i>
             Viele zuerst
@@ -83,3 +95,4 @@
     </button>
   </div>
 </app-employee-data-modal>
+

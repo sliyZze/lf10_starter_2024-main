@@ -39,6 +39,9 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   isValid: boolean = true;
   employee!: Observable<Employee>;
   employees?: Employee[];
+  unfilteredEmployees?: Employee[];
+  selectedQualifications: string[] = [];
+  selectedCities: string[] = [];
   searchtext: string = "";
   private sub: Subscription = new Subscription();
   currentEmployeeId?: number;
@@ -60,11 +63,23 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.sub = this.dataService.employees$.subscribe({
       next: (data: Employee[]) => {
         this.employees = data;
+        this.unfilteredEmployees = data;
         console.log("Mitarbeiter geladen:", data);
       },
       error: (err) => console.error('Fehler beim Abrufen der Mitarbeiter:', err),
     });
-
+    this.sub.add(
+      this.filterEmployeeService.selectedFilters$.subscribe(filters => {
+        this.selectedQualifications = filters.qualifications;
+        this.selectedCities = filters.cities;
+        this.filterEmployees();
+      })
+    );
+    this.sub.add(
+      this.sortEmployeeService.getSortCriteria().subscribe(criteria => {
+        this.sortEmployees(criteria);
+      })
+    );
     this.dataService.loadEmployees();
   }
 
@@ -74,10 +89,56 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
 
   onSearchEmployee(searchtext: string) {
     this.searchtext = searchtext;
-    this.filterEmployees(this.employees);
+    this.SearchfilterEmployees(this.unfilteredEmployees);
   }
 
-  private filterEmployees(employees?: Employee[]) {
+  private filterEmployees() {
+    if (!this.selectedQualifications.length && !this.selectedCities.length) {
+      this.employees = this.unfilteredEmployees ?? [];
+    } else {
+      this.employees = (this.unfilteredEmployees ?? []).filter(emp =>
+        (this.selectedCities.length === 0 || (emp.city && this.selectedCities.includes(emp.city))) &&
+        (this.selectedQualifications.length === 0 || emp.skillSet?.some(skill =>
+          skill.skill && this.selectedQualifications.includes(skill.skill)
+        ))
+      );
+    }
+    console.log(this.selectedQualifications);
+    console.log(this.selectedCities);
+  }
+
+  private sortEmployees(criteria: { field: string, order: 'asc' | 'desc' }) {
+    if (!this.employees) {
+      return;
+    }
+
+    this.employees = this.employees.sort((a, b) => {
+      if (criteria.field === 'name') {
+        const nameA = `${a.lastName?.toLowerCase()} ${a.firstName?.toLowerCase()}`;
+        const nameB = `${b.lastName?.toLowerCase()} ${b.firstName?.toLowerCase()}`;
+        return criteria.order === 'desc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+      } else if (criteria.field === 'qualifications') {
+
+        const aQualCount = a.skillSet?.length ?? 0;
+        const bQualCount = b.skillSet?.length ?? 0;
+
+        const qualComparison = criteria.order === 'asc' ? aQualCount - bQualCount : bQualCount - aQualCount;
+
+        if (qualComparison !== 0) {
+          return qualComparison;
+        } else {
+          const nameA = `${a.lastName?.toLowerCase()} ${a.firstName?.toLowerCase()}`;
+          const nameB = `${b.lastName?.toLowerCase()} ${b.firstName?.toLowerCase()}`;
+          return criteria.order === 'asc' ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+        }
+      }
+      return 0;
+    });
+  }
+
+
+
+  private SearchfilterEmployees(employees?: Employee[]) {
     if (!employees) return ;
     let lowerCaseSearchText = this.searchtext.toLowerCase().trim();
 
@@ -152,6 +213,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.openDeleteModal()
   }
 
+
   onAddClick(){
     this.createEmployeeService.setValue(true)
   }
@@ -181,5 +243,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
 
   onSortClick() {
     this.sortEmployeeService.setValue(true)
+
   }
 }

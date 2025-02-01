@@ -10,6 +10,7 @@
       placeholder="Suchwert eingeben"
       style="background-color: #f8f3ff; border-radius: 20px 20px;"
       (keyup)="onSearchEmployee(inputRef.value)"
+      (keyup.backspace)="onSearchEmployee(inputRef.value)"
     />
   </div>
   <div class="filter-div d-flex justify-content-center align-items-center">
