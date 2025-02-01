@@ -11,6 +11,12 @@ import {DataService} from "../../../service/data.service";
 import {CreateEmployeeComponent} from "../create-employee/create-employee.component";
 import {CreateEmployeeService} from "../../services/CreateEmployeeService";
 import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
+import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
+import {FilterEmployeeService} from "../../services/FilterEmployeeService";
+import {
+  FilterSortEmployeeComponentComponent
+} from "../../modal/filter-sort-employee-component/filter-sort-employee-component.component";
+import {SortEmployeeService} from "../../services/SortEmployeeService";
 
 @Component({
   selector: 'app-employee-table',
@@ -20,7 +26,9 @@ import {CreateQualificationComponent} from "../../qualification/craete-qualifica
     FormsModule,
     EditEmployeeComponent,
     NgForOf,
-    CreateEmployeeComponent
+    CreateEmployeeComponent,
+    EmployeeDataModalComponent,
+    FilterSortEmployeeComponentComponent
   ],
   standalone: true,
   templateUrl: './employee-table.component.html',
@@ -38,7 +46,14 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   protected modalRef!: NgbModalRef;
   private getEmployeeIdForDelete: number | undefined = undefined;
 
-  constructor(private editEmployeeService: EditEmployeeService, private modalService: NgbModal, private dataService: DataService, private createEmployeeService: CreateEmployeeService) {
+  constructor(
+    private editEmployeeService: EditEmployeeService,
+    private modalService: NgbModal,
+    private dataService: DataService,
+    private createEmployeeService: CreateEmployeeService,
+    private filterEmployeeService: FilterEmployeeService,
+    private sortEmployeeService: SortEmployeeService
+    ) {
   }
 
   ngOnInit(): void {
@@ -126,9 +141,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     }
   }
 
-
-
-
   onEditEmployee(employeeId: number | undefined){
     this.editEmployeeService.setValue(true)
     this.currentEmployeeId = employeeId;
@@ -138,10 +150,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
   onDeleteEmployee(id: number | undefined){
     this.getEmployeeIdForDelete = id;
     this.openDeleteModal()
-  }
-
-  validatePageInput() {
-    return this.isValid = !isNaN(Number(this.page)) && this.page.trim() !== '' || this.page.length == 0;
   }
 
   onAddClick(){
@@ -158,7 +166,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
       this.dataService.deleteEmployee(this.getEmployeeIdForDelete).subscribe({
         next: () => {
           console.log(`Mitarbeiter mit ID ${this.getEmployeeIdForDelete} wurde gelöscht.`);
-          this.ngOnInit(); // Optional: Aktualisiere die Tabelle.
+          this.ngOnInit();
         },
         error: (err) => console.error('Fehler beim Löschen:', err),
       });
@@ -167,5 +175,11 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     }
   }
 
+  onFilterClick() {
+    this.filterEmployeeService.setValue(true)
+  }
 
+  onSortClick() {
+    this.sortEmployeeService.setValue(true)
+  }
 }

@@ -13,8 +13,14 @@
     />
   </div>
   <div class="filter-div d-flex justify-content-center align-items-center">
-    <button class="filter-button">
+    <button class="filter-button" (click)="onFilterClick()">
       <i class="bi bi-funnel"></i>
+    </button>
+  </div>
+
+  <div class="filter-div d-flex justify-content-center align-items-center">
+    <button class="sort-button" (click)="onSortClick()">
+      <i class="bi bi-arrow-down-up"></i>
     </button>
   </div>
 
@@ -59,6 +65,7 @@
 </div>
 <!--End Add Employee Button-->
 
+<!--Start Delete Alert-->
 <ng-template #deleteEmployee>
   <div class="modal-body text-center">
     <p>Mitarbeiter wirklich löschen?</p>
@@ -66,8 +73,10 @@
     <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss()">Abbrechen</button>
   </div>
 </ng-template>
+<!--End Delete Alert-->
 
 <app-create-employee></app-create-employee>
+<app-filter-sort-employee-component></app-filter-sort-employee-component>
 <app-edit-employee [employeeId]="currentEmployeeId"></app-edit-employee>
 
 
