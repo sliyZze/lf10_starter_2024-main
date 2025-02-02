@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {EmployeeDataModalComponent} from "../employee-data-modal/employee-data-modal.component";
 import {FilterEmployeeService} from "../../services/FilterEmployeeService";
 import {AsyncPipe, NgForOf} from "@angular/common";
@@ -22,7 +22,7 @@ import {Employee} from "../../../model/Employee";
   standalone: true,
   styleUrl: './filter-sort-employee-component.component.css'
 })
-export class FilterSortEmployeeComponentComponent {
+export class FilterSortEmployeeComponentComponent implements OnInit{
   selectedQualifications: string[] = [];
   selectedCities: string[] = [];
   private sub: Subscription = new Subscription();
@@ -35,7 +35,11 @@ export class FilterSortEmployeeComponentComponent {
     protected filterEmployeeService: FilterEmployeeService,
     protected sortEmployeeService: SortEmployeeService,
     private dataService: DataService,
-    ) {this.loadFilterobjekts();
+    ) {
+  }
+
+  ngOnInit() {
+    this.loadFilterobjekts();
   }
 
   loadFilterobjekts() {
@@ -54,7 +58,6 @@ export class FilterSortEmployeeComponentComponent {
             .map(employee => employee.city)
             .filter((city): city is string => city !== undefined)
         )];
-        console.log("Eindeutige Mitarbeiter-Städte geladen:", this.cities);
       },
       error: (err) => console.error('Fehler beim Abrufen der Mitarbeiter:', err),
     });
