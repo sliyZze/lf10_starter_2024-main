@@ -12,6 +12,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EditQualificationService } from "../../services/EditQualificationService";
 import { MatPaginator, MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 import {CreatQualificationInQualiPageService} from "../../services/CreatQualificationInQualiPageService";
+import {CreateQualificationComponent} from "../craete-qualification/create-qualification.component";
+import {CreateQualificationService} from "../../services/CreateQualificationService";
+import {AddQualification} from "../../../model/AddQualification";
+import {AddEmployee} from "../../../model/AddEmployee";
 
 @Component({
   selector: 'app-qualification-page',
@@ -21,7 +25,8 @@ import {CreatQualificationInQualiPageService} from "../../services/CreatQualific
     EmployeeDataModalComponent,
     FormsModule,
     ReactiveFormsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    CreateQualificationComponent
   ],
   templateUrl: './qualification-page.component.html',
   standalone: true,
@@ -51,7 +56,7 @@ export class QualificationPageComponent implements OnInit {
       private dataService: DataService,
       private modalService: NgbModal,
       protected editQualificationService: EditQualificationService,
-      protected creatQualificationInQualiPageService: CreatQualificationInQualiPageService
+      protected createQualificationService: CreateQualificationService
   ) {}
 
   ngOnInit() {
@@ -163,8 +168,13 @@ export class QualificationPageComponent implements OnInit {
     this.qualificationTargetService.setValue("Mitarbeitertabelle");
   }
 
+  qualiAdd: AddQualification = {
+    skill: ""
+  };
+
   editQualification(id: number | undefined) {
     this.editQualificationService.setValue(true);
+    this.editQualificationService.setQid(id);
   }
 
   closeModal() {
@@ -173,18 +183,25 @@ export class QualificationPageComponent implements OnInit {
 
   onSaveChanges() {
     this.editQualificationService.setValue(false);
+    this.qualiAdd.skill = this.qualification
+    this.dataService.updateQualification(this.qualiAdd, this.editQualificationService.getQid())
+      .subscribe({
+        next: response => console.log('Update Qualification erfolgreich:', response),
+        error: err => console.error('Fehler beim API-Update:', err)
+      });
+
   }
 
   addQualification() {
-    this.creatQualificationInQualiPageService.setValue(true)
+    this.createQualificationService.setValue(true)
   }
 
   onSaveCreateQualChanges() {
-    this.creatQualificationInQualiPageService.setValue(false)
+    this.createQualificationService.setValue(false)
   }
 
   closeCreateQualModal() {
-    this.creatQualificationInQualiPageService.setValue(false)
+    this.createQualificationService.setValue(false)
   }
 
   closeQualificationDeleteErrorModal() {

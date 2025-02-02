@@ -110,6 +110,15 @@ export class DataService {
         );
     }
 
+  updateQualification(addQualification: AddQualification, id: number | undefined): Observable<void> {
+    return this.http.put<void>(`${this.qualificationsServiceURL}/${id}`, addQualification, this.HttpHeader).pipe(
+      catchError((error) => {
+        console.error('Fehler beim bearbeiten der Qualification:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
     loadEmployees() {
         this.getEmployees().subscribe({
             next: (data) => this.employeesSubject.next(data),

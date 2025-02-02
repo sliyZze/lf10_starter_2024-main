@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class EditQualificationService {
   private modalState = new BehaviorSubject<boolean>(false);
+  private qid: number | undefined;
 
   setValue(value: boolean) {
     this.modalState.next(value);
@@ -13,6 +14,14 @@ export class EditQualificationService {
 
   getValue() {
     return this.modalState.asObservable();
+  }
+
+  setQid(qid: number | undefined) {
+    this.qid = qid;
+  }
+
+  getQid() {
+    return this.qid;
   }
 
 }
