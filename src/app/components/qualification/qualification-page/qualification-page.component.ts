@@ -100,7 +100,7 @@ export class QualificationPageComponent implements OnInit {
 
 
 
-  private loadQualifications() {
+  protected loadQualifications() {
     this.dataService.getQualifications().subscribe({
       next: (qualifications) => {
         this.qualificationsSubject.next(qualifications);
@@ -185,14 +185,19 @@ export class QualificationPageComponent implements OnInit {
 
   onSaveChanges() {
     this.editQualificationService.setValue(false);
-    this.qualiAdd.skill = this.qualification
+    this.qualiAdd.skill = this.qualification;
+
     this.dataService.updateQualification(this.qualiAdd, this.editQualificationService.getQid())
       .subscribe({
-        next: response => console.log('Update Qualification erfolgreich:', response),
+        next: response => {
+          console.log('Update Qualification erfolgreich:', response);
+          this.qualification = "";
+          this.ngOnInit()
+        },
         error: err => console.error('Fehler beim API-Update:', err)
       });
-
   }
+
 
   addQualification() {
     this.createQualificationService.setValue(true)

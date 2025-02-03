@@ -84,7 +84,7 @@
 </div>
 <!--end back to employee table-->
 
-<app-craete-qualification></app-craete-qualification>
+<app-create-qualification (qualificationAdded)="loadQualifications()"></app-create-qualification>
 
 <app-employee-data-modal [title]=createQualiTitle [service]="createQualificationService">
     <form>

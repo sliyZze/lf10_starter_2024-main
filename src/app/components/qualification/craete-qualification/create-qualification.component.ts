@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Output, ViewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {CreateQualificationService} from "../../services/CreateQualificationService";
@@ -7,7 +7,7 @@ import {DataService} from "../../../service/data.service";
 import {AddQualification} from "../../../model/AddQualification";
 
 @Component({
-  selector: 'app-craete-qualification',
+  selector: 'app-create-qualification',
   imports: [
     FormsModule,
     EmployeeDataModalComponent,
@@ -24,6 +24,8 @@ export class CreateQualificationComponent {
   constructor(protected createQualificationService: CreateQualificationService, private dataService: DataService) {
   }
 
+  @Output() qualificationAdded = new EventEmitter<void>();
+
   qualification = "";
 
   onSaveChanges() {
@@ -31,6 +33,7 @@ export class CreateQualificationComponent {
       const newQualification: AddQualification = { skill: this.qualification };
       this.dataService.addQualification(newQualification).subscribe({
         next: () => {
+          this.qualificationAdded.emit();
           this.qualificationComponent.loadQualifications();
           this.createQualificationService.setValue(false)
           this.qualification = "";
