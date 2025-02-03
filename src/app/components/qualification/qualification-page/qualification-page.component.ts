@@ -66,6 +66,7 @@ export class QualificationPageComponent implements OnInit {
   onSearchQualification(searchtext: string) {
     this.searchtext = searchtext;
     this.updatePagedQualifications();
+    this.paginator.firstPage();
   }
 
   private filterQualifications(qualifications: Skill[]): Skill[] {
@@ -103,8 +104,8 @@ export class QualificationPageComponent implements OnInit {
     this.dataService.getQualifications().subscribe({
       next: (qualifications) => {
         this.qualificationsSubject.next(qualifications);
-        this.totalItems = qualifications.length;
         this.updatePagedQualifications();
+        this.totalItems = qualifications.length;
       },
       error: (err) => console.error('Fehler beim Laden der Qualifikationen:', err)
     });
@@ -156,10 +157,11 @@ export class QualificationPageComponent implements OnInit {
 
   private updatePagedQualifications() {
     if (!this.qualificationsSubject.value) return;
-
     const startIndex = this.currentPage * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.pagedQualifications = this.filterQualifications(this.qualificationsSubject.value).slice(startIndex, endIndex);
+    let qualis = this.filterQualifications(this.qualificationsSubject.value);
+    this.totalItems = qualis.length;
+    this.pagedQualifications = qualis.slice(startIndex, endIndex);
   }
 
 
