@@ -7,6 +7,8 @@ import {QualificationComponent} from "../../qualification/qualificationModal/qua
 import {DataService} from "../../../service/data.service";
 import {AddEmployee} from "../../../model/AddEmployee";
 import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
+import {NgForOf} from "@angular/common";
+import {CreateQualificationService} from "../../services/CreateQualificationService";
 
 @Component({
   selector: 'app-create-employee',
@@ -16,7 +18,8 @@ import {CreateQualificationComponent} from "../../qualification/craete-qualifica
     FormsModule,
     ReactiveFormsModule,
     QualificationComponent,
-    CreateQualificationComponent
+    CreateQualificationComponent,
+    NgForOf
   ],
   templateUrl: './create-employee.component.html',
   styleUrl: './create-employee.component.css'
@@ -24,9 +27,16 @@ import {CreateQualificationComponent} from "../../qualification/craete-qualifica
 export class CreateEmployeeComponent{
     title: string = "Mitarbeiter Erstellen";
     savedQualification: number | undefined;
+    qualifications: number[] = [];
 
-    constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
+    constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService, private  createQualificationService: CreateQualificationService) {
     }
+
+  ngOnInit(): void {
+    this.createQualificationService.savedQualifications$.subscribe((qualifications) => {
+      this.qualifications = qualifications;
+    });
+  }
 
   onSaveChanges() {
     this.dataService.addEmployee(this.employee).subscribe({

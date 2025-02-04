@@ -33,8 +33,8 @@
       </div>
 
       <div style="overflow-y: scroll; height: 120px;">
-        <div class="d-flex justify-content-between align-items-center border p-3 mb-2" style="height: 50px">
-          <h5 class="mb-0" style="font-size: 18px">Qualifikation </h5>
+        <div *ngFor="let qualification of  qualifications">
+          <h5 class="mb-0" style="font-size: 18px">{{ qualification }}</h5>
         </div>
       </div>
     </div>
@@ -50,5 +50,5 @@
   </div>
 </app-employee-data-modal>
 
-<app-qualification-modal (savedQualifications)="savedQualification"></app-qualification-modal>
-<app-craete-qualification></app-craete-qualification>
+<app-qualification-modal></app-qualification-modal>
+<app-create-qualification></app-create-qualification>

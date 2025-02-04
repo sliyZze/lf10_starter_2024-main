@@ -58,6 +58,8 @@ export class QualificationComponent implements OnInit{
     if (this.selectedQualifications.length > 0) {
       this.savedQualifications = [...this.selectedQualifications];
 
+      this.createQualificationService.updateSavedQualifications(this.savedQualifications);
+
       const employee = this.addQualificationService.getEmployee();
       employee.skillSet!.push(...this.selectedQualifications);
     }
