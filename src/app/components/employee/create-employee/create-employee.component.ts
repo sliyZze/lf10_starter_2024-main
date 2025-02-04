@@ -8,6 +8,8 @@ import {DataService} from "../../../service/data.service";
 import {AddEmployee} from "../../../model/AddEmployee";
 import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
 import {Skill} from "../../../model/Skill";
+import {Observable, Subscription} from "rxjs";
+import {Employee} from "../../../model/Employee";
 
 @Component({
   selector: 'app-create-employee',
@@ -24,6 +26,8 @@ import {Skill} from "../../../model/Skill";
 })
 export class CreateEmployeeComponent{
     title: string = "Mitarbeiter Erstellen";
+    employee$!: Observable<Employee>;
+    private subscriptions = new Subscription();
 
     constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
       this.dataService.addEmployee(this.employee).subscribe();
@@ -46,10 +50,14 @@ export class CreateEmployeeComponent{
       });
     }
 
-    f(){
-      this.dataService.getEmployee(this.employee.id).subscribe();
-    }
-
+  /*getD(){
+    this.employee$ = this.dataService.getEmployee(this.employeeId);
+    this.subscriptions.add(
+      this.employee$.subscribe(employee => {
+        this.employee = { ...employee };
+      })
+    );
+  }*/
 
   onSaveChanges() {
     this.dataService.addEmployee(this.employee).subscribe({
