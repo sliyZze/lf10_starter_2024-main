@@ -12,21 +12,18 @@
         />
     </div>
 
-  <form style="height: 230px; overflow-y: scroll">
-    <div class="form-check mx-2" *ngFor="let qualification of filteredQualifications | async">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        id="qualification{{qualification.id}}"
-        name="qualification{{qualification.skill}}"
-        [checked]="selectedQualifications.includes(qualification.id!)"
-        [disabled]="isDisabled(qualification.id!)"
-        (change)="getQualification(qualification.id, $event)">
-      <label class="form-check-label">
-        {{ qualification.skill }}
-      </label>
-    </div>
-  </form>
+    <form style="height: 230px; overflow-y: scroll">
+        <div class="form-check mx-2" *ngFor="let qualification of filteredQualifications | async">
+            <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="qualification{{qualification.id}}"
+                    (change)="getQualification(qualification, $event)">
+            <label class="form-check-label">
+                {{ qualification.skill }}
+            </label>
+        </div>
+    </form>
 
   <div class="modal-footer w-100">
     <div>

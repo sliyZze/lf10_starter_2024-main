@@ -33,8 +33,11 @@
       </div>
 
       <div style="overflow-y: scroll; height: 120px;">
-        <div *ngFor="let qualification of  qualifications">
-          <h5 class="mb-0" style="font-size: 18px">{{ qualification }}</h5>
+        <div *ngFor="let qualification of qualifications" class="d-flex justify-content-between align-items-center border p-3 mb-2" style="height: 50px">
+          <h5 class="mb-0" style="font-size: 18px">{{ qualification.skill }}</h5>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteQualificationModal" (click)="setQualificationToRemove(qualification.id)">
+            <i class="bi bi-trash-fill"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -49,6 +52,14 @@
         <button type="button" class="btn btn-secondary" (click)="closeModal()">Abbrechen</button>
   </div>
 </app-employee-data-modal>
+
+<ng-template #deleteQualificationModal>
+  <div class="modal-body text-center">
+    <p>Qualifikation wirklich löschen?</p>
+    <button type="button" class="btn btn-danger me-3" (click)="confirmDeleteQualification()">Löschen</button>
+    <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss()">Abbrechen</button>
+  </div>
+</ng-template>
 
 <app-qualification-modal></app-qualification-modal>
 <app-create-qualification></app-create-qualification>

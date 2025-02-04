@@ -29,8 +29,8 @@ export class QualificationComponent implements OnInit{
   private filteredQualificationsSubject: BehaviorSubject<Skill[]> = new BehaviorSubject<Skill[]>([]);
   filteredQualifications: Observable<Skill[]> = this.filteredQualificationsSubject.asObservable(); // Um filteredQualifications als Observable zu haben
   @Input() createdQualification: string = ""
-  selectedQualifications: number[] = [];
-  savedQualifications: number[] = [];
+  selectedQualifications: Skill[] = [];
+  savedQualifications: Skill[] = [];
   searchtext: string = "";
 
   constructor(
@@ -61,27 +61,21 @@ export class QualificationComponent implements OnInit{
       this.createQualificationService.updateSavedQualifications(this.savedQualifications);
 
       const employee = this.addQualificationService.getEmployee();
-      employee.skillSet!.push(...this.selectedQualifications);
+      employee.skillSet!.push(...this.selectedQualifications.map(skill => skill.id!));
     }
 
     this.addQualificationService.setValue(false);
     console.log(this.savedQualifications);
   }
 
-  isDisabled(qualificationId: number): boolean {
-    return this.savedQualifications.includes(qualificationId);
-  }
-
-  getQualification(qualificationId: number | undefined, event: Event) {
-    if (!qualificationId) return;
-
+  getQualification(qualification: Skill, event: Event) {
     const inputElement = event.target as HTMLInputElement;
     const isChecked = inputElement.checked;
 
     if (isChecked) {
-      this.selectedQualifications.push(qualificationId);
+      this.selectedQualifications.push(qualification);
     } else {
-      this.selectedQualifications = this.selectedQualifications.filter(id => id !== qualificationId);
+      this.selectedQualifications = this.selectedQualifications.filter(q => q.id !== qualification.id);
     }
   }
 

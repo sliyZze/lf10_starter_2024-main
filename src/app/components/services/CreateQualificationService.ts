@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import {Skill} from "../../model/Skill";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateQualificationService {
   private modalState = new BehaviorSubject<boolean>(false);
-  private savedQualificationsSubject = new BehaviorSubject<number[]>([]);
+  private savedQualificationsSubject = new BehaviorSubject<Skill[]>([]);
   savedQualifications$ = this.savedQualificationsSubject.asObservable();
 
   setValue(value: boolean) {
@@ -17,8 +18,7 @@ export class CreateQualificationService {
     return this.modalState.asObservable();
   }
 
-  updateSavedQualifications(qualifications: number[]) {
-    const currentQualifications = this.savedQualificationsSubject.value;
-    this.savedQualificationsSubject.next([...currentQualifications, ...qualifications]);
+  updateSavedQualifications(qualifications: Skill[]) {
+    this.savedQualificationsSubject.next(qualifications);
   }
 }
