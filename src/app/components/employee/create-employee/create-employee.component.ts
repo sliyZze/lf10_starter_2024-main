@@ -31,6 +31,15 @@ export class CreateEmployeeComponent{
     this.dataService.addEmployee(this.employee).subscribe({
       next: () => {
         this.dataService.loadEmployees();
+        this.employee = {
+          lastName: "",
+          firstName: "",
+          street: "",
+          postcode: "",
+          city: "",
+          phone: "",
+          skillSet: []
+        };
       },
       error: (err) => console.error('Fehler beim Hinzufügen des Mitarbeiters:', err),
     });
