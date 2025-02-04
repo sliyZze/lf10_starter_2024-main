@@ -30,7 +30,7 @@ export class QualificationComponent implements OnInit{
   private filteredQualificationsSubject: BehaviorSubject<Skill[]> = new BehaviorSubject<Skill[]>([]);
   filteredQualifications: Observable<Skill[]> = this.filteredQualificationsSubject.asObservable(); // Um filteredQualifications als Observable zu haben
   @Input() createdQualification: string = ""
-  private qualificationIdsList: number[] = [55];
+  private qualificationIdsList: number[] = [];
   searchtext: string = "";
 
   @Output() qualificationAdded = new EventEmitter<void>();
@@ -102,6 +102,7 @@ export class QualificationComponent implements OnInit{
       this.dataService.updateEmployee(updatedEmployee).subscribe({
         next: () => {
           this.qualificationAdded.emit();
+          this.qualificationIdsList = [];
         },
         error: (err) => {
           console.error('Fehler beim Aktualisieren:', err);
