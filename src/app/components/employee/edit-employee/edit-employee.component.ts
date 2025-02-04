@@ -91,22 +91,19 @@ export class EditEmployeeComponent implements OnChanges, OnDestroy {
 
     this.employeeAdd = {
       ...this.employeeAdd,
-      id: this.employee.id,
-      firstName: this.employee.firstName,
-      lastName: this.employee.lastName,
-      city: this.employee.city,
-      phone: this.employee.phone,
-      postcode: this.employee.postcode,
-      street: this.employee.street,
+      id: this.employee.id!,
+      firstName: this.employee.firstName!,
+      lastName: this.employee.lastName!,
+      city: this.employee.city!,
+      phone: this.employee.phone!,
+      postcode: this.employee.postcode!,
+      street: this.employee.street!,
       skillSet: [
-        // @ts-ignore
-        ...this.employeeAdd.skillSet,
-        // @ts-ignore
-        ...this.employee.skillSet
+        ...this.employeeAdd.skillSet!,
+        ...this.employee.skillSet!
           .map(skill => (typeof skill === "object" && skill.id !== undefined ? skill.id : skill))
           .filter((id): id is number => typeof id === "number")
-          // @ts-ignore
-          .filter(id => !this.employeeAdd.skillSet.includes(id))
+          .filter(id => !this.employeeAdd.skillSet!.includes(id))
       ]
     };
 

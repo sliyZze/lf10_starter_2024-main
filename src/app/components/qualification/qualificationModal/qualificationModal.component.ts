@@ -30,6 +30,8 @@ export class QualificationComponent implements OnInit{
   private filteredQualificationsSubject: BehaviorSubject<Skill[]> = new BehaviorSubject<Skill[]>([]);
   filteredQualifications: Observable<Skill[]> = this.filteredQualificationsSubject.asObservable(); // Um filteredQualifications als Observable zu haben
   @Input() createdQualification: string = ""
+  selectedQualifications: Skill[] = [];
+  savedQualifications: Skill[] = [];
   private qualificationIdsList: number[] = [];
   searchtext: string = "";
 
@@ -116,9 +118,9 @@ export class QualificationComponent implements OnInit{
 
 
   closeModal() {
-    this.modal.closeModal();
     this.addQualificationService.setValue(false);
   }
+
 
   getQualification(id: number | undefined) {
     if (id !== undefined) {
