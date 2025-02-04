@@ -19,7 +19,9 @@
         type="checkbox"
         id="qualification{{qualification.id}}"
         name="qualification{{qualification.skill}}"
-        (click)="getQualification(qualification.id)">
+        [checked]="selectedQualifications.includes(qualification.id!)"
+        [disabled]="isDisabled(qualification.id!)"
+        (change)="getQualification(qualification.id, $event)">
       <label class="form-check-label">
         {{ qualification.skill }}
       </label>

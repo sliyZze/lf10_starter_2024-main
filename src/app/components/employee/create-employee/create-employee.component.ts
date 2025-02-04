@@ -23,6 +23,7 @@ import {CreateQualificationComponent} from "../../qualification/craete-qualifica
 })
 export class CreateEmployeeComponent{
     title: string = "Mitarbeiter Erstellen";
+    savedQualification: number | undefined;
 
     constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
     }

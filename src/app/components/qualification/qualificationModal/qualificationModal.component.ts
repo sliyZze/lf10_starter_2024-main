@@ -29,7 +29,8 @@ export class QualificationComponent implements OnInit{
   private filteredQualificationsSubject: BehaviorSubject<Skill[]> = new BehaviorSubject<Skill[]>([]);
   filteredQualifications: Observable<Skill[]> = this.filteredQualificationsSubject.asObservable(); // Um filteredQualifications als Observable zu haben
   @Input() createdQualification: string = ""
-  private qualificationIdsList: number[] | null = null;
+  selectedQualifications: number[] = [];
+  savedQualifications: number[] = [];
   searchtext: string = "";
 
   constructor(
@@ -42,7 +43,6 @@ export class QualificationComponent implements OnInit{
     this.loadQualifications()
   }
 
-  // Wird durch Button-Click aufgerufen
   loadQualifications(): void {
     this.qualifications = this.dataService.getQualifications();
     this.qualifications?.subscribe(qualifications => {
@@ -50,32 +50,42 @@ export class QualificationComponent implements OnInit{
     });
   }
 
-  onSaveChanges() {
-    this.modal.closeModal();
-    this.addQualificationService.setValue(false);
-    console.log(this.qualificationIdsList);
-  }
-
   closeModal() {
-    this.modal.closeModal();
     this.addQualificationService.setValue(false);
   }
 
-  getQualification(id: number | undefined) {
-    if (id !== undefined) {
-      this.qualificationIdsList?.push(id)
-      // @ts-ignore
-      this.addQualificationService.getEmployee().skillSet.push(id);
-      console.log("push addemplyoee")
-      console.log(this.addQualificationService.getEmployee());
-      console.log(id)
+  onSaveChanges() {
+    if (this.selectedQualifications.length > 0) {
+      this.savedQualifications = [...this.selectedQualifications];
+
+      const employee = this.addQualificationService.getEmployee();
+      employee.skillSet!.push(...this.selectedQualifications);
+    }
+
+    this.addQualificationService.setValue(false);
+    console.log(this.savedQualifications);
+  }
+
+  isDisabled(qualificationId: number): boolean {
+    return this.savedQualifications.includes(qualificationId);
+  }
+
+  getQualification(qualificationId: number | undefined, event: Event) {
+    if (!qualificationId) return;
+
+    const inputElement = event.target as HTMLInputElement;
+    const isChecked = inputElement.checked;
+
+    if (isChecked) {
+      this.selectedQualifications.push(qualificationId);
     } else {
-      console.error("Ungültige ID: ID ist undefined.");
+      this.selectedQualifications = this.selectedQualifications.filter(id => id !== qualificationId);
     }
   }
 
   createQualification (){
     this.createQualificationService.setValue(true)
+
   }
 
   onSearchQualification(searchtext: string) {

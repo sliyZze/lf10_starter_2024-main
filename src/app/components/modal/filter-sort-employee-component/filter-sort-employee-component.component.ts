@@ -56,7 +56,7 @@ export class FilterSortEmployeeComponentComponent implements OnInit{
         this.cities = [...new Set(
           data
             .map(employee => employee.city)
-            .filter((city): city is string => city !== undefined)
+            .filter((city) => typeof city === "string")
         )];
       },
       error: (err) => console.error('Fehler beim Abrufen der Mitarbeiter:', err),
