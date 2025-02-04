@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {EmployeeDataModalComponent} from "../../modal/employee-data-modal/employee-data-modal.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AsyncPipe, NgForOf} from "@angular/common";
@@ -8,6 +8,7 @@ import {async, Observable, Subscription} from "rxjs";
 import {Skill} from "../../../model/Skill";
 import {CreateQualificationService} from "../../services/CreateQualificationService";
 import { BehaviorSubject } from 'rxjs';
+import {AddEmployee} from "../../../model/AddEmployee";
 
 @Component({
   selector: 'app-qualification-modal',
@@ -32,6 +33,8 @@ export class QualificationComponent implements OnInit{
   private qualificationIdsList: number[] | null = null;
   searchtext: string = "";
 
+  @Output() qualificationAdded = new EventEmitter<void>();
+
   constructor(
     protected addQualificationService: AddQualificationService,
     private dataService: DataService,
@@ -50,8 +53,41 @@ export class QualificationComponent implements OnInit{
     });
   }
 
+  employeeAdd: AddEmployee = {
+    lastName: "",
+    firstName: "",
+    street: "",
+    postcode: "",
+    city: "",
+    phone: "",
+    skillSet: []
+  };
+
   onSaveChanges() {
     this.modal.closeModal();
+
+    let employee = this.addQualificationService.getEmployee();
+    let test = new AddEmployee(employee.id);
+    if (!test.skillSet) {
+      test.skillSet = [];
+    }
+    this.filteredQualifications.subscribe(qualifications => {
+      qualifications.forEach(qualification => {
+        if (qualification.id !== undefined && !test.skillSet!.includes(qualification.id)) {
+          test.skillSet!.push(qualification.id);
+        }
+      });
+      console.log(test)
+      this.dataService.updateEmployee(test).subscribe({
+        next: () => {
+          this.qualificationAdded.emit();
+        },
+        error: (err) => {
+          console.error('Fehler beim Aktualisieren:', err);
+        },
+      });
+    });
+
     this.addQualificationService.setValue(false);
     console.log(this.qualificationIdsList);
   }
@@ -66,9 +102,7 @@ export class QualificationComponent implements OnInit{
       this.qualificationIdsList?.push(id)
       // @ts-ignore
       this.addQualificationService.getEmployee().skillSet.push(id);
-      console.log("push addemplyoee")
-      console.log(this.addQualificationService.getEmployee());
-      console.log(id)
+
     } else {
       console.error("Ungültige ID: ID ist undefined.");
     }

@@ -19,11 +19,12 @@ import { Observable, Subscription } from "rxjs";
 import { Employee } from "../../../model/Employee";
 import { AddQualificationService } from "../../services/AddQualificationService";
 import { AddEmployee } from "../../../model/AddEmployee";
+import {QualificationComponent} from "../../qualification/qualificationModal/qualificationModal.component";
 
 @Component({
   selector: 'app-edit-employee',
   standalone: true,
-  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf],
+  imports: [FormsModule, EmployeeDataModalComponent, NgForOf, NgIf, QualificationComponent],
   templateUrl: './edit-employee.component.html',
   styleUrls: ['./edit-employee.component.css']
 })
@@ -65,7 +66,7 @@ export class EditEmployeeComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private loadEmployee(): void {
+  protected loadEmployee(): void {
     if (this.employeeId !== undefined) {
       this.employee$ = this.dataService.getEmployee(this.employeeId);
       this.subscriptions.add(
@@ -74,6 +75,15 @@ export class EditEmployeeComponent implements OnChanges, OnDestroy {
         })
       );
     }
+  }
+
+  protected ggg(){
+    this.employee$ = this.dataService.getEmployee(this.employeeId);
+    this.subscriptions.add(
+      this.employee$.subscribe(employee => {
+        this.employee = { ...employee };
+      })
+    );
   }
 
   onSaveChanges(): void {
@@ -116,6 +126,7 @@ export class EditEmployeeComponent implements OnChanges, OnDestroy {
 
   onAddQualificationClick(): void {
     this.addQualificationService.setValue(true);
+    this.employeeAdd.id = this.employeeId;
     this.addQualificationService.setEmployee(this.employeeAdd);
   }
 
