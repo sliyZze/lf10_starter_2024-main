@@ -30,7 +30,7 @@ export class QualificationComponent implements OnInit{
   private filteredQualificationsSubject: BehaviorSubject<Skill[]> = new BehaviorSubject<Skill[]>([]);
   filteredQualifications: Observable<Skill[]> = this.filteredQualificationsSubject.asObservable(); // Um filteredQualifications als Observable zu haben
   @Input() createdQualification: string = ""
-  private qualificationIdsList: number[] | null = null;
+  private qualificationIdsList: number[] = [55];
   searchtext: string = "";
 
   @Output() qualificationAdded = new EventEmitter<void>();
@@ -66,19 +66,40 @@ export class QualificationComponent implements OnInit{
   onSaveChanges() {
     this.modal.closeModal();
 
-    let employee = this.addQualificationService.getEmployee();
-    let test = new AddEmployee(employee.id);
-    if (!test.skillSet) {
-      test.skillSet = [];
-    }
-    this.filteredQualifications.subscribe(qualifications => {
-      qualifications.forEach(qualification => {
-        if (qualification.id !== undefined && !test.skillSet!.includes(qualification.id)) {
-          test.skillSet!.push(qualification.id);
-        }
-      });
-      console.log(test)
-      this.dataService.updateEmployee(test).subscribe({
+    let employeeId = this.addQualificationService.getEmployee().id;
+
+    this.dataService.getEmployee(employeeId).subscribe(emp => {
+      if (!emp) {
+        console.error("Fehler: Mitarbeiter nicht gefunden.");
+        return;
+      }
+      console.log(emp)
+      // Neuen Employee mit bestehenden und neuen Qualifikationen erstellen
+
+      let updatedEmployee = new AddEmployee(
+        emp.id,
+        emp.lastName,
+        emp.firstName,
+        emp.street,
+        emp.postcode,
+        emp.city,
+        emp.phone,
+        (emp.skillSet ?? []) // Falls `skillSet` undefined ist, wird ein leeres Array verwendet.
+          .map(skill => skill.id)
+          .filter((id): id is number => id !== undefined) // Entfernt `undefined`
+      );
+
+      if (!updatedEmployee.skillSet) {
+        updatedEmployee.skillSet = [];
+      }
+
+      // Falls qualificationIdsList existiert, neue IDs hinzufügen
+      if (this.qualificationIdsList && this.qualificationIdsList.length > 0) {
+        updatedEmployee.skillSet = [...new Set([...updatedEmployee.skillSet, ...this.qualificationIdsList])];
+      }
+
+      // API-Aufruf zur Aktualisierung des Mitarbeiters
+      this.dataService.updateEmployee(updatedEmployee).subscribe({
         next: () => {
           this.qualificationAdded.emit();
         },
@@ -89,8 +110,9 @@ export class QualificationComponent implements OnInit{
     });
 
     this.addQualificationService.setValue(false);
-    console.log(this.qualificationIdsList);
+    console.log("Neue Skill-Set Liste:", this.qualificationIdsList);
   }
+
 
   closeModal() {
     this.modal.closeModal();
@@ -100,8 +122,9 @@ export class QualificationComponent implements OnInit{
   getQualification(id: number | undefined) {
     if (id !== undefined) {
       this.qualificationIdsList?.push(id)
+      console.log(this.qualificationIdsList);
       // @ts-ignore
-      this.addQualificationService.getEmployee().skillSet.push(id);
+      // this.addQualificationService.getEmployee().skillSet.push(id);
 
     } else {
       console.error("Ungültige ID: ID ist undefined.");
