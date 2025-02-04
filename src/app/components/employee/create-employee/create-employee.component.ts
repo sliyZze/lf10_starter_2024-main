@@ -7,6 +7,7 @@ import {QualificationComponent} from "../../qualification/qualificationModal/qua
 import {DataService} from "../../../service/data.service";
 import {AddEmployee} from "../../../model/AddEmployee";
 import {CreateQualificationComponent} from "../../qualification/craete-qualification/create-qualification.component";
+import {Skill} from "../../../model/Skill";
 
 @Component({
   selector: 'app-create-employee',
@@ -25,7 +26,30 @@ export class CreateEmployeeComponent{
     title: string = "Mitarbeiter Erstellen";
 
     constructor(protected createEmployeeService: CreateEmployeeService, private addQualificationService: AddQualificationService, private dataService: DataService) {
+      this.dataService.addEmployee(this.employee).subscribe();
+
+      this.dataService.getEmployees().subscribe(employees => {
+        const filteredEmployee = employees.find((employee: any) => employee.phone === "@@@");
+
+        if (filteredEmployee) {
+          this.employee = new AddEmployee(
+            filteredEmployee.id,
+            filteredEmployee.lastName,
+            filteredEmployee.firstName,
+            filteredEmployee.street,
+            filteredEmployee.postcode,
+            filteredEmployee.city,
+            filteredEmployee.phone,
+            filteredEmployee.skillSet?.map((skill: Skill) => skill.id).filter(id => id !== undefined) || []
+          );
+        }
+      });
     }
+
+    f(){
+      this.dataService.getEmployee(this.employee.id).subscribe();
+    }
+
 
   onSaveChanges() {
     this.dataService.addEmployee(this.employee).subscribe({
@@ -57,12 +81,12 @@ export class CreateEmployeeComponent{
     }
 
     employee: AddEmployee = {
-        lastName: "",
-        firstName: "",
-        street: "",
-        postcode: "",
-        city: "",
-        phone: "",
+        lastName: "h",
+        firstName: "h",
+        street: "h",
+        postcode: "22222",
+        city: "h",
+        phone: "@@@",
         skillSet: []
     };
 
