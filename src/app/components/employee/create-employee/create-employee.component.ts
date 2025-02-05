@@ -28,7 +28,6 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 })
 export class CreateEmployeeComponent implements OnInit{
     title: string = "Mitarbeiter Erstellen";
-    savedQualification: number | undefined;
     qualifications: Skill[] = [];
     modalRef!: NgbModalRef;
     @ViewChild('deleteQualificationModal', { static: true }) deleteQualificationModal!: TemplateRef<any>;
@@ -39,9 +38,11 @@ export class CreateEmployeeComponent implements OnInit{
 
   ngOnInit(): void {
     this.createQualificationService.savedQualifications$.subscribe((qualifications) => {
+      console.log("Empfangene Qualifikationen:", qualifications);
       this.qualifications = qualifications;
     });
   }
+
 
   onSaveChanges() {
     this.dataService.addEmployee(this.employee).subscribe({
@@ -93,15 +94,14 @@ export class CreateEmployeeComponent implements OnInit{
 
   confirmDeleteQualification() {
     if (this.qid === undefined) return;
-    console.log("Lösche Qualifikation mit qid:", this.qid);
 
-    this.dataService.deleteQualification(this.qid).subscribe({
-      next: () => {
-        this.qualifications = this.qualifications.filter(q => q.id !== this.qid);
-        this.modalRef.close();
-      },
-      error: err => console.error('Fehler beim Löschen:', err)
-    });
+    // this.dataService.deleteQualification(this.qid).subscribe({
+    //   next: () => {
+    //     this.qualifications = this.qualifications.filter(q => q.id !== this.qid);
+    //     this.modalRef.close();
+    //   },
+    //   error: err => console.error('Fehler beim Löschen:', err)
+    // });
   }
 
 }

@@ -21,4 +21,5 @@ export class CreateQualificationService {
   updateSavedQualifications(qualifications: Skill[]) {
     this.savedQualificationsSubject.next(qualifications);
   }
+
 }
