@@ -167,4 +167,4 @@ Des Weiteren ist der Client mit der Bezeichnung employee-management-service-fron
 # Bugs
 
 Trage hier die Features ein, die nicht funktionieren. Beschreibe den jeweiligen Fehler. 
-
+- beim hinzufügen der Qualifikationen wird das Panel nicht refreshed jedoch klappt die Funktionalität, beim edit/create employee
