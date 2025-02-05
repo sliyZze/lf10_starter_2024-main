@@ -170,5 +170,5 @@ Des Weiteren ist der Client mit der Bezeichnung employee-management-service-fron
 # Bugs
 
 Trage hier die Features ein, die nicht funktionieren. Beschreibe den jeweiligen Fehler. 
-- Man kann leider nur einmal ein Employee erstellen, da die Architekur am ende nicht ganz aufgegangen ist.
+- Man kann leider nur einmal ein Employee erstellen, da die Architekur am ende nicht ganz aufgegangen ist. Seite muss neu geladen werden,
 - bei create employee werden, die hinzugefügten Qualis erst beim 2ten hinzufügen angezeigt.
