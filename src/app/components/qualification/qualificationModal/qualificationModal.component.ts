@@ -69,8 +69,9 @@ export class QualificationComponent implements OnInit{
     this.createQualificationService.updateSavedQualifications(this.selectedQualifications);
     console.log("Speichere folgende Qualifikationen:", this.savedQualifications);
 
-    let employeeId = this.addQualificationService.getEmployee().id;
-    this.dataService.getEmployee(employeeId).subscribe(emp => {
+
+    let employeeId = this.addQualificationService.getEmployee();
+    this.dataService.getEmployee(employeeId.id).subscribe(emp => {
       if (!emp) {
         console.error("Fehler: Mitarbeiter nicht gefunden.");
         return;
@@ -96,6 +97,8 @@ export class QualificationComponent implements OnInit{
       if (this.qualificationIdsList && this.qualificationIdsList.length > 0) {
         updatedEmployee.skillSet = [...new Set([...updatedEmployee.skillSet, ...this.qualificationIdsList])];
       }
+
+
 
       this.dataService.updateEmployee(updatedEmployee).subscribe({
         next: () => {

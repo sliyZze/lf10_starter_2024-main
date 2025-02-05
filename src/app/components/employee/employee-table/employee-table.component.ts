@@ -18,6 +18,7 @@ import {
 } from "../../modal/filter-sort-employee-component/filter-sort-employee-component.component";
 import {SortEmployeeService} from "../../services/SortEmployeeService";
 import {CreateQualificationService} from "../../services/CreateQualificationService";
+import {AddEmployee} from "../../../model/AddEmployee";
 
 @Component({
   selector: 'app-employee-table',
@@ -215,8 +216,16 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     this.openDeleteModal()
   }
 
-
+  employeex: AddEmployee = {
+    lastName: "lastName",
+    firstName: "firstName",
+    street: "street",
+    postcode: "00000",
+    city: "city",
+    phone: "000000000"
+  };
   onAddClick(){
+    this.dataService.addEmployee(this.employeex).subscribe();
     this.createEmployeeService.setValue(true)
     this.createQualificationService.updateSavedQualifications([])
 
