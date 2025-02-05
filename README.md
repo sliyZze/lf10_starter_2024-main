@@ -1,5 +1,5 @@
 # Gruppe 3 Eren, Shawkat, Tobias
-
+bitte auf branch main2 gehen, 
 * Bevor die Anwendung läuft, müssen diese Sachen Instaliiert/Updated werden.
 ```bash
 ng update @angular/core @angular/cli
