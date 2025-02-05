@@ -10,6 +10,9 @@ npm install bootstrap
 ```bash
 npm i bootstrap-icons 
 ```
+```bash
+npm install --force 
+```
 
 
 # Starter für das LF10 Projekt

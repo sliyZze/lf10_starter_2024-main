@@ -17,6 +17,7 @@ import {
   FilterSortEmployeeComponentComponent
 } from "../../modal/filter-sort-employee-component/filter-sort-employee-component.component";
 import {SortEmployeeService} from "../../services/SortEmployeeService";
+import {CreateQualificationService} from "../../services/CreateQualificationService";
 
 @Component({
   selector: 'app-employee-table',
@@ -55,7 +56,8 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
     private dataService: DataService,
     private createEmployeeService: CreateEmployeeService,
     private filterEmployeeService: FilterEmployeeService,
-    private sortEmployeeService: SortEmployeeService
+    private sortEmployeeService: SortEmployeeService,
+    private createQualificationService: CreateQualificationService
     ) {
   }
 
@@ -216,6 +218,8 @@ export class EmployeeTableComponent implements OnInit, OnDestroy{
 
   onAddClick(){
     this.createEmployeeService.setValue(true)
+    this.createQualificationService.updateSavedQualifications([])
+
   }
 
   openDeleteModal() {

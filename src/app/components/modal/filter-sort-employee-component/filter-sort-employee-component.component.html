@@ -51,14 +51,14 @@
       <div class="col-md-6">
         <label class="form-label fw-bold">Mitarbeiter sortieren nach:</label>
         <div class="form-check d-flex align-items-center">
-          <input class="form-check-input me-2" type="radio" id="sortNameAsc" name="sortOrder" value="nameAsc" (change)="onSortChange('name', 'asc')">
+          <input class="form-check-input me-2" type="radio" id="sortNameAsc" name="sortOrder" value="nameAsc" (change)="onSortChange('name', 'desc')">
           <label class="form-check-label d-flex align-items-center" for="sortNameAsc">
             <i class="bi bi-sort-alpha-down fs-5 text-primary me-2"></i>
             Aufsteigend (A-Z)
           </label>
         </div>
         <div class="form-check d-flex align-items-center mt-2">
-          <input class="form-check-input me-2" type="radio" id="sortNameDesc" name="sortOrder" value="nameDesc" (change)="onSortChange('name', 'desc')">
+          <input class="form-check-input me-2" type="radio" id="sortNameDesc" name="sortOrder" value="nameDesc" (change)="onSortChange('name', 'asc')">
           <label class="form-check-label d-flex align-items-center" for="sortNameDesc">
             <i class="bi bi-sort-alpha-up fs-5 text-danger me-2"></i>
             Absteigend (Z-A)
@@ -86,10 +86,7 @@
     </div>
   </form>
 
-  <div class="modal-footer d-flex justify-content-between w-100">
-    <button type="button" class="btn btn-success px-4 py-2" (click)="applySort()">
-      <i class="bi bi-check-circle me-2"></i> Sortieren
-    </button>
+  <div class="modal-footer">
     <button type="button" class="btn btn-secondary px-4 py-2" (click)="closeSortModal()">
       <i class="bi bi-x-circle me-2"></i> Abbrechen
     </button>

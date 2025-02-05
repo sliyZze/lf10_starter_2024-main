@@ -30,6 +30,8 @@ export class QualificationComponent implements OnInit{
   private filteredQualificationsSubject: BehaviorSubject<Skill[]> = new BehaviorSubject<Skill[]>([]);
   filteredQualifications: Observable<Skill[]> = this.filteredQualificationsSubject.asObservable(); // Um filteredQualifications als Observable zu haben
   @Input() createdQualification: string = ""
+  selectedQualifications: Skill[] = [];
+  savedQualifications: Skill[] = [];
   private qualificationIdsList: number[] = [];
   searchtext: string = "";
 
@@ -64,18 +66,16 @@ export class QualificationComponent implements OnInit{
   };
 
   onSaveChanges() {
-    this.modal.closeModal();
+    this.createQualificationService.updateSavedQualifications(this.selectedQualifications);
+    console.log("Speichere folgende Qualifikationen:", this.savedQualifications);
 
     let employeeId = this.addQualificationService.getEmployee().id;
-
     this.dataService.getEmployee(employeeId).subscribe(emp => {
       if (!emp) {
         console.error("Fehler: Mitarbeiter nicht gefunden.");
         return;
       }
       console.log(emp)
-      // Neuen Employee mit bestehenden und neuen Qualifikationen erstellen
-
       let updatedEmployee = new AddEmployee(
         emp.id,
         emp.lastName,
@@ -84,21 +84,19 @@ export class QualificationComponent implements OnInit{
         emp.postcode,
         emp.city,
         emp.phone,
-        (emp.skillSet ?? []) // Falls `skillSet` undefined ist, wird ein leeres Array verwendet.
+        (emp.skillSet ?? [])
           .map(skill => skill.id)
-          .filter((id): id is number => id !== undefined) // Entfernt `undefined`
+          .filter((id): id is number => id !== undefined)
       );
 
       if (!updatedEmployee.skillSet) {
         updatedEmployee.skillSet = [];
       }
 
-      // Falls qualificationIdsList existiert, neue IDs hinzufügen
       if (this.qualificationIdsList && this.qualificationIdsList.length > 0) {
         updatedEmployee.skillSet = [...new Set([...updatedEmployee.skillSet, ...this.qualificationIdsList])];
       }
 
-      // API-Aufruf zur Aktualisierung des Mitarbeiters
       this.dataService.updateEmployee(updatedEmployee).subscribe({
         next: () => {
           this.qualificationAdded.emit();
@@ -111,24 +109,25 @@ export class QualificationComponent implements OnInit{
     });
 
     this.addQualificationService.setValue(false);
+    this.modal.closeModal();
     console.log("Neue Skill-Set Liste:", this.qualificationIdsList);
   }
 
 
   closeModal() {
-    this.modal.closeModal();
     this.addQualificationService.setValue(false);
   }
 
-  getQualification(id: number | undefined) {
-    if (id !== undefined) {
-      this.qualificationIdsList?.push(id)
-      console.log(this.qualificationIdsList);
-      // @ts-ignore
-      // this.addQualificationService.getEmployee().skillSet.push(id);
 
+  getQualification(qualification: Skill, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const isChecked = inputElement.checked;
+
+    if (isChecked) {
+      this.qualificationIdsList?.push(qualification.id!)
+      this.selectedQualifications.push(qualification);
     } else {
-      console.error("Ungültige ID: ID ist undefined.");
+      this.selectedQualifications = this.selectedQualifications.filter(q => q.id !== qualification.id);
     }
   }
 
@@ -151,4 +150,6 @@ export class QualificationComponent implements OnInit{
       });
     }
   }
+
+  protected readonly event = event;
 }
